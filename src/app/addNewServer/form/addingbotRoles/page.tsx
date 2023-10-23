@@ -96,11 +96,12 @@ export default function FormAddService() {
               </div>
 
               <Separator className="mt-4" />
-              <Card className="my-4 p-4 overflow-auto shadow-sm">
-                <p>
-                  <span className="font-bold">Selected Roles:</span>{" "}
-                  <span>{roles?.map((item) => item + ",")}</span>
-                </p>
+              <Card className="my-4 shadow-sm">
+                <ul className="grid list-disc p-4 pl-6 grid-cols-2">
+                  {roles?.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
               </Card>
               <div className="grid gap-4 lg:grid-cols-2">
                 {demodData.map((item) => {
