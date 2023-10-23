@@ -21,7 +21,7 @@ export default function DashBoard() {
         <div>
           <section className="sm:flex  mt-5">
             <h1 className="text-2xl mr-auto mb-2 sm:mb-0">All servers</h1>
-            <Link href={"#"}>
+            <Link href={"/addNewServer"}>
               <Button>
                 <Plus className="mr-2" />
                 Add new Server
