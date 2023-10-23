@@ -48,7 +48,7 @@ export default function PhoneVerification() {
   /* Handlers */
   function onSubmit(values: z.infer<typeof PhoneNumberFormSchema>) {
     console.log(values);
-    router.push("/");
+    router.push("/dashboard");
   }
 
   function handleOtpRest() {
