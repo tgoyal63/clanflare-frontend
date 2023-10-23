@@ -1,0 +1,99 @@
+/* Authanticate with discord */
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+
+import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+const PhoneNumberFormSchema = z.object({
+  phoneNumber: z.string().min(10, {
+    message: "Phone Number Must be atlaeast 10 numbers long",
+  }),
+});
+
+export default function FormAddService() {
+  const phoneVerificatioForm = useForm<z.infer<typeof PhoneNumberFormSchema>>({
+    resolver: zodResolver(PhoneNumberFormSchema),
+    reValidateMode: "onChange",
+  });
+  const router = useRouter();
+  const { toast } = useToast();
+
+  // 2. Define a submit handler.
+  function onSubmit(values: z.infer<typeof PhoneNumberFormSchema>) {
+    console.log(values);
+    toast({
+      title: `Google link connected succeffuly`,
+      duration: 2000,
+    });
+    router.push(
+      `./phoneverification/verifyotp?phoneNumber=${values.phoneNumber}`
+    );
+  }
+  return (
+    <>
+      <main className="flex min-h-screen flex-col items-center justify-between p-4">
+        <div className="z-10 w-full h-screen max-w-5xl font-mono text-sm flex flex-col">
+          <Stepper />
+          <div className="self-center my-auto">
+            <Card className="p-6 max-w-md w-full shadow-md">
+              <h1 className="text-2xl mb-4">
+                Authenticate with discord, <br />
+                <span className="text-lg text-muted-foreground">
+                  This is required to add bot to your server
+                </span>
+              </h1>
+
+              <Link href={"/addNewServer/form/googleSheetLinking"}>
+                <Button className="w-full gap-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z" />
+                  </svg>{" "}
+                  Discord
+                </Button>
+              </Link>
+            </Card>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}
+
+const Stepper = () => {
+  return (
+    <>
+      <div className="flex items-center w-full ">
+        <div className="flex items-center text-primary relative">
+          <div className="rounded-full text-primary-foreground transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center bg-primary  ">
+            1
+          </div>
+        </div>
+        <div className="flex-auto border-t-2 transition duration-500 ease-in-out "></div>
+        <div className="flex items-center text-primary relative">
+          <div className="rounded-full  transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center  ">
+            2
+          </div>
+        </div>
+        <div className="flex-auto border-t-2 transition duration-500 ease-in-out "></div>
+        <div className="flex items-center text-primary relative">
+          <div className="rounded-full  transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center  ">
+            3
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
