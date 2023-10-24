@@ -17,8 +17,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useCountDown } from "@/hooks";
+import { OtpDataType, otpDataAtom } from "@/store";
+
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import { axios } from "@/utils/server";
+import { useMutation } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 /* TODO
     Proper phone number validation
@@ -26,18 +34,24 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 // schema
 const PhoneNumberFormSchema = z.object({
-  phoneNumber: z.string().min(4, {
-    message: "Must contain 4 digits",
-  }),
+  otp: z.coerce
+    .number()
+    .int()
+    .min(100000, {
+      message: "Phone Number Must contain 6 digits only",
+    })
+    .max(999999, {
+      message: "Phone Number Must contain 6 digits only",
+    }),
 });
 
 export default function PhoneVerification() {
   /* Hooks */
 
   const params = useSearchParams();
-  const router = useRouter();
-
-  const { count, restart } = useCountDown(60, 1000);
+  const { count, restart } = useCountDown(3, 1000);
+  const [otpData, setOtpData] = useAtom(otpDataAtom);
+  const { toast } = useToast();
 
   // phone number input form
   const phoneVerificatioForm = useForm<z.infer<typeof PhoneNumberFormSchema>>({
@@ -45,14 +59,58 @@ export default function PhoneVerification() {
     reValidateMode: "onChange",
   });
 
+  const { mutate: verifyOtp, isPending: isVerifying } = useMutation({
+    mutationFn: async (data: { otpData: OtpDataType; otp: number }) => {
+      return axios.post("/verify-top", { ...data.otpData, otp: data.otp });
+    },
+    onSuccess: () => {
+      toast({
+        title: `otp verified`,
+        duration: 3000,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: `Opps an error occured `,
+        description: `${JSON.stringify(error?.message)}`,
+        duration: 3000,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // regenrate otp
+  const { mutate: resetOtp, isPending: otpLoading } = useMutation({
+    mutationKey: ["otp"],
+    mutationFn: async (phone: number) => {
+      const res = await axios.post(`/send-otp`, {
+        phone: phone,
+      });
+      return res.data as OtpDataType;
+    },
+    onSuccess: (data) => {
+      setOtpData(data);
+      restart();
+    },
+    onError: (error) => {
+      toast({
+        title: `Opps an error occured `,
+        description: `${JSON.stringify(error?.message)}`,
+        duration: 3000,
+        variant: "destructive",
+      });
+    },
+  });
+
   /* Handlers */
   function onSubmit(values: z.infer<typeof PhoneNumberFormSchema>) {
     console.log(values);
-    router.push("/dashboard");
-  }
-
-  function handleOtpRest() {
-    //
+    if (otpData.phone !== 0) {
+      verifyOtp({
+        otpData,
+        otp: values.otp,
+      });
+    }
   }
 
   return (
@@ -80,12 +138,17 @@ export default function PhoneVerification() {
               >
                 <FormField
                   control={phoneVerificatioForm.control}
-                  name="phoneNumber"
+                  name="otp"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>OTP</FormLabel>
                       <FormControl>
-                        <Input placeholder="1234" type="number" {...field} />
+                        <Input
+                          placeholder="123456"
+                          maxLength={6}
+                          type="number"
+                          {...field}
+                        />
                       </FormControl>
                       <FormDescription>Enter your otp here</FormDescription>
                       <FormMessage />
@@ -93,7 +156,11 @@ export default function PhoneVerification() {
                   )}
                 />
                 <Button type="submit" className="w-full">
-                  Verify otp{" "}
+                  {isVerifying ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    "Verify otp"
+                  )}
                 </Button>
               </form>
             </Form>
@@ -103,13 +170,19 @@ export default function PhoneVerification() {
               <Button
                 className="w-full"
                 variant={"outline"}
-                disabled={count !== 0}
+                disabled={count !== 0 || otpLoading}
+                onClick={() => resetOtp(8319090326)}
               >
-                Resend otp
+                {otpLoading ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  "Resend otp"
+                )}
               </Button>
             </div>
           </Card>
         </div>
+        <Toaster />
       </div>
     </main>
   );
