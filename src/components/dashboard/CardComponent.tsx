@@ -27,17 +27,15 @@ export default function CardComponent(props: BadgeProps) {
   return (
     <>
       <DetailsPopup>
-        <Card className="flex gap-2 flex-cols p-2 hover:border-primary transition-all cursor-pointer active:scale-[98%] ">
+        <Card className="flex px-6 py-4 gap-2 items-center flex-cols hover:border-primary transition-all cursor-pointer active:scale-[98%] ">
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <div className="p-1 flex-1 ">
-            <div className="flex">
-              <span className="mr-auto">Auth Service</span>
-              <Badge variant={props.variant} />
-            </div>
-            <span>@gangstar Philosphy</span>
+          <div className="p-1 flex-1 flex flex-col gap-2">
+            <div>Auth Service</div>
+            <div>@gangstar Philosphy</div>
+            <Badge variant="red" />
           </div>
         </Card>
       </DetailsPopup>
@@ -56,9 +54,10 @@ const Badge = (props: BadgeProps) => {
     <>
       <span
         className={cn(
-          "border px-4 py-1 rounded-full bg-green-300 text-green-600 border-green-600",
+          "border px-4 py-1 w-fit rounded-full bg-success text-success-foreground border-green-600",
           {
-            "bg-red-300 text-red-600 border-red-600": variant === "red",
+            "bg-destructive text-destructive-foreground border-red-700":
+              variant === "red",
           },
           className // Additional class name passed in props
         )}
