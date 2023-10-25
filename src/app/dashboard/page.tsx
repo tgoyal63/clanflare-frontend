@@ -18,7 +18,7 @@ export default function DashBoard() {
         </ul>
       </nav>
       {/* Body */}
-      <div className="w-full max-w-[90rem] font-mono text-sm p-4">
+      <div className="w-full max-w-[90rem]  text-sm p-4">
         <div>
           <div className="md:grid sm:grid-cols-3 lg:grid-cols-4">
             <Link className="cols-span-1" href={"/addNewServer"}>

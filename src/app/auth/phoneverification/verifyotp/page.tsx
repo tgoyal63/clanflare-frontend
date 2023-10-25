@@ -114,7 +114,7 @@ export default function PhoneVerification() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4">
-      <div className="z-10 w-full h-screen max-w-5xl font-mono text-sm flex flex-col justify-center items-center">
+      <div className="z-10 w-full h-screen max-w-5xl text-sm flex flex-col justify-center items-center">
         <div className=" max-w-md w-full">
           <Link href={"./"}>
             <Button variant={"outline"} className="mb-6">

@@ -39,7 +39,7 @@ export default function FormAddService() {
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-between p-4">
-        <div className="z-10 w-full h-screen max-w-5xl font-mono text-sm flex flex-col">
+        <div className="z-10 w-full h-screen max-w-5xl text-sm flex flex-col">
           <Stepper />
           <div className="self-center my-auto">
             <Card className="p-6 max-w-md w-full shadow-md">

@@ -1,8 +1,6 @@
 import { NavbarAvatar } from "@/components";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import Link from "next/link";
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Add new services",
@@ -26,9 +24,7 @@ export default function RootLayout({
           <NavbarAvatar />
         </ul>
       </nav>
-      <div className="w-full max-w-[90rem] font-mono text-sm p-4">
-        {children}
-      </div>
+      <div className="w-full max-w-[90rem]  text-sm p-4">{children}</div>
     </main>
   );
 }

@@ -43,7 +43,7 @@ export default function Home() {
           className="grid  place-content-center mt-20 text-center"
         >
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-5xl font-bold tracking-tight">
+            <h1 className="text-5xl font-bold tracking-">
               Streamline, Secure, and Scale Your Discord Community
             </h1>
             <p className="tracking-wider text-center mt-4 leading-4 max-w-lg text-md">

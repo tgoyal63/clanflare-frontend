@@ -107,7 +107,7 @@ export default function PhoneVerification() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4">
-      <div className="z-10 w-full h-screen max-w-5xl font-mono text-sm flex flex-col justify-center items-center">
+      <div className="z-10 w-full h-screen max-w-5xl  text-sm flex flex-col justify-center items-center">
         <Card className="p-4 mb-48 sm:mb-0 border-0 sm:border  w-screen md:p-6 max-w-md sm:w-full sm:shadow-md">
           <h1 className="text-2xl mb-4">
             Generate OTP, <br />
