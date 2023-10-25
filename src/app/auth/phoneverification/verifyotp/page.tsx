@@ -181,7 +181,6 @@ export default function PhoneVerification() {
             </div>
           </Card>
         </div>
-        {/* <Toaster /> */}
       </div>
     </main>
   );

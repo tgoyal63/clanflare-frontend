@@ -13,5 +13,35 @@ export const mockAddNewServerServers: NewServerCard[] = [
     totalMembers: "50",
     hasAccess: false,
   },
+  {
+    serverName: "Server 2",
+    roles: ["Moderator", "User"],
+    totalMembers: "50",
+    hasAccess: false,
+  },
+  {
+    serverName: "Server 1",
+    roles: ["Admin", "User"],
+    totalMembers: "100",
+    hasAccess: true,
+  },
+  {
+    serverName: "Server 2",
+    roles: ["Moderator", "User"],
+    totalMembers: "50",
+    hasAccess: false,
+  },
+  {
+    serverName: "Server 1",
+    roles: ["Admin", "User"],
+    totalMembers: "100",
+    hasAccess: true,
+  },
+  {
+    serverName: "Server 1",
+    roles: ["Admin", "User"],
+    totalMembers: "100",
+    hasAccess: true,
+  },
   // Add more objects as needed
 ];
