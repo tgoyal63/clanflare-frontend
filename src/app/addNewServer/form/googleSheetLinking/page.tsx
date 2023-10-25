@@ -18,12 +18,23 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { useToast } from "@/components/ui/use-toast";
+import { extractIdFromSheetUrl } from "@/utils/googlesheet";
 import { ArrowLeft, Link } from "lucide-react";
 import NavLink from "next/link";
 import { useRouter } from "next/navigation";
 
 const SheetFormSchema = z.object({
-  url: z.string().url("Invalid url").trim(),
+  url: z
+    .string()
+    .url("Invalid url")
+    .refine(
+      (url) => {
+        return url.startsWith("https://docs.google.com/spreadsheets");
+      },
+      {
+        message: "Not a valid google sheet url",
+      }
+    ),
 });
 
 export default function FormAddService() {
@@ -36,12 +47,13 @@ export default function FormAddService() {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof SheetFormSchema>) {
-    console.log(values);
+    const seetId = extractIdFromSheetUrl(values.url);
+
     toast({
-      title: `OTP setnt to ${values.url}`,
+      title: `Sheet id ${seetId}`,
       duration: 2000,
     });
-    router.push(`/addNewServer/form/addingbotRoles`);
+    // router.push(`/addNewServer/form/addingbotRoles`);
   }
   return (
     <>
