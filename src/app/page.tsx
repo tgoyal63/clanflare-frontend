@@ -55,7 +55,7 @@ export default function Home() {
             <button className="my-6 py-4 px-6 font-bold w-fit rounded-md active:bg-slate-700 btn-hero">
               Create Account for free
             </button>
-            <button className="my-6 border-slate-300 text-slate-300 py-4 px-6 border transition-colors duration-300 hover:border-primary hover:text-primary font-bold w-fit ml-7 rounded-md">
+            <button className="my-6 md:ml-7 border-slate-300 text-slate-300 py-4 px-6 border transition-colors duration-300 hover:border-primary hover:text-primary font-bold w-fit  rounded-md">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -89,7 +89,7 @@ export default function Home() {
             );
           })}
         </section>
-        <div className="z-[-5] absolute h-60 w-60 bg-gradient-to-t top-[50%] left-[50%]  from-sky-900 to-pink-700 blur-3xl"></div>
+        <div className="z-[-5] absolute h-60 w-60 bg-gradient-to-t top-[50%] left-[10%]  from-sky-900 to-pink-700 blur-3xl"></div>
       </div>
     </main>
   );
