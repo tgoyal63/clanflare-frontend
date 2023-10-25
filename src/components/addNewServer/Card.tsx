@@ -18,7 +18,7 @@ export default function AddNewServerCard({
 }: Props) {
   return (
     <>
-      <Card className="p-2 hover:border-primary h-fit ">
+      <Card className="h-fit p-2 hover:border-primary ">
         <Link
           href={
             hasAccess
@@ -29,7 +29,7 @@ export default function AddNewServerCard({
               : "#"
           }
           className={cn("flex gap-2", {
-            "grayscale opacity-75 cursor-not-allowed ": !hasAccess,
+            "cursor-not-allowed opacity-75 grayscale ": !hasAccess,
           })}
         >
           <div>
@@ -53,7 +53,7 @@ export default function AddNewServerCard({
           </div>
         </Link>
         <div
-          className={cn("border p-2 mt-2", {
+          className={cn("mt-2 border p-2", {
             " hidden": hasAccess,
           })}
         >

@@ -114,8 +114,8 @@ export default function PhoneVerification() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4">
-      <div className="z-10 w-full h-screen max-w-5xl text-sm flex flex-col justify-center items-center">
-        <div className=" max-w-md w-full">
+      <div className="z-10 flex h-screen w-full max-w-5xl flex-col items-center justify-center text-sm">
+        <div className=" w-full max-w-md">
           <Link href={"./"}>
             <Button variant={"outline"} className="mb-6">
               Go Back
@@ -123,7 +123,7 @@ export default function PhoneVerification() {
           </Link>
 
           <Card className="p-6 shadow-md">
-            <h1 className="text-2xl mb-4">
+            <h1 className="mb-4 text-2xl">
               Verify OTP
               <p className="text-lg text-muted-foreground">
                 {" "}
@@ -165,7 +165,7 @@ export default function PhoneVerification() {
             </Form>
             <div className="mt-8">
               <Separator className="my-4" />
-              <p className="text-center  mb-2">Regenerate after {count}</p>
+              <p className="mb-2  text-center">Regenerate after {count}</p>
               <Button
                 className="w-full"
                 variant={"outline"}

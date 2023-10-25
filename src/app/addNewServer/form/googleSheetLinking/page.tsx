@@ -45,7 +45,7 @@ const SheetFormSchema = z.object({
       },
       {
         message: "Not a valid google sheet url",
-      }
+      },
     ),
 });
 
@@ -70,30 +70,30 @@ export default function FormAddService() {
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-between p-4">
-        <div className="z-10 w-full h-screen max-w-5xl text-sm flex flex-col">
+        <div className="z-10 flex h-screen w-full max-w-5xl flex-col text-sm">
           <Stepper />
-          <div className="self-center my-auto">
+          <div className="my-auto self-center">
             <NavLink href={"/addNewServer/form"}>
               <Button variant={"outline"} className="mb-4">
                 {" "}
                 <ArrowLeft className="mr-4" /> Back
               </Button>
             </NavLink>
-            <Card className="p-6 max-w-lg w-full shadow-md">
-              <h1 className="text-2xl mb-4">
+            <Card className="w-full max-w-lg p-6 shadow-md">
+              <h1 className="mb-4 text-2xl">
                 Connect to Google Sheet <br />
                 <span className="text-lg text-muted-foreground">
                   This Sheet will be used to manage users
                 </span>
               </h1>
               {/* STEP - 1 */}
-              <h2 className="text-xl underline underline-offset-2 decoration-primary">
+              <h2 className="text-xl underline decoration-primary underline-offset-2">
                 Step 1
               </h2>
               {/* <h3 className="text-lg">Give access to the given link how ?</h3> */}
               <Accordion type="single" collapsible className="w-full ">
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-left my-0 py-2">
+                  <AccordionTrigger className="my-0 py-2 text-left">
                     Give access to the given link . Click here to learn how ?
                   </AccordionTrigger>
                   <AccordionContent>
@@ -101,12 +101,12 @@ export default function FormAddService() {
                       <ul className="space-y-8">
                         <li>
                           <span>1.Copy this email</span>
-                          <div className="flex mt-2 font-light items-center rounded-lg border bg-card text-card-foreground shadow-sm">
+                          <div className="mt-2 flex items-center rounded-lg border bg-card font-light text-card-foreground shadow-sm">
                             <span className="flex-1 pl-2">saket@gmail.com</span>
                             <Button
                               onClick={() => {
                                 navigator.clipboard.writeText(
-                                  "saketverma@gmail.com"
+                                  "saketverma@gmail.com",
                                 );
                                 toast({
                                   title: "copied to clipboard",
@@ -148,7 +148,7 @@ export default function FormAddService() {
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
-              <div className="flex items-center mb-8 rounded-lg border bg-card text-card-foreground shadow-sm">
+              <div className="mb-8 flex items-center rounded-lg border bg-card text-card-foreground shadow-sm">
                 <span className="flex-1 pl-2">saket@gmail.com</span>
                 <Button
                   onClick={() => {
@@ -170,7 +170,7 @@ export default function FormAddService() {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-2"
                 >
-                  <h2 className="text-xl underline underline-offset-2 decoration-primary">
+                  <h2 className="text-xl underline decoration-primary underline-offset-2">
                     Step 2
                   </h2>{" "}
                   <FormField
@@ -211,21 +211,21 @@ export default function FormAddService() {
 const Stepper = () => {
   return (
     <>
-      <div className="flex items-center w-full my-4 ">
-        <div className="flex items-center text-primary relative">
-          <div className="rounded-full text-primary-foreground transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center bg-primary  ">
+      <div className="my-4 flex w-full items-center ">
+        <div className="relative flex items-center text-primary">
+          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
             1
           </div>
         </div>
-        <div className="flex-auto border-primary border-t-2 transition duration-500 ease-in-out "></div>
-        <div className="flex items-center text-primary relative">
-          <div className="rounded-full text-primary-foreground transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center bg-primary  ">
+        <div className="flex-auto border-t-2 border-primary transition duration-500 ease-in-out "></div>
+        <div className="relative flex items-center text-primary">
+          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
             2
           </div>
         </div>
         <div className="flex-auto border-t-2 transition duration-500 ease-in-out "></div>
-        <div className="flex items-center text-primary relative">
-          <div className="rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center ">
+        <div className="relative flex items-center text-primary">
+          <div className="h-12 w-12 rounded-full border-2 py-3 text-center transition duration-500 ease-in-out ">
             3
           </div>
         </div>

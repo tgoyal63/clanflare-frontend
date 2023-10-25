@@ -74,16 +74,16 @@ export default function FormAddService() {
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-between p-4">
-        <div className="z-10 w-full h-screen max-w-5xl text-sm flex flex-col">
+        <div className="z-10 flex h-screen w-full max-w-5xl flex-col text-sm">
           <Stepper />
-          <div className="self-center my-auto">
+          <div className="my-auto self-center">
             <Link href={"/addNewServer/form/googleSheetLinking"}>
               <Button variant={"outline"} className="mb-4">
                 <ArrowLeft className="mr-4" /> Back
               </Button>
             </Link>
-            <Card className="p-6 max-w-xl w-full mb-6 shadow-md">
-              <h1 className="text-2xl mb-4">
+            <Card className="mb-6 w-full max-w-xl p-6 shadow-md">
+              <h1 className="mb-4 text-2xl">
                 Select Roles, <br />
                 <span className="text-lg">
                   Turn on switches for which roles you want to select{" "}
@@ -97,10 +97,8 @@ export default function FormAddService() {
 
               <Separator className="mt-4" />
               <Card className="my-4 shadow-sm">
-                <ul className="grid list-disc p-4 pl-6 grid-cols-2">
-                  {roles?.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
+                <ul className="grid list-disc grid-cols-2 p-4 pl-6">
+                  {roles?.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
               </Card>
               <div className="grid gap-4 lg:grid-cols-2">
@@ -109,7 +107,7 @@ export default function FormAddService() {
                     <Label
                       key={item}
                       htmlFor={item}
-                      className="flex border rounded-lg items-center p-4"
+                      className="flex items-center rounded-lg border p-4"
                     >
                       <span className="flex-1">{item}</span>
                       <Switch
@@ -133,21 +131,21 @@ export default function FormAddService() {
 const Stepper = () => {
   return (
     <>
-      <div className="flex my-6 items-center w-full ">
-        <div className="flex items-center text-primary relative">
-          <div className="rounded-full text-primary-foreground transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center bg-primary  ">
+      <div className="my-6 flex w-full items-center ">
+        <div className="relative flex items-center text-primary">
+          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
             1
           </div>
         </div>
-        <div className="flex-auto border-primary border-t-2 transition duration-500 ease-in-out "></div>
-        <div className="flex items-center text-primary relative">
-          <div className="rounded-full text-primary-foreground transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center bg-primary  ">
+        <div className="flex-auto border-t-2 border-primary transition duration-500 ease-in-out "></div>
+        <div className="relative flex items-center text-primary">
+          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
             2
           </div>
         </div>
-        <div className="flex-auto border-primary border-t-2 transition duration-500 ease-in-out "></div>
-        <div className="flex items-center text-primary relative">
-          <div className="rounded-full text-primary-foreground transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center bg-primary  ">
+        <div className="flex-auto border-t-2 border-primary transition duration-500 ease-in-out "></div>
+        <div className="relative flex items-center text-primary">
+          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
             3
           </div>
         </div>

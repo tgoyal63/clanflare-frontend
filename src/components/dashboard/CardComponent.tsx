@@ -27,12 +27,12 @@ export default function CardComponent(props: BadgeProps) {
   return (
     <>
       <DetailsPopup>
-        <Card className="flex px-6 py-4 gap-2 items-center flex-cols hover:border-primary transition-all cursor-pointer active:scale-[98%] ">
+        <Card className="flex-cols flex cursor-pointer items-center gap-2 px-6 py-4 transition-all hover:border-primary active:scale-[98%] ">
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <div className="p-1 flex-1 flex flex-col gap-2">
+          <div className="flex flex-1 flex-col gap-2 p-1">
             <div>Auth Service</div>
             <div>@gangstar Philosphy</div>
             <Badge variant="red" />
@@ -54,12 +54,12 @@ const Badge = (props: BadgeProps) => {
     <>
       <span
         className={cn(
-          "border px-4 py-1 w-fit rounded-full bg-success text-success-foreground border-green-600",
+          "w-fit rounded-full border border-green-600 bg-success px-4 py-1 text-success-foreground",
           {
-            "bg-destructive text-destructive-foreground border-red-700":
+            "border-red-700 bg-destructive text-destructive-foreground":
               variant === "red",
           },
-          className // Additional class name passed in props
+          className, // Additional class name passed in props
         )}
       >
         {variant === "red" ? "inactive" : "active"}

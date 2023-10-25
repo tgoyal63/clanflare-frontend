@@ -107,9 +107,9 @@ export default function PhoneVerification() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4">
-      <div className="z-10 w-full h-screen max-w-5xl  text-sm flex flex-col justify-center items-center">
-        <Card className="p-4 mb-48 sm:mb-0 border-0 sm:border  w-screen md:p-6 max-w-md sm:w-full sm:shadow-md">
-          <h1 className="text-2xl mb-4">
+      <div className="z-10 flex h-screen w-full  max-w-5xl flex-col items-center justify-center text-sm">
+        <Card className="mb-48 w-screen max-w-md border-0 p-4  sm:mb-0 sm:w-full sm:border sm:shadow-md md:p-6">
+          <h1 className="mb-4 text-2xl">
             Generate OTP, <br />
             <span className="text-lg">To Verify your Phone Number </span>
           </h1>

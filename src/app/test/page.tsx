@@ -45,12 +45,12 @@ export default function Test() {
 
   return (
     <>
-      <Card className="p-4 w-fit h-fit">
+      <Card className="h-fit w-fit p-4">
         <h1 className="text-3xl"> Enetr the Cell Details of sheet</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <h2 className="mt-8 mb-2">
-              <span className="block text-xl font-bol">Username Cells</span>
+            <h2 className="mb-2 mt-8">
+              <span className="font-bol block text-xl">Username Cells</span>
             </h2>
             <div className="flex gap-2">
               <div>
@@ -87,8 +87,8 @@ export default function Test() {
               </div>
             </div>
 
-            <h2 className="mt-8 mb-2">
-              <span className="block text-xl font-bol">User Emails Cells</span>
+            <h2 className="mb-2 mt-8">
+              <span className="font-bol block text-xl">User Emails Cells</span>
             </h2>
             <div className="flex gap-2">
               <div>

@@ -33,17 +33,17 @@ export default function FormAddService() {
       duration: 2000,
     });
     router.push(
-      `./phoneverification/verifyotp?phoneNumber=${values.phoneNumber}`
+      `./phoneverification/verifyotp?phoneNumber=${values.phoneNumber}`,
     );
   }
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-between p-4">
-        <div className="z-10 w-full h-screen max-w-5xl text-sm flex flex-col">
+        <div className="z-10 flex h-screen w-full max-w-5xl flex-col text-sm">
           <Stepper />
-          <div className="self-center my-auto">
-            <Card className="p-6 max-w-md w-full shadow-md">
-              <h1 className="text-2xl mb-4">
+          <div className="my-auto self-center">
+            <Card className="w-full max-w-md p-6 shadow-md">
+              <h1 className="mb-4 text-2xl">
                 Authenticate with discord, <br />
                 <span className="text-lg text-muted-foreground">
                   This is required to add bot to your server
@@ -75,21 +75,21 @@ export default function FormAddService() {
 const Stepper = () => {
   return (
     <>
-      <div className="flex items-center w-full ">
-        <div className="flex items-center text-primary relative">
-          <div className="rounded-full text-primary-foreground transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center bg-primary  ">
+      <div className="flex w-full items-center ">
+        <div className="relative flex items-center text-primary">
+          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
             1
           </div>
         </div>
         <div className="flex-auto border-t-2 transition duration-500 ease-in-out "></div>
-        <div className="flex items-center text-primary relative">
-          <div className="rounded-full  transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center  ">
+        <div className="relative flex items-center text-primary">
+          <div className="h-12  w-12 rounded-full border-2 py-3 text-center transition duration-500 ease-in-out  ">
             2
           </div>
         </div>
         <div className="flex-auto border-t-2 transition duration-500 ease-in-out "></div>
-        <div className="flex items-center text-primary relative">
-          <div className="rounded-full  transition duration-500 ease-in-out h-12 w-12 py-3 border-2 text-center  ">
+        <div className="relative flex items-center text-primary">
+          <div className="h-12  w-12 rounded-full border-2 py-3 text-center transition duration-500 ease-in-out  ">
             3
           </div>
         </div>

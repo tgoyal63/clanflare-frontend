@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <main className="flex min-h-screen flex-col items-center">
       {/* NAV section */}
-      <nav className="flex backdrop-blur-md border-b w-full items-center px-4 py-2 sticky top-0 ">
+      <nav className="sticky top-0 flex w-full items-center border-b px-4 py-2 backdrop-blur-md ">
         <Link href="/dashboard" className="mr-auto">
           Logo
         </Link>
@@ -24,7 +24,7 @@ export default function RootLayout({
           <NavbarAvatar />
         </ul>
       </nav>
-      <div className="w-full max-w-[90rem]  text-sm p-4">{children}</div>
+      <div className="w-full max-w-[90rem]  p-4 text-sm">{children}</div>
     </main>
   );
 }
