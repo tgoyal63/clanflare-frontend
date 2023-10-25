@@ -23,7 +23,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 
 import { useMutation } from "@tanstack/react-query";
@@ -113,7 +112,6 @@ export default function PhoneVerification() {
           <h1 className="text-2xl mb-4">
             Generate OTP, <br />
             <span className="text-lg">To Verify your Phone Number </span>
-            {/* <span>{}</span> */}
           </h1>
 
           <Form {...form}>
@@ -173,7 +171,7 @@ export default function PhoneVerification() {
             </form>
           </Form>
         </Card>
-        <Toaster />
+        {/* <Toaster /> */}
       </div>
     </main>
   );

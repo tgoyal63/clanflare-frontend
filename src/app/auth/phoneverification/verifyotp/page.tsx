@@ -19,7 +19,6 @@ import { Separator } from "@/components/ui/separator";
 import { useCountDown } from "@/hooks";
 import { OtpDataType, otpDataAtom } from "@/store";
 
-import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { axios } from "@/utils/server";
 import { useMutation } from "@tanstack/react-query";
@@ -182,7 +181,7 @@ export default function PhoneVerification() {
             </div>
           </Card>
         </div>
-        <Toaster />
+        {/* <Toaster /> */}
       </div>
     </main>
   );
