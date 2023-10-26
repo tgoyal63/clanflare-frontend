@@ -30,10 +30,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
 
+import { ThemeToggle } from "@/components";
 import { OtpDataType, otpDataAtom } from "@/store";
 import { axios } from "@/utils/server";
 import { useAtom } from "jotai";
 import { Loader2 } from "lucide-react";
+import Image from "next/image";
+
+import indiaFlag from "@/assits/in.svg";
 
 const PhoneNumberFormSchema = z.object({
   phoneNumber: z.coerce
@@ -55,7 +59,7 @@ export default function PhoneVerification() {
   const params = useSearchParams();
   const token = params.get("token");
   const { toast } = useToast();
-  const [jwt, setLocalVal] = useLocalStorage("jwt", "");
+  const [auth, setLocalVal] = useLocalStorage("auth", "");
   const [, setOtpData] = useAtom(otpDataAtom);
 
   const form = useForm<z.infer<typeof PhoneNumberFormSchema>>({
@@ -69,7 +73,7 @@ export default function PhoneVerification() {
   // if no token in param
   useEffect(() => {
     if (token) setLocalVal(token);
-    else if (jwt) return;
+    else if (auth) return;
     else router.push("/auth");
   });
 
@@ -107,11 +111,14 @@ export default function PhoneVerification() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4">
-      <div className="z-10 flex h-screen w-full  max-w-5xl flex-col items-center justify-center text-sm">
-        <Card className="mb-48 w-screen max-w-md border-0 p-4  sm:mb-0 sm:w-full sm:border sm:shadow-md md:p-6">
+      <div className="z-10 flex h-screen w-full max-w-5xl  flex-col items-center justify-center text-sm">
+        <div className="mb-2 flex w-full max-w-md justify-end">
+          <ThemeToggle />
+        </div>
+        <Card className="mb-48 w-screen max-w-md border-0 px-2 py-4 sm:mb-0  sm:w-full sm:border sm:p-4 sm:shadow-md md:p-6">
           <h1 className="mb-4 text-2xl">
-            Generate OTP, <br />
-            <span className="text-lg">To Verify your Phone Number </span>
+            Phone Verification <br />
+            <span className="text-lg">Generate an OTP </span>
           </h1>
 
           <Form {...form}>
@@ -121,7 +128,7 @@ export default function PhoneVerification() {
                   control={form.control}
                   name="countryCode"
                   render={({ field }) => (
-                    <FormItem className="col-span-1">
+                    <FormItem className="col-span-2">
                       <FormLabel>Code</FormLabel>
                       <Select
                         onValueChange={field.onChange}
@@ -133,7 +140,18 @@ export default function PhoneVerification() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="91">+91</SelectItem>
+                          <SelectItem value="91">
+                            <div className="flex w-full gap-2">
+                              <Image
+                                src={indiaFlag}
+                                className=""
+                                alt="india-flag"
+                                height={24}
+                                width={24}
+                              />
+                              <span>+91</span>
+                            </div>
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </FormItem>
@@ -143,7 +161,7 @@ export default function PhoneVerification() {
                   control={form.control}
                   name="phoneNumber"
                   render={({ field }) => (
-                    <FormItem className="col-span-5">
+                    <FormItem className="col-span-4">
                       <FormLabel>Phone Number</FormLabel>
                       <FormControl>
                         <Input

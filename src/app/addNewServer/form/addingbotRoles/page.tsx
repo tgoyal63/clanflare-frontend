@@ -11,7 +11,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { ArrowLeft } from "lucide-react";
+import { Steeper } from "@/components";
+import { axios } from "@/utils/server";
+import { useMutation } from "@tanstack/react-query";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 // const BotsFormSchema = z.object({
@@ -46,8 +49,23 @@ const demodData = [
 export default function FormAddService() {
   const router = useRouter();
   const { toast } = useToast();
-
   const [roles, setRoles] = useState<string[]>([]);
+
+  const { mutate, isPending: isLoading } = useMutation({
+    mutationKey: ["google-sheet-setup"],
+    mutationFn: async (data: any) => {
+      const res = await axios("/", data);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      //
+      router.push(`/addNewServer/form/addingbotRoles`);
+    },
+
+    onError: (error) => {
+      //
+    },
+  });
 
   // 2. Define a submit handler.
   function onSubmit() {
@@ -75,7 +93,7 @@ export default function FormAddService() {
     <>
       <main className="flex min-h-screen flex-col items-center justify-between p-4">
         <div className="z-10 flex h-screen w-full max-w-5xl flex-col text-sm">
-          <Stepper />
+          <Steeper setpNumber={4} />
           <div className="my-auto self-center">
             <Link href={"/addNewServer/form/googleSheetLinking"}>
               <Button variant={"outline"} className="mb-4">
@@ -90,8 +108,12 @@ export default function FormAddService() {
                 </span>
               </h1>
               <div className="flex justify-end">
-                <Button disabled={roles?.length === 0}>
-                  Continue with select roles
+                <Button disabled={roles?.length === 0 && !isLoading}>
+                  {isLoading ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    "Continue with select roles"
+                  )}
                 </Button>
               </div>
 
@@ -127,29 +149,3 @@ export default function FormAddService() {
     </>
   );
 }
-
-const Stepper = () => {
-  return (
-    <>
-      <div className="my-6 flex w-full items-center ">
-        <div className="relative flex items-center text-primary">
-          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
-            1
-          </div>
-        </div>
-        <div className="flex-auto border-t-2 border-primary transition duration-500 ease-in-out "></div>
-        <div className="relative flex items-center text-primary">
-          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
-            2
-          </div>
-        </div>
-        <div className="flex-auto border-t-2 border-primary transition duration-500 ease-in-out "></div>
-        <div className="relative flex items-center text-primary">
-          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
-            3
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};

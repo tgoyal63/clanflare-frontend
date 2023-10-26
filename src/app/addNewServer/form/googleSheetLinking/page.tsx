@@ -25,7 +25,7 @@ import { Input } from "@/components/ui/input";
 
 import { useToast } from "@/components/ui/use-toast";
 import { extractIdFromSheetUrl } from "@/utils/googlesheet";
-import { ArrowLeft, CopyIcon, Link } from "lucide-react";
+import { ArrowLeft, CopyIcon, Link, Loader2 } from "lucide-react";
 import Image from "next/image";
 import NavLink from "next/link";
 import { useRouter } from "next/navigation";
@@ -34,6 +34,9 @@ import imageSharebtn from "@/assits/tutorial/share-btn.webp";
 // import imageCopylink  from "@/assits/tutorial/copy-link.webp"
 import imageConfirmpermmission from "@/assits/tutorial/confirm-permission.webp";
 import imagePasteemail from "@/assits/tutorial/poaste-email.webp";
+import { Steeper } from "@/components";
+import { axios } from "@/utils/server";
+import { useMutation } from "@tanstack/react-query";
 
 const SheetFormSchema = z.object({
   url: z
@@ -56,22 +59,32 @@ export default function FormAddService() {
   });
   const router = useRouter();
   const { toast } = useToast();
+  const { mutate, isPending: isLoading } = useMutation({
+    mutationKey: ["google-sheet-setup"],
+    mutationFn: async (data: any) => {
+      const res = await axios("/", data);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      //
+      router.push(`/addNewServer/form/addSheetDetails`);
+    },
+
+    onError: (error) => {
+      //
+    },
+  });
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof SheetFormSchema>) {
-    const seetId = extractIdFromSheetUrl(values.url);
-
-    toast({
-      title: `Sheet id ${seetId}`,
-      duration: 2000,
-    });
-    // router.push(`/addNewServer/form/addingbotRoles`);
+    const sheetId = extractIdFromSheetUrl(values.url);
+    mutate(sheetId);
   }
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-between p-4">
         <div className="z-10 flex h-screen w-full max-w-5xl flex-col text-sm">
-          <Stepper />
+          <Steeper setpNumber={2} />
           <div className="my-auto self-center">
             <NavLink href={"/addNewServer/form"}>
               <Button variant={"outline"} className="mb-4">
@@ -79,7 +92,7 @@ export default function FormAddService() {
                 <ArrowLeft className="mr-4" /> Back
               </Button>
             </NavLink>
-            <Card className="w-full max-w-lg p-6 shadow-md">
+            <Card className="mb-56 w-full max-w-lg p-6 shadow-md ">
               <h1 className="mb-4 text-2xl">
                 Connect to Google Sheet <br />
                 <span className="text-lg text-muted-foreground">
@@ -94,7 +107,8 @@ export default function FormAddService() {
               <Accordion type="single" collapsible className="w-full ">
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="my-0 py-2 text-left">
-                    Give access to the given link . Click here to learn how ?
+                    Give your google sheet access to this email, Click here to
+                    learn how ?
                   </AccordionTrigger>
                   <AccordionContent>
                     <div>
@@ -127,7 +141,12 @@ export default function FormAddService() {
                         </li>
 
                         <li>
-                          3.Paste the email you copied in {"step 1"} to click on
+                          3.Paste the email which you copied in {"step 1"} to{" "}
+                          <span className="rounded-md bg-muted-foreground bg-opacity-60 p-1 px-2 text-background">
+                            {"Add people input"}
+                          </span>{" "}
+                          as shown in image below.
+                          <br /> After that click on done and move to next step
                           done.
                           <Image
                             src={imagePasteemail}
@@ -195,8 +214,12 @@ export default function FormAddService() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full">
-                    connect
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? (
+                      <Loader2 className="animate-spin" />
+                    ) : (
+                      "connect and continue"
+                    )}
                   </Button>
                 </form>
               </Form>
@@ -207,29 +230,3 @@ export default function FormAddService() {
     </>
   );
 }
-
-const Stepper = () => {
-  return (
-    <>
-      <div className="my-4 flex w-full items-center ">
-        <div className="relative flex items-center text-primary">
-          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
-            1
-          </div>
-        </div>
-        <div className="flex-auto border-t-2 border-primary transition duration-500 ease-in-out "></div>
-        <div className="relative flex items-center text-primary">
-          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
-            2
-          </div>
-        </div>
-        <div className="flex-auto border-t-2 transition duration-500 ease-in-out "></div>
-        <div className="relative flex items-center text-primary">
-          <div className="h-12 w-12 rounded-full border-2 py-3 text-center transition duration-500 ease-in-out ">
-            3
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};

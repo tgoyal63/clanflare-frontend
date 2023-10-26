@@ -7,6 +7,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
+import { Steeper } from "@/components";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -40,7 +41,7 @@ export default function FormAddService() {
     <>
       <main className="flex min-h-screen flex-col items-center justify-between p-4">
         <div className="z-10 flex h-screen w-full max-w-5xl flex-col text-sm">
-          <Stepper />
+          <Steeper setpNumber={1} />
           <div className="my-auto self-center">
             <Card className="w-full max-w-md p-6 shadow-md">
               <h1 className="mb-4 text-2xl">
@@ -71,29 +72,3 @@ export default function FormAddService() {
     </>
   );
 }
-
-const Stepper = () => {
-  return (
-    <>
-      <div className="flex w-full items-center ">
-        <div className="relative flex items-center text-primary">
-          <div className="h-12 w-12 rounded-full border-2 bg-primary py-3 text-center text-primary-foreground transition duration-500 ease-in-out  ">
-            1
-          </div>
-        </div>
-        <div className="flex-auto border-t-2 transition duration-500 ease-in-out "></div>
-        <div className="relative flex items-center text-primary">
-          <div className="h-12  w-12 rounded-full border-2 py-3 text-center transition duration-500 ease-in-out  ">
-            2
-          </div>
-        </div>
-        <div className="flex-auto border-t-2 transition duration-500 ease-in-out "></div>
-        <div className="relative flex items-center text-primary">
-          <div className="h-12  w-12 rounded-full border-2 py-3 text-center transition duration-500 ease-in-out  ">
-            3
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};

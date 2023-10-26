@@ -26,13 +26,13 @@ export default function Home() {
     <main className="flex min-h-screen  flex-col items-center justify-between bg-gradient-to-b from-sky-950 to-slate-950 p-4 text-white">
       <div className="z-10 w-full max-w-5xl  text-sm">
         <nav className="sticky top-0 z-10 flex items-center backdrop-blur-md">
-          <Link href="#">Logo</Link>
+          <Link href="#">Authify</Link>
 
-          <ul className="ml-auto flex items-center space-x-4 ">
-            <li className="rounded-md px-4 py-2 transition-colors hover:bg-slate-700">
+          <ul className="ml-auto flex items-center space-x-2 ">
+            <li className="rounded-md px-2 py-2 transition-colors hover:bg-slate-700">
               <Link href={"/auth"}>CreateAccount</Link>
             </li>
-            <li className="rounded-md px-4 py-2 transition-colors hover:bg-slate-700">
+            <li className="rounded-md px-2 py-2 transition-colors hover:bg-slate-700">
               <Link href={"/auth"}>Login</Link>
             </li>
           </ul>
@@ -43,18 +43,26 @@ export default function Home() {
           className="mt-20  grid place-content-center text-center"
         >
           <div className="flex flex-col items-center justify-center">
-            <h1 className="tracking- text-5xl font-bold">
-              Streamline, Secure, and Scale Your Discord Community
+            <h1 className="text-5xl font-bold leading-tight  tracking-tight">
+              <span className="fancy-text-hilight hlight-1">Streamline</span>,
+              {"  "}
+              <span className="fancy-text-hilight hlight-2">Secure</span>, and
+              {"  "}
+              <span className="fancy-text-hilight hlight-3">Scale</span>
+              Your Discord Community
             </h1>
-            <p className="text-md mt-4 max-w-lg text-center leading-4 tracking-wider">
+            <p className="text-md mt-4 max-w-lg text-center font-bold leading-snug tracking-wider">
               Authify, our Ultimate Solution for User Management and
               Authentication on Discord
             </p>
           </div>
-          <div>
-            <button className="btn-hero my-6 w-fit rounded-md px-6 py-4 font-bold active:bg-slate-700">
+          <div className="flex items-center justify-center gap-2">
+            <Link
+              className="btn-hero my-6 w-fit rounded-md px-6 py-4 font-bold active:bg-slate-700"
+              href={"/auth"}
+            >
               Create Account for free
-            </button>
+            </Link>
             <button className="my-6 w-fit rounded-md border border-slate-300 px-6 py-4 font-bold text-slate-300 transition-colors duration-300 hover:border-primary hover:text-primary  md:ml-7">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

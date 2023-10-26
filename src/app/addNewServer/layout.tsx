@@ -1,4 +1,4 @@
-import { NavbarAvatar } from "@/components";
+import { NavbarAvatar, ThemeToggle } from "@/components";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -15,15 +15,17 @@ export default function RootLayout({
   return (
     <main className="flex min-h-screen flex-col items-center">
       {/* NAV section */}
-      <nav className="sticky top-0 flex w-full items-center border-b px-4 py-2 backdrop-blur-md ">
+      <nav className="sticky top-0 z-30 flex w-full items-center border-b px-4 py-2 backdrop-blur-md ">
         <Link href="/dashboard" className="mr-auto">
-          Logo
+          Authify
         </Link>
 
-        <ul className="flex list-none space-x-4">
+        <ul className="flex list-none gap-4 space-x-4">
+          <ThemeToggle />
           <NavbarAvatar />
         </ul>
       </nav>
+
       <div className="w-full max-w-[90rem]  p-4 text-sm">{children}</div>
     </main>
   );

@@ -11,7 +11,7 @@
   }
 }
 
-@layer base {
+/* @layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 224 71.4% 4.1%;
@@ -60,7 +60,60 @@
     --success: 142, 76%, 36%;
     --success-foreground: 141, 79%, 85%;
   }
+} */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 262.1 83.3% 57.8%;
+    --radius: 0.5rem;
+    --success: 141, 79%, 85%;
+    --success-foreground: 142, 76%, 36%;
+  }
+
+  .dark {
+    --background: 20 14.3% 4.1%;
+    --foreground: 0 0% 95%;
+    --card: 24 9.8% 10%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 142.4 71.8% 29.2%;
+    --ring: 263.4 70% 50.4%;
+    --success: 142, 76%, 36%;
+    --success-foreground: 141, 79%, 85%;
+  }
 }
+
 @property --var-angle {
   syntax: "<angle>"; /* <- defined as type number for the transition to work */
   initial-value: 0deg;
@@ -105,5 +158,74 @@
 
   100% {
     --var-angle: 360deg;
+  }
+}
+
+.fancy-text-hilight {
+  position: relative;
+}
+
+.fancy-text-hilight::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 0.3rem;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: underLine 1s forwards;
+}
+
+.fancy-text-hilight::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  height: 2rem;
+  transform: scaleX(0);
+  width: 100%;
+  transform-origin: left;
+  animation: underLine 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.hlight-1::after {
+  @apply bg-orange-500;
+  /* animation-delay: 1s; */
+}
+.hlight-1::before {
+  @apply bg-orange-900;
+  /* animation-delay: 1s; */
+}
+.hlight-2::after {
+  @apply bg-cyan-500;
+  animation-delay: 0.8s;
+}
+.hlight-2::before {
+  @apply bg-cyan-900;
+  animation-delay: 0.8s;
+}
+
+.hlight-3::after {
+  @apply bg-fuchsia-500;
+  animation-delay: 1.8s;
+}
+.hlight-3::before {
+  @apply bg-fuchsia-900;
+  animation-delay: 1.8s;
+}
+
+/* .hlight-1::after {
+  background-color: rgb(255, 89, 89);
+} */
+
+@keyframes underLine {
+  0% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(1);
   }
 }
