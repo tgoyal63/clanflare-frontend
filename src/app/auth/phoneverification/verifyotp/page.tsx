@@ -26,7 +26,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { ArrowLeftIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 /* TODO
     Proper phone number validation
@@ -52,6 +52,7 @@ export default function PhoneVerification() {
   const { count, restart } = useCountDown(32, 1000);
   const [otpData, setOtpData] = useAtom(otpDataAtom);
   const { toast } = useToast();
+  const route = useRouter();
 
   // phone number input form
   const phoneVerificatioForm = useForm<z.infer<typeof PhoneNumberFormSchema>>({
@@ -68,6 +69,7 @@ export default function PhoneVerification() {
         title: `otp verified`,
         duration: 3000,
       });
+      route.push("/dashboard");
     },
     onError: (error) => {
       toast({
