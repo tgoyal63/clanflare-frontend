@@ -1,5 +1,4 @@
 import { CardDashboard, NavbarAvatar, ThemeToggle } from "@/components";
-import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
@@ -9,7 +8,7 @@ export default function DashBoard() {
       {/* NAV section */}
       <nav className="sticky top-0 z-[10] flex w-full items-center border-b px-4 py-2 backdrop-blur-md ">
         <Link href="/dashboard" className="mr-auto">
-          Logo
+          Authify
         </Link>
 
         <ul className="flex list-none space-x-4">
@@ -21,11 +20,12 @@ export default function DashBoard() {
       <div className="w-full max-w-[90rem]  p-4 text-sm">
         <div>
           <div className="sm:grid-cols-3 md:grid lg:grid-cols-4">
-            <Link className="cols-span-1" href={"/addNewServer"}>
-              <Button className="h-28 w-full flex-col gap-2 border bg-gradient-to-br from-red-600 to-purple-600 hover:scale-105 active:scale-100">
-                <Plus className="mr-2" />
-                <span className="block">Add new Server</span>
-              </Button>
+            <Link
+              className="cols-span-1 flex h-28 w-full flex-col items-center justify-center gap-2 rounded-md border bg-gradient-to-r from-purple-600 to-purple-800 hover:scale-105 active:scale-100"
+              href={"/addNewServer"}
+            >
+              <Plus className="mr-2" />
+              <span className="block">Add new Service</span>
             </Link>
           </div>
 

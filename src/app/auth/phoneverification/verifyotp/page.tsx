@@ -19,11 +19,12 @@ import { Separator } from "@/components/ui/separator";
 import { useCountDown } from "@/hooks";
 import { OtpDataType, otpDataAtom } from "@/store";
 
+import { ThemeToggle } from "@/components";
 import { useToast } from "@/components/ui/use-toast";
 import { axios } from "@/utils/server";
 import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
-import { Loader2 } from "lucide-react";
+import { ArrowLeftIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
@@ -48,7 +49,7 @@ export default function PhoneVerification() {
   /* Hooks */
 
   const params = useSearchParams();
-  const { count, restart } = useCountDown(3, 1000);
+  const { count, restart } = useCountDown(32, 1000);
   const [otpData, setOtpData] = useAtom(otpDataAtom);
   const { toast } = useToast();
 
@@ -116,11 +117,14 @@ export default function PhoneVerification() {
     <main className="flex min-h-screen flex-col items-center justify-between p-4">
       <div className="z-10 flex h-screen w-full max-w-5xl flex-col items-center justify-center text-sm">
         <div className=" w-full max-w-md">
-          <Link href={"./"}>
-            <Button variant={"outline"} className="mb-6">
-              Go Back
-            </Button>
-          </Link>
+          <div className="mb-6 flex items-center justify-between">
+            <Link href={"./"}>
+              <Button variant={"outline"} className="gap-2">
+                <ArrowLeftIcon /> Go Back
+              </Button>
+            </Link>
+            <ThemeToggle />
+          </div>
 
           <Card className="p-6 shadow-md">
             <h1 className="mb-4 text-2xl">

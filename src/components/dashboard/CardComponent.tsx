@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Card } from "../ui/card";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -27,17 +26,17 @@ export default function CardComponent(props: BadgeProps) {
   return (
     <>
       <DetailsPopup>
-        <Card className="flex-cols flex cursor-pointer items-center gap-2 px-6 py-4 transition-all hover:border-primary active:scale-[98%] ">
+        <button className="flex-cols flex cursor-pointer items-center gap-2 rounded-lg border bg-card px-6 py-4 text-card-foreground shadow-sm transition-all hover:border-primary active:scale-[98%] ">
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <div className="flex flex-1 flex-col gap-2 p-1">
-            <div>Auth Service</div>
-            <div>@gangstar Philosphy</div>
+          <div className="flex flex-1 flex-col gap-2 p-1 text-left">
+            <span>Auth Service</span>
+            <span>@gangstar Philosphy</span>
             <Badge variant="red" />
           </div>
-        </Card>
+        </button>
       </DetailsPopup>
     </>
   );
