@@ -6,7 +6,7 @@ interface SteperProps {
 export default function Stepper({ setpNumber }: SteperProps) {
   return (
     <>
-      <div className="mb-10 mt-4 flex w-full items-center">
+      <div className="mb-4 mt-4 flex w-full items-center">
         <div className="relative flex items-center text-primary">
           <div
             className={cn(
