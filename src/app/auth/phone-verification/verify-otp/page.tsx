@@ -21,6 +21,7 @@ import { OtpDataType, otpDataAtom } from "@/store";
 
 import { ThemeToggle } from "@/components";
 import { useToast } from "@/components/ui/use-toast";
+import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { axios } from "@/utils/server";
 import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
@@ -53,6 +54,7 @@ export default function PhoneVerification() {
   const [otpData, setOtpData] = useAtom(otpDataAtom);
   const { toast } = useToast();
   const route = useRouter();
+  const api = useAxiosApi();
 
   // phone number input form
   const phoneVerificatioForm = useForm<z.infer<typeof PhoneNumberFormSchema>>({
@@ -62,7 +64,7 @@ export default function PhoneVerification() {
 
   const { mutate: verifyOtp, isPending: isVerifying } = useMutation({
     mutationFn: async (data: { otpData: OtpDataType; otp: number }) => {
-      return axios.post("/verify-top", { ...data.otpData, otp: data.otp });
+      return await api.post("/verify-otp", { ...data.otpData, otp: data.otp });
     },
     onSuccess: () => {
       toast({

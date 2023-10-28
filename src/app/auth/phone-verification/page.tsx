@@ -76,12 +76,12 @@ export default function PhoneVerification() {
       return res.data as OtpDataType;
     },
     onSuccess: (data) => {
-      setOtpData(data);
+      setOtpData(data.data);
       toast({
         title: `otp set to ${data.phone}`,
         duration: 3000,
       });
-      router.push("./phoneverification/verifyotp");
+      router.push("./phone-verification/verify-otp");
     },
     onError: (error) => {
       toast({
