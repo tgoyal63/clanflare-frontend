@@ -4,12 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -26,17 +20,18 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { extractIdFromSheetUrl } from "@/utils/googlesheet";
 import { ArrowLeft, CopyIcon, Link, Loader2 } from "lucide-react";
-import Image from "next/image";
 import NavLink from "next/link";
 import { useRouter } from "next/navigation";
 
-import imageSharebtn from "@/assits/tutorial/share-btn.webp";
 // import imageCopylink  from "@/assits/tutorial/copy-link.webp"
-import imageConfirmpermmission from "@/assits/tutorial/confirm-permission.webp";
-import imagePasteemail from "@/assits/tutorial/poaste-email.webp";
-import { Steeper } from "@/components";
+import { ExampleDialog, Steeper } from "@/components";
 import { axios } from "@/utils/server";
 import { useMutation } from "@tanstack/react-query";
+
+import imageConfirmpermmission from "@/assits/tutorial/confirm-permission.webp";
+import imagePasteemail from "@/assits/tutorial/poaste-email.webp";
+import imageSharebtn from "@/assits/tutorial/share-btn.webp";
+import Image from "next/image";
 
 const SheetFormSchema = z.object({
   url: z
@@ -82,8 +77,8 @@ export default function FormAddService() {
   }
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between p-4">
-        <div className="z-10 flex h-screen w-full max-w-5xl flex-col text-sm">
+      <main className="flex min-h-screen flex-col items-center justify-between">
+        <div className="z-10 flex h-full w-full max-w-5xl flex-col text-sm">
           <Steeper setpNumber={2} />
           <div className="my-auto self-center">
             <NavLink href={"/addNewServer/form"}>
@@ -92,7 +87,7 @@ export default function FormAddService() {
                 <ArrowLeft className="mr-4" /> Back
               </Button>
             </NavLink>
-            <Card className="mb-56 w-full max-w-lg p-6 shadow-md ">
+            <Card className="my-auto w-full max-w-lg p-6 shadow-md ">
               <h1 className="mb-4 text-2xl">
                 Connect to Google Sheet <br />
                 <span className="text-lg text-muted-foreground">
@@ -104,69 +99,58 @@ export default function FormAddService() {
                 Step 1
               </h2>
               {/* <h3 className="text-lg">Give access to the given link how ?</h3> */}
-              <Accordion type="single" collapsible className="w-full ">
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="my-0 py-2 text-left">
-                    Give your google sheet access to this email, Click here to
-                    learn how ?
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div>
-                      <ul className="space-y-8">
-                        <li>
-                          <span>1.Copy this email</span>
-                          <div className="mt-2 flex items-center rounded-lg border bg-card font-light text-card-foreground shadow-sm">
-                            <span className="flex-1 pl-2">saket@gmail.com</span>
-                            <Button
-                              onClick={() => {
-                                navigator.clipboard.writeText(
-                                  "saketverma@gmail.com",
-                                );
-                                toast({
-                                  title: "copied to clipboard",
-                                  duration: 1000,
-                                });
-                              }}
-                              variant={"ghost"}
-                              className="border-l"
-                            >
-                              <CopyIcon />
-                            </Button>
-                          </div>
-                        </li>
-                        <li>
-                          2.Open google sheet that contains user data and click
-                          on share button and a popup will appear.
-                          <Image src={imageSharebtn} alt="share button image" />
-                        </li>
+              <ExampleDialog title="Give your google sheet access to this email, Click here to learn how ?">
+                <div>
+                  <ul className="space-y-8">
+                    <li>
+                      <span>1.Copy this email</span>
+                      <div className="mt-2 flex items-center rounded-lg border bg-card font-light text-card-foreground shadow-sm">
+                        <span className="flex-1 pl-2">saket@gmail.com</span>
+                        <Button
+                          onClick={() => {
+                            navigator.clipboard.writeText(
+                              "saketverma@gmail.com",
+                            );
+                            toast({
+                              title: "copied to clipboard",
+                              duration: 1000,
+                            });
+                          }}
+                          variant={"ghost"}
+                          className="border-l"
+                        >
+                          <CopyIcon />
+                        </Button>
+                      </div>
+                    </li>
+                    <li>
+                      2.Open google sheet that contains user data and click on
+                      share button and a popup will appear.
+                      <Image src={imageSharebtn} alt="share button image" />
+                    </li>
 
-                        <li>
-                          3.Paste the email which you copied in {"step 1"} to{" "}
-                          <span className="rounded-md bg-muted-foreground bg-opacity-60 p-1 px-2 text-background">
-                            {"Add people input"}
-                          </span>{" "}
-                          as shown in image below.
-                          <br /> After that click on done and move to next step
-                          done.
-                          <Image
-                            src={imagePasteemail}
-                            alt="share button image"
-                          />
-                        </li>
-                        <li>
-                          4.At last make sure that editor is selected in the
-                          button showed in image below. after that click on
-                          send.
-                          <Image
-                            src={imageConfirmpermmission}
-                            alt="share button image"
-                          />
-                        </li>
-                      </ul>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+                    <li>
+                      3.Paste the email which you copied in {"step 1"} to{" "}
+                      <span className="rounded-md bg-muted-foreground bg-opacity-60 p-1 px-2 text-background">
+                        {"Add people input"}
+                      </span>{" "}
+                      as shown in image below.
+                      <br /> After that click on done and move to next step
+                      done.
+                      <Image src={imagePasteemail} alt="share button image" />
+                    </li>
+                    <li>
+                      4.At last make sure that editor is selected in the button
+                      showed in image below. after that click on send.
+                      <Image
+                        src={imageConfirmpermmission}
+                        alt="share button image"
+                      />
+                    </li>
+                  </ul>
+                </div>
+              </ExampleDialog>
+
               <div className="mb-8 flex items-center rounded-lg border bg-card text-card-foreground shadow-sm">
                 <span className="flex-1 pl-2">saket@gmail.com</span>
                 <Button
