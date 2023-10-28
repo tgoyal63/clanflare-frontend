@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Steeper } from "@/components";
-import { axios } from "@/utils/server";
+// import { axios } from "@/utils/";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -54,8 +54,9 @@ export default function FormAddService() {
   const { mutate, isPending: isLoading } = useMutation({
     mutationKey: ["google-sheet-setup"],
     mutationFn: async (data: any) => {
-      const res = await axios("/", data);
-      return res.data;
+      // const res = await axios("/", data);
+      // return res.data;
+      return [];
     },
     onSuccess: (data) => {
       //

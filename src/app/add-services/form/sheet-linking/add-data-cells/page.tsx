@@ -13,7 +13,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { axios } from "@/utils/server";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowLeft, Loader2 } from "lucide-react";
@@ -43,8 +42,9 @@ export default function Test() {
   const { mutate, isPending: isLoading } = useMutation({
     mutationKey: ["google-sheet-setup"],
     mutationFn: async (data: any) => {
-      const res = await axios("/", data);
-      return res.data;
+      // const res = await axios("/", data);
+      // return res.data;
+      return [];
     },
     onSuccess: (data) => {
       //

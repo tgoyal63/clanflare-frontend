@@ -28,7 +28,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2, X } from "lucide-react";
 
 import { otpDataAtom } from "@/store";
-// import api from "@/utils/server";
 
 import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
@@ -52,10 +51,10 @@ const PhoneNumberFormSchema = z.object({
 
 export default function PhoneVerification() {
   // -
-  const api = useAxiosApi();
+  const { api } = useAxiosApi();
   const router = useRouter();
   const { toast } = useToast();
-  // const [auth, setAuth] = useLocalStorage("auth", "");
+
   const [, setOtpData] = useAtom(otpDataAtom);
 
   const form = useForm<z.infer<typeof PhoneNumberFormSchema>>({
