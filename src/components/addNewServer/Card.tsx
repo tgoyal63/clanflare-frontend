@@ -21,10 +21,9 @@ export default function AddNewServerCard({ name, id, isAdmin, icon }: Props) {
       >
         <div
           className={cn(
-            "absolute left-0 top-0 z-10 flex h-full w-full origin-left scale-x-0 items-center justify-center rounded-lg bg-secondary transition-transform duration-200",
+            "invisible absolute left-0 top-0 z-10 flex h-full w-full origin-left items-center justify-center rounded-lg bg-secondary transition-transform duration-200",
             {
-              " group-focus-within:scale-x-100 group-hover:scale-x-100":
-                !isAdmin,
+              " group-focus-within:visible group-hover:visible": !isAdmin,
             },
           )}
         >
@@ -34,13 +33,13 @@ export default function AddNewServerCard({ name, id, isAdmin, icon }: Props) {
           href={
             isAdmin
               ? {
-                  pathname: "add-services/form/add-bot-to-server",
+                  pathname: "add-services/form",
                   query: { id: id },
                 }
               : "#"
           }
           className={cn("flex gap-2", {
-            "origin-right cursor-not-allowed opacity-75  transition-all duration-200 group-hover:scale-x-0":
+            "origin-right cursor-not-allowed opacity-75  transition-all duration-200 group-hover:opacity-0":
               !isAdmin,
           })}
         >
