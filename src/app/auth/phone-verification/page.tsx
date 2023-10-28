@@ -27,7 +27,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2, X } from "lucide-react";
 
-import { OtpDataType, otpDataAtom } from "@/store";
+import { otpDataAtom } from "@/store";
 // import api from "@/utils/server";
 
 import { useMutation } from "@tanstack/react-query";
@@ -73,7 +73,7 @@ export default function PhoneVerification() {
       const res = await api.post(`/send-otp`, {
         phone: phone,
       });
-      return res.data as OtpDataType;
+      return res.data;
     },
     onSuccess: (data) => {
       setOtpData(data.data);

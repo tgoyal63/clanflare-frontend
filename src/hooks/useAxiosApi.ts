@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthenticator } from "./useAuthenticator";
 
 const api = axios.create({
@@ -8,8 +8,9 @@ const api = axios.create({
 });
 
 export const useAxiosApi = () => {
-  const { token } = useAuthenticator();
+  const { token, isLoading: isTokenLoading } = useAuthenticator();
   const route = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const requestInterseptor = api.interceptors.request.use(
@@ -36,11 +37,11 @@ export const useAxiosApi = () => {
         return Promise.reject(error);
       },
     );
+    setIsLoading(false);
     return () => {
       api.interceptors.request.eject(requestInterseptor);
       api.interceptors.response.eject(responseInterseptor);
     };
   }, [token]);
-
-  return api;
+  return { api, isLoading: isLoading && isTokenLoading };
 };

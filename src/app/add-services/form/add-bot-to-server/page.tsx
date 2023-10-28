@@ -1,43 +1,38 @@
 /* Authanticate with discord */
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
 import { Steeper } from "@/components";
 import { useToast } from "@/components/ui/use-toast";
+import { useAxiosApi } from "@/hooks/useAxiosApi";
+import { useMutation } from "@tanstack/react-query";
+import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-const PhoneNumberFormSchema = z.object({
-  phoneNumber: z.string().min(10, {
-    message: "Phone Number Must be atlaeast 10 numbers long",
-  }),
-});
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export default function FormAddService() {
-  const phoneVerificatioForm = useForm<z.infer<typeof PhoneNumberFormSchema>>({
-    resolver: zodResolver(PhoneNumberFormSchema),
-    reValidateMode: "onChange",
-  });
   const router = useRouter();
   const { toast } = useToast();
+  const { api, isLoading } = useAxiosApi();
+  const params = useSearchParams();
+  const guildId = params.get("id");
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof PhoneNumberFormSchema>) {
-    console.log(values);
-    toast({
-      title: `Google link connected succeffuly`,
-      duration: 2000,
-    });
-    router.push(
-      "",
-      // `./phoneverification/verifyotp?phoneNumber=${values.phoneNumber}`,
-    );
-  }
+  const { mutate, data } = useMutation({
+    mutationKey: ["get-bot-link"],
+    mutationFn: async () => {
+      const res = await api.get(`/generate-bot-invite-link?guildId=${guildId}`);
+      return res.data;
+    },
+  });
+
+  useEffect(() => {
+    if (isLoading) return;
+    mutate();
+  }, [isLoading]);
+
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-between p-4">
@@ -51,6 +46,16 @@ export default function FormAddService() {
                   This is required to add bot to your server
                 </span>
               </h1>
+              <Link
+                href={data ? data.data : ""}
+                className="mb-4 block"
+                target="_blank"
+              >
+                <Button className="w-full gap-8">
+                  <ExternalLinkIcon />
+                  Add bot to your server
+                </Button>
+              </Link>
 
               <Link href={"/add-services/form/sheet-linking/add-sheet"}>
                 <Button className="w-full gap-4">
