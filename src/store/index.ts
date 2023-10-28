@@ -14,3 +14,7 @@ export const otpDataAtom = atom({
   otpHash: "",
   expiresAt: 0,
 });
+
+export const userAtom = atom({
+  token: "",
+});
