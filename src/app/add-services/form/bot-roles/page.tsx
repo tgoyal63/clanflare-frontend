@@ -59,7 +59,7 @@ export default function FormAddService() {
     },
     onSuccess: (data) => {
       //
-      router.push(`/addNewServer/form/addingbotRoles`);
+      router.push(`/add-services/form/addingbotRoles`);
     },
 
     onError: (error) => {
@@ -95,7 +95,7 @@ export default function FormAddService() {
         <div className="z-10 flex h-screen w-full max-w-5xl flex-col text-sm">
           <Steeper setpNumber={4} />
           <div className="my-auto self-center">
-            <Link href={"/addNewServer/form/googleSheetLinking"}>
+            <Link href={"/add-services/form/googleSheetLinking"}>
               <Button variant={"outline"} className="mb-4">
                 <ArrowLeft className="mr-4" /> Back
               </Button>

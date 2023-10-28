@@ -51,7 +51,7 @@ export default function FormAddService() {
                 </span>
               </h1>
 
-              <Link href={"/addNewServer/form/googleSheetLinking"}>
+              <Link href={"/add-services/form/sheet-linking"}>
                 <Button className="w-full gap-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

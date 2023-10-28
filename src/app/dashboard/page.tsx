@@ -22,7 +22,7 @@ export default function DashBoard() {
           <div className="sm:grid-cols-3 md:grid lg:grid-cols-4">
             <Link
               className="cols-span-1 flex h-28 w-full flex-col items-center justify-center gap-2 rounded-md border bg-gradient-to-r from-purple-600 to-purple-800 text-white hover:scale-105 active:scale-100"
-              href={"/addNewServer"}
+              href={"/add-services"}
             >
               <Plus className="mr-2 text-white" />
               <span className="block text-white">Add new Service</span>

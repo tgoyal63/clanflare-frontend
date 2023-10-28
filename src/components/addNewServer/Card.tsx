@@ -23,7 +23,7 @@ export default function AddNewServerCard({
           href={
             hasAccess
               ? {
-                  pathname: "addNewServer/form",
+                  pathname: "add-services/form",
                   query: { serverid: "abcdef" },
                 }
               : "#"

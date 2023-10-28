@@ -62,7 +62,7 @@ export default function FormAddService() {
     },
     onSuccess: (data) => {
       //
-      router.push(`/addNewServer/form/addSheetDetails`);
+      router.push(`/add-services/form/addSheetDetails`);
     },
 
     onError: (error) => {
@@ -81,7 +81,7 @@ export default function FormAddService() {
         <div className="z-10 flex h-full w-full max-w-5xl flex-col text-sm">
           <Steeper setpNumber={2} />
           <div className="my-auto self-center">
-            <NavLink href={"/addNewServer/form"}>
+            <NavLink href={"/add-services/form"}>
               <Button variant={"outline"} className="mb-4">
                 {" "}
                 <ArrowLeft className="mr-4" /> Back

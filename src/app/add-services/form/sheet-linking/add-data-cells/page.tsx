@@ -58,7 +58,7 @@ export default function Test() {
     },
     onSuccess: (data) => {
       //
-      router.push(`/addNewServer/form/addingbotRoles`);
+      router.push(`/add-services/form/addingbotRoles`);
     },
 
     onError: (error) => {
@@ -80,7 +80,7 @@ export default function Test() {
 
         <div>
           <Link
-            href={"/addNewServer/form"}
+            href={"/add-services/form"}
             className="self-start justify-self-start"
           >
             <Button variant={"outline"} className="mb-4">
