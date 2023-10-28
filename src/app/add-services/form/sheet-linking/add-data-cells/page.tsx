@@ -23,8 +23,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 // images
-import explaneLayout from "@/assits/col&rowExplan.webp";
-import explaneNumber from "@/assits/col&rowNum.webp";
+import explaneLayout from "@/assets/col&rowExplan.webp";
+import explaneNumber from "@/assets/col&rowNum.webp";
 import Link from "next/link";
 
 const formSchema = z.object({

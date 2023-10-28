@@ -23,14 +23,14 @@ import { ArrowLeft, CopyIcon, Link, Loader2 } from "lucide-react";
 import NavLink from "next/link";
 import { useRouter } from "next/navigation";
 
-// import imageCopylink  from "@/assits/tutorial/copy-link.webp"
+// import imageCopylink  from "@/assets/tutorial/copy-link.webp"
 import { ExampleDialog, Steeper } from "@/components";
 import { axios } from "@/utils/server";
 import { useMutation } from "@tanstack/react-query";
 
-import imageConfirmpermmission from "@/assits/tutorial/confirm-permission.webp";
-import imagePasteemail from "@/assits/tutorial/poaste-email.webp";
-import imageSharebtn from "@/assits/tutorial/share-btn.webp";
+import imageConfirmpermmission from "@/assets/tutorial/confirm-permission.webp";
+import imagePasteemail from "@/assets/tutorial/poaste-email.webp";
+import imageSharebtn from "@/assets/tutorial/share-btn.webp";
 import Image from "next/image";
 
 const SheetFormSchema = z.object({

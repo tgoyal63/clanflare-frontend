@@ -36,12 +36,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 const PhoneNumberFormSchema = z.object({
   otp: z.coerce
     .number()
-    .int()
+    .int({ message: "Please enter valid otp" })
     .min(100000, {
-      message: "Phone Number Must contain 6 digits only",
+      message: "OTP Number Must contain 6 digits only",
     })
     .max(999999, {
-      message: "Phone Number Must contain 6 digits only",
+      message: "OTP Number Must contain 6 digits only",
     }),
 });
 
@@ -133,7 +133,7 @@ export default function PhoneVerification() {
               Verify OTP
               <p className="text-lg text-muted-foreground">
                 {" "}
-                a 4 digit otp was sent to {params.get("phoneNumber")}{" "}
+                a 6 digit otp was sent to {otpData.phone}
               </p>
             </h1>
             <Form {...phoneVerificatioForm}>

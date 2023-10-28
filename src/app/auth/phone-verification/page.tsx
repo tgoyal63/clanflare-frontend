@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import indiaFlag from "@/assits/in.svg";
+import indiaFlag from "@/assets/in.svg";
 import { ThemeToggle } from "@/components";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
