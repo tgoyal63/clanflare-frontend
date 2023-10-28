@@ -28,18 +28,8 @@ import explaneNumber from "@/assets/col&rowNum.webp";
 import Link from "next/link";
 
 const formSchema = z.object({
-  nameCol: z.string().min(1, {
-    message: "required",
-  }),
-  emailCol: z.string().min(1, {
-    message: "required",
-  }),
-  userRow: z.coerce.number().min(1, {
-    message: "required",
-  }),
-  emailRow: z.coerce.number().min(1, {
-    message: "required",
-  }),
+  phoneNumberCell: z.string().regex(/^[a-zA-Z]+[0-9]+$/, "invalid input"),
+  emailCell: z.string().regex(/^[a-zA-Z]+[0-9]+$/, "invalid input"),
 });
 
 export default function Test() {
@@ -66,10 +56,8 @@ export default function Test() {
     },
   });
 
-  // 2. Define a submit handler.
+  // handler
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
 
@@ -88,85 +76,43 @@ export default function Test() {
             </Button>
           </Link>
           <Card className="h-fit w-fit self-center p-4">
-            <h1 className="text-3xl"> Enetr the Cell Details of sheet</h1>
+            <h1 className="mb-4 text-3xl"> Enetr the Cell Details of sheet</h1>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                <h2 className="mb-2 mt-8">
-                  <span className="font-bol block text-xl">Username Cells</span>
-                </h2>
-                <div className="flex gap-2">
-                  <div>
-                    <FormField
-                      control={form.control}
-                      name="nameCol"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Coulmn Letter</FormLabel>
-                          <FormControl>
-                            <Input placeholder="a" {...field} />
-                          </FormControl>
-                          <FormDescription>a-z or A-Z</FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div>
-                    <FormField
-                      control={form.control}
-                      name="userRow"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Row Number</FormLabel>
-                          <FormControl>
-                            <Input type="number" placeholder="1" {...field} />
-                          </FormControl>
-                          <FormDescription>1-1000000</FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
+                <div className="grid grid-rows-2 gap-2">
+                  <FormField
+                    control={form.control}
+                    name="emailCell"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number Cel</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="w-full"
+                            placeholder="c2"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription>example. c3</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <h2 className="mb-2 mt-8">
-                  <span className="font-bol block text-xl">
-                    User Emails Cells
-                  </span>
-                </h2>
-                <div className="flex gap-2">
-                  <div>
-                    <FormField
-                      control={form.control}
-                      name="emailCol"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Coulmn Letter</FormLabel>
-                          <FormControl>
-                            <Input placeholder="b" {...field} />
-                          </FormControl>
-                          <FormDescription>a-z or A-Z</FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div>
-                    <FormField
-                      control={form.control}
-                      name="emailRow"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Row Number</FormLabel>
-                          <FormControl>
-                            <Input type="number" placeholder="1" {...field} />
-                          </FormControl>
-                          <FormDescription>1-1000000</FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="phoneNumberCell"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email Cell</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="a3" {...field} />
+                        </FormControl>
+                        <FormDescription>example. a3</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 <div className="flex">

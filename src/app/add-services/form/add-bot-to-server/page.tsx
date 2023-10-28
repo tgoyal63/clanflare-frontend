@@ -34,7 +34,8 @@ export default function FormAddService() {
       duration: 2000,
     });
     router.push(
-      `./phoneverification/verifyotp?phoneNumber=${values.phoneNumber}`,
+      "",
+      // `./phoneverification/verifyotp?phoneNumber=${values.phoneNumber}`,
     );
   }
   return (
@@ -51,7 +52,7 @@ export default function FormAddService() {
                 </span>
               </h1>
 
-              <Link href={"/add-services/form/sheet-linking"}>
+              <Link href={"/add-services/form/sheet-linking/add-sheet"}>
                 <Button className="w-full gap-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -28,15 +28,15 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2, X } from "lucide-react";
 
 import { OtpDataType, otpDataAtom } from "@/store";
-import { axios } from "@/utils/server";
+// import api from "@/utils/server";
 
 import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 
+import { useAxiosApi } from "@/hooks/useAxiosApi";
 import Image from "next/image";
 import Link from "next/link";
-
 const PhoneNumberFormSchema = z.object({
   phoneNumber: z.coerce
     .number()
@@ -52,7 +52,7 @@ const PhoneNumberFormSchema = z.object({
 
 export default function PhoneVerification() {
   // -
-
+  const api = useAxiosApi();
   const router = useRouter();
   const { toast } = useToast();
   // const [auth, setAuth] = useLocalStorage("auth", "");
@@ -70,7 +70,7 @@ export default function PhoneVerification() {
   const { mutate: createOtp, isPending: isLoading } = useMutation({
     mutationKey: ["otp"],
     mutationFn: async (phone: number) => {
-      const res = await axios.post(`/send-otp`, {
+      const res = await api.post(`/send-otp`, {
         phone: phone,
       });
       return res.data as OtpDataType;

@@ -23,7 +23,7 @@ export default function Profile() {
       return;
     }
     setAuth(token);
-    route.replace("/auth/phoneverification/");
+    route.replace("/auth/phone-verification/");
   }, []);
 
   return (
