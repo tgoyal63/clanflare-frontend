@@ -1,10 +1,10 @@
 "use client";
-import { useNewServerStore } from "@/store/addServerStore";
+import { useAddNewServerStore } from "@/store";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Profile() {
-  const setServer = useNewServerStore((state) => state.updateServer);
+  const setServer = useAddNewServerStore((state) => state.updateServer);
   const params = useSearchParams();
   const route = useRouter();
   const id = params.get("id");

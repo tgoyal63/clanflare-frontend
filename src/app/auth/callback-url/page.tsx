@@ -1,5 +1,5 @@
 "use client";
-import { useUserStore } from "@/store/userStore";
+import { useUserStore } from "@/store";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";

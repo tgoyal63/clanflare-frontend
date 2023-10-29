@@ -1,4 +1,4 @@
-import { useUserStore } from "@/store/userStore";
+import { useUserStore } from "@/store";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
