@@ -92,61 +92,59 @@ export default function FormAddService() {
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between p-4">
-        <div className="z-10 flex h-screen w-full max-w-5xl flex-col text-sm">
-          <Steeper setpNumber={4} />
-          <div className="my-auto self-center">
-            <Link href={"/add-services/form/googleSheetLinking"}>
-              <Button variant={"outline"} className="mb-4">
-                <ArrowLeft className="mr-4" /> Back
+      <div className="flex h-full flex-col items-center justify-between text-sm">
+        <Steeper setpNumber={4} />
+        <div className="my-auto self-center">
+          <Link href={"/add-services/form/googleSheetLinking"}>
+            <Button variant={"outline"} className="mb-4">
+              <ArrowLeft className="mr-4" /> Back
+            </Button>
+          </Link>
+          <Card className="mb-6 w-full max-w-xl p-6 shadow-md">
+            <h1 className="mb-4 text-2xl">
+              Select Roles, <br />
+              <span className="text-lg">
+                Turn on switches for which roles you want to select{" "}
+              </span>
+            </h1>
+            <div className="flex justify-end">
+              <Button disabled={roles?.length === 0 && !isLoading}>
+                {isLoading ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  "Continue with select roles"
+                )}
               </Button>
-            </Link>
-            <Card className="mb-6 w-full max-w-xl p-6 shadow-md">
-              <h1 className="mb-4 text-2xl">
-                Select Roles, <br />
-                <span className="text-lg">
-                  Turn on switches for which roles you want to select{" "}
-                </span>
-              </h1>
-              <div className="flex justify-end">
-                <Button disabled={roles?.length === 0 && !isLoading}>
-                  {isLoading ? (
-                    <Loader2 className="animate-spin" />
-                  ) : (
-                    "Continue with select roles"
-                  )}
-                </Button>
-              </div>
+            </div>
 
-              <Separator className="mt-4" />
-              <Card className="my-4 shadow-sm">
-                <ul className="grid list-disc grid-cols-2 p-4 pl-6">
-                  {roles?.map((item, i) => <li key={i}>{item}</li>)}
-                </ul>
-              </Card>
-              <div className="grid gap-4 lg:grid-cols-2">
-                {demodData.map((item) => {
-                  return (
-                    <Label
-                      key={item}
-                      htmlFor={item}
-                      className="flex items-center rounded-lg border p-4"
-                    >
-                      <span className="flex-1">{item}</span>
-                      <Switch
-                        id={item}
-                        onCheckedChange={(isChecked) =>
-                          handleToggle(item, isChecked)
-                        }
-                      />
-                    </Label>
-                  );
-                })}
-              </div>
+            <Separator className="mt-4" />
+            <Card className="my-4 shadow-sm">
+              <ul className="grid list-disc grid-cols-2 p-4 pl-6">
+                {roles?.map((item, i) => <li key={i}>{item}</li>)}
+              </ul>
             </Card>
-          </div>
+            <div className="grid gap-4 lg:grid-cols-2">
+              {demodData.map((item) => {
+                return (
+                  <Label
+                    key={item}
+                    htmlFor={item}
+                    className="flex items-center rounded-lg border p-4"
+                  >
+                    <span className="flex-1">{item}</span>
+                    <Switch
+                      id={item}
+                      onCheckedChange={(isChecked) =>
+                        handleToggle(item, isChecked)
+                      }
+                    />
+                  </Label>
+                );
+              })}
+            </div>
+          </Card>
         </div>
-      </main>
+      </div>
     </>
   );
 }

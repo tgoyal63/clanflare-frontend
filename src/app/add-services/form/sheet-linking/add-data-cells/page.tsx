@@ -63,7 +63,7 @@ export default function Test() {
 
   return (
     <>
-      <div className="flex h-full w-full flex-col items-center justify-center gap-6">
+      <div className="flex h-full flex-col items-center justify-between text-sm">
         <Steeper setpNumber={3} />
 
         <div>

@@ -4,9 +4,9 @@ import Link from "next/link";
 
 export default function DashBoard() {
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <main className="flex min-h-full flex-col items-center">
       {/* NAV section */}
-      <nav className="sticky top-0 z-[10] flex w-full items-center border-b px-4 py-2 backdrop-blur-md ">
+      <nav className="sticky top-0 z-[10] flex w-full items-center border-b bg-card  px-4 py-2 backdrop-blur-md ">
         <Link href="/dashboard" className="mr-auto">
           Authify
         </Link>
