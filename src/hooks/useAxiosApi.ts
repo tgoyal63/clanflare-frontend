@@ -18,6 +18,7 @@ export const useAxiosApi = () => {
       (config) => {
         if (token) {
           config.headers["Authorization"] = `Bearer ${token}`;
+          config.headers["ngrok-skip-browser-warning"] = `true`;
         } else {
           route.replace("/auth");
         }
