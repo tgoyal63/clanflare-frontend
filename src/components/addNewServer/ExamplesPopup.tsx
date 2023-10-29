@@ -3,7 +3,6 @@ import { Button, ButtonProps } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -33,16 +32,13 @@ export default function ExampleDialog({ className, title, children }: props) {
           )}
         >
           {/* Give your google sheet access to this email, Click here to learn how ? */}
-          {title}
+          <span className="flex-1">{title}</span>
           <AlertCircle />
         </button>
       </DialogTrigger>
       <DialogContent className="h-screen rounded-lg bg-card  p-4 md:h-[90%]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            {" Make changes to your profile here. Click save when you're done."}
-          </DialogDescription>
+          <DialogTitle>Example</DialogTitle>
         </DialogHeader>
 
         <div className="overflow-auto">{children}</div>
