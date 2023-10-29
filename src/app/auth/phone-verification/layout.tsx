@@ -13,15 +13,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      <div className="z-10 flex h-screen w-full  max-w-lg flex-col items-center justify-center p-2 text-sm">
-        <div className="mb-2 flex w-full  justify-end gap-2">
-          <ThemeToggle />
-        </div>
-        <Card className="mx-5 mb-48 w-full  border-0 p-4 sm:mb-0 sm:w-full  sm:border sm:p-4 sm:px-6 sm:shadow-md md:p-6">
-          {children}
-        </Card>
+    <main className="fixed  left-1/2 top-1/2 w-full max-w-md translate-x-[-50%] translate-y-[-50%]">
+      {/* <main className="fixed bottom-0 left-1/2 w-full max-w-md translate-x-[-50%] sm:top-1/2 sm:translate-y-[-50%]"> */}
+      <div className="mb-2 flex w-full  justify-end gap-2">
+        <ThemeToggle />
       </div>
+      <Card className="w-full border-0 p-4  sm:p-4 ">{children}</Card>
     </main>
   );
 }
