@@ -6,7 +6,7 @@ type User = {
   setToken: (token: string) => void;
 };
 
-const useUserStore = create<User>()(
+export const useUserStore = create<User>()(
   persist(
     (set) => ({
       token: "",
@@ -18,5 +18,3 @@ const useUserStore = create<User>()(
     },
   ),
 );
-
-export default useUserStore;

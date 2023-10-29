@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Steeper } from "@/components";
 import { useToast } from "@/components/ui/use-toast";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
-import { useAddNewServerStore } from "@/store";
+import { useNewServerStore } from "@/store";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
@@ -20,7 +20,7 @@ export default function FormAddService() {
   const params = useSearchParams();
   const guildId = params.get("id");
 
-  const serverId = useAddNewServerStore((state) => state.server.id);
+  const serverId = useNewServerStore((state) => state.server.id);
 
   const { data } = useQuery({
     queryKey: ["get-bot-link"],

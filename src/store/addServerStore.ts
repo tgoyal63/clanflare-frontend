@@ -21,7 +21,7 @@ type Actions = {
   updateGoogleSeheet: (id: string, isVerified: boolean) => void;
 };
 
-const useNewServerStore = create<AddNewServerData & Actions>()(
+export const useNewServerStore = create<AddNewServerData & Actions>()(
   persist(
     (set) => ({
       googleSheet: {
@@ -40,7 +40,7 @@ const useNewServerStore = create<AddNewServerData & Actions>()(
           id,
           isVerified,
         };
-        return set((state) => ({ ...state, newServer }));
+        return set((state) => ({ ...state, server: newServer }));
       },
     }),
     {
@@ -48,5 +48,3 @@ const useNewServerStore = create<AddNewServerData & Actions>()(
     },
   ),
 );
-
-export default useNewServerStore;

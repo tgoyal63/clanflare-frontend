@@ -1,2 +1,2 @@
-export { default as useAddNewServerStore } from "./addServerStore";
-export { default as useUserStore } from "./userStore";
+export { useNewServerStore } from "@/store/addServerStore";
+export { useUserStore } from "@/store/userStore";
