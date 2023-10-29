@@ -76,7 +76,12 @@ export default function FormAddService() {
 
   // Query 1, get all connected Sheets
 
-  const { data, isLoading, isSuccess } = useQuery({
+  // Fetch available sheets
+  const {
+    data,
+    isLoading: isloadingSheets,
+    isSuccess,
+  } = useQuery({
     queryKey: ["get-connected-sheets"],
     queryFn: async () => {
       return ["link1", "link2", "link3"];
@@ -121,6 +126,15 @@ export default function FormAddService() {
               <span className="text-lg text-muted-foreground">
                 This Sheet will be used to manage users
               </span>
+              {addNewLink && (
+                <Button
+                  variant={"ghost"}
+                  className="pl-1"
+                  onClick={() => setAddNewLink(false)}
+                >
+                  Click here to use existing sheet
+                </Button>
+              )}
             </h1>
             {/* SELECTER */}
 
@@ -217,11 +231,16 @@ export default function FormAddService() {
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Linked Sheets</SelectLabel>
-                      {links?.map((item, i) => (
-                        <SelectItem key={i} value={item}>
-                          {item}
-                        </SelectItem>
-                      ))}
+
+                      {isloadingSheets ? (
+                        <Loader2 className="animate-spin " />
+                      ) : (
+                        links?.map((item, i) => (
+                          <SelectItem key={i} value={item}>
+                            {item}
+                          </SelectItem>
+                        ))
+                      )}
 
                       <Button
                         variant={"ghost"}
@@ -234,22 +253,18 @@ export default function FormAddService() {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
+                <Button
+                  type="submit"
+                  className="mt-6 w-full"
+                  disabled={!selectedValue || isloadingSheets}
+                >
+                  {isloadingSheets ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    "connect and continue"
+                  )}
+                </Button>
               </>
-            )}
-            {addNewLink ? (
-              <></>
-            ) : (
-              <Button
-                type="submit"
-                className="mt-6 w-full"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <Loader2 className="animate-spin" />
-                ) : (
-                  "connect and continue"
-                )}
-              </Button>
             )}
           </Card>
         </div>
