@@ -4,9 +4,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import indiaFlag from "@/assets/in.svg";
-import { ThemeToggle } from "@/components";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -25,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, X } from "lucide-react";
+import { Loader2, PenLine, X } from "lucide-react";
 
 import { otpDataAtom } from "@/store";
 
@@ -36,6 +34,11 @@ import { useRouter } from "next/navigation";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+
+import { Separator } from "@/components/ui/separator";
+import { useCountDown } from "@/hooks";
+
 const PhoneNumberFormSchema = z.object({
   phoneNumber: z.coerce
     .number()
@@ -49,6 +52,18 @@ const PhoneNumberFormSchema = z.object({
   countryCode: z.string().min(1, { message: "country code is required" }),
 });
 
+const OtpSchema = z.object({
+  otp: z.coerce
+    .number()
+    .int({ message: "Please enter valid otp" })
+    .min(100000, {
+      message: "OTP Number Must contain 6 digits only",
+    })
+    .max(999999, {
+      message: "OTP Number Must contain 6 digits only",
+    }),
+});
+
 export default function PhoneVerification() {
   // -
   const { api } = useAxiosApi();
@@ -56,6 +71,13 @@ export default function PhoneVerification() {
   const { toast } = useToast();
 
   const [, setOtpData] = useAtom(otpDataAtom);
+  const [isOtpGenerated, setIsOtpGenerated] = useState(false);
+  const [temp, setTemp] = useState<{
+    phone?: number;
+    otpHash?: "";
+    expiresAt?: number;
+  }>({});
+  const { count, restart } = useCountDown(32, 1000);
 
   const form = useForm<z.infer<typeof PhoneNumberFormSchema>>({
     resolver: zodResolver(PhoneNumberFormSchema),
@@ -65,22 +87,29 @@ export default function PhoneVerification() {
     },
   });
 
+  const otpVerificationForm = useForm<z.infer<typeof OtpSchema>>({
+    resolver: zodResolver(OtpSchema),
+    reValidateMode: "onChange",
+  });
+
   // hadnling form submission
   const { mutate: createOtp, isPending: isLoading } = useMutation({
     mutationKey: ["otp"],
-    mutationFn: async (phone: number) => {
+    mutationFn: async (values: z.infer<typeof PhoneNumberFormSchema>) => {
       const res = await api.post(`/send-otp`, {
-        phone: phone,
+        phone: values.phoneNumber,
       });
       return res.data;
     },
     onSuccess: (data) => {
-      setOtpData(data.data);
+      setTemp(data.data);
       toast({
         title: `otp set to ${data.phone}`,
         duration: 3000,
       });
-      router.push("./phone-verification/verify-otp");
+      setIsOtpGenerated(true);
+      restart();
+      // router.push("./phone-verification/verify-otp");
     },
     onError: (error) => {
       toast({
@@ -92,20 +121,44 @@ export default function PhoneVerification() {
     },
   });
 
-  /* Handlers */
+  const { mutate: verifyOtp, isPending: isVerifying } = useMutation({
+    mutationFn: async (values: z.infer<typeof OtpSchema>) => {
+      return await api.post("/verify-otp", { ...temp, otp: values.otp });
+    },
+    onSuccess: () => {
+      toast({
+        title: `otp verified`,
+        duration: 3000,
+      });
+      router.push("/dashboard");
+    },
+    onError: (error) => {
+      toast({
+        title: `Opps an error occured `,
+        description: `${JSON.stringify(error?.message)}`,
+        duration: 3000,
+        variant: "destructive",
+      });
+    },
+  });
 
-  function onSubmit(values: z.infer<typeof PhoneNumberFormSchema>) {
-    createOtp(values.phoneNumber);
+  function handleOtpReset() {
+    if (temp.phone) {
+      createOtp({
+        phoneNumber: temp.phone,
+        countryCode: "91",
+      });
+      return;
+    }
+    setIsOtpGenerated(false);
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      <div className="z-10 flex h-screen w-full max-w-5xl flex-col items-center justify-center p-2 text-sm">
-        <div className="mb-2 flex w-full max-w-md justify-end gap-2">
-          <ThemeToggle />
-        </div>
-        <Card className="mx-5 mb-48 w-full max-w-md border-0 px-2 py-4 sm:mb-0  sm:w-full sm:border sm:p-4 sm:shadow-md md:p-6">
-          <h1 className="mb-4 flex flex-col text-2xl sm:flex-row ">
+    <>
+      {!isOtpGenerated ? (
+        <>
+          {/* Phone number Form */}
+          <h1 className="mb-4 flex  flex-row text-2xl ">
             <div className="w-full">
               Phone Verification <br />
               <span className="text-lg opacity-75">Generate an OTP </span>
@@ -120,7 +173,8 @@ export default function PhoneVerification() {
           </h1>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            {/* @ts-ignore */}
+            <form onSubmit={form.handleSubmit(createOtp)} className="space-y-8">
               <div className="grid grid-cols-6 gap-2">
                 <FormField
                   control={form.control}
@@ -192,8 +246,71 @@ export default function PhoneVerification() {
               </div>
             </form>
           </Form>
-        </Card>
-      </div>
-    </main>
+        </>
+      ) : (
+        <>
+          {/* OTP form */}
+          <h1 className="mb-4 text-2xl">
+            Verify OTP
+            <p className="text-lg text-muted-foreground">
+              {" "}
+              a 6 digit otp was sent to {temp.phone}
+            </p>
+            <button
+              onClick={() => setIsOtpGenerated(false)}
+              className="mt-2 inline-flex gap-2 border-transparent p-0 text-sm underline-offset-4  outline-transparent hover:underline"
+            >
+              <span>Edit number</span> <PenLine height={"1.2rem"} />
+            </button>
+          </h1>
+          <Form {...otpVerificationForm}>
+            <form
+              /* @ts-ignore */
+              onSubmit={otpVerificationForm.handleSubmit(verifyOtp)}
+              className="space-y-8"
+            >
+              <FormField
+                control={otpVerificationForm.control}
+                name="otp"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>OTP</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="123456"
+                        maxLength={6}
+                        type="number"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>Enter your otp here</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full">
+                {isVerifying ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  "Verify otp"
+                )}
+              </Button>
+            </form>
+          </Form>
+          <div className="mt-8">
+            <Separator className="my-4" />
+            <p className="mb-2  text-center">Regenerate after {count}</p>
+            <Button
+              className="w-full"
+              variant={"outline"}
+              disabled={count !== 0 || isLoading}
+              onClick={handleOtpReset}
+            >
+              {isLoading ? <Loader2 className="animate-spin" /> : "Resend otp"}
+            </Button>
+          </div>
+        </>
+      )}
+    </>
   );
 }
