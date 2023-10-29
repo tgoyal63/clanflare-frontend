@@ -2,6 +2,7 @@ import { useUserStore } from "@/store";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useLogout } from "./useLogout";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
@@ -10,6 +11,7 @@ const api = axios.create({
 export const useAxiosApi = () => {
   const token = useUserStore((s) => s.token);
   const route = useRouter();
+  const logout = useLogout();
 
   useEffect(() => {
     const requestInterseptor = api.interceptors.request.use(
@@ -32,7 +34,7 @@ export const useAxiosApi = () => {
       (error) => {
         const preventRequest = error.config;
         if (error.response.status === 401) {
-          route.push("/auth");
+          logout();
         }
 
         return Promise.reject(error);

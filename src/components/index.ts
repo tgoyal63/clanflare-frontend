@@ -7,7 +7,7 @@ export { default as NavbarAvatar } from "@/components/Navigation/AvatarNav";
 
 export { default as CardDashboard } from "@/components/dashboard/CardComponent";
 
-export { default as ThemeToggle } from "@/components/global/Themetoggle";
+export { default as ThemeToggle } from "@/components/shared/Themetoggle";
 
 export { default as TestiMonialCards } from "@/components/landingpage/testimonials";
 
