@@ -1,6 +1,6 @@
 "use client";
 
-import { Steeper } from "@/components";
+import { ExampleDialog, Steeper } from "@/components";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -77,6 +77,27 @@ export default function Test() {
           </Link>
           <Card className="h-fit w-fit self-center p-4">
             <h1 className="mb-4 text-3xl"> Enetr the Cell Details of sheet</h1>
+            <ExampleDialog
+              title="For more details click here"
+              className="w-full"
+            >
+              <p className="mb-2 mt-6">
+                Here emails start from <span className="font-bold">Row 3</span>{" "}
+                of <span>column B</span>
+                therer fore
+              </p>
+              <ul className="list-disc  pl-6">
+                <p className="font-semibold">In User email cells input</p>
+                <li>Column Letter = b</li>
+                <li>Row Number = 3</li>
+              </ul>
+              <Image
+                src={explaneNumber}
+                className="my-4"
+                alt="column and row understand"
+              />
+              <Image src={explaneLayout} alt="column and row understand" />
+            </ExampleDialog>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="grid grid-rows-2 gap-2">
@@ -130,26 +151,6 @@ export default function Test() {
                 </div>
               </form>
             </Form>
-            <Card className="mt-4 p-2">
-              <span className="text-xl"> Example </span>
-
-              <p className="mb-2 mt-6">
-                Here emails start from <span className="font-bold">Row 3</span>{" "}
-                of <span>column B</span>
-                therer fore
-              </p>
-              <ul className="list-disc  pl-6">
-                <p className="font-semibold">In User email cells input</p>
-                <li>Column Letter = b</li>
-                <li>Row Number = 3</li>
-              </ul>
-              <Image
-                src={explaneNumber}
-                className="my-4"
-                alt="column and row understand"
-              />
-              <Image src={explaneLayout} alt="column and row understand" />
-            </Card>
           </Card>
         </div>
       </div>
