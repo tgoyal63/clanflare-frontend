@@ -25,10 +25,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2, PenLine, X } from "lucide-react";
 
-import { otpDataAtom } from "@/store";
-
 import { useMutation } from "@tanstack/react-query";
-import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 
 import { useAxiosApi } from "@/hooks/useAxiosApi";
@@ -70,7 +67,6 @@ export default function PhoneVerification() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const [, setOtpData] = useAtom(otpDataAtom);
   const [isOtpGenerated, setIsOtpGenerated] = useState(false);
   const [temp, setTemp] = useState<{
     phone?: number;

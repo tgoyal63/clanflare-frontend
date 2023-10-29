@@ -1,10 +1,10 @@
 "use client";
-import { useAuthenticator } from "@/hooks/useAuthenticator";
+import { useUserStore } from "@/store/userStore";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Profile() {
-  const { token } = useAuthenticator();
+  const token = useUserStore((state) => state.token);
 
   useEffect(() => {
     if (!token) {
@@ -13,5 +13,4 @@ export default function Profile() {
       redirect("/dashboard");
     }
   }, [token]);
-  // console.log(process.env.BASE_AUTH_URL);
 }
