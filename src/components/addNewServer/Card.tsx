@@ -14,11 +14,7 @@ export interface Props {
 export default function AddNewServerCard({ name, id, isAdmin, icon }: Props) {
   return (
     <>
-      <Card
-        className={cn("group relative h-full p-2 hover:border-primary", {
-          "border-green-600": isAdmin,
-        })}
-      >
+      <Card className={cn("group relative  h-full  p-2 hover:border-primary")}>
         <div
           className={cn(
             "invisible absolute left-0 top-0 z-10 flex h-full w-full origin-left items-center justify-center rounded-lg bg-secondary transition-transform duration-200",
@@ -38,8 +34,8 @@ export default function AddNewServerCard({ name, id, isAdmin, icon }: Props) {
                 }
               : "#"
           }
-          className={cn("flex gap-2", {
-            "origin-right cursor-not-allowed opacity-75  transition-all duration-200 group-hover:opacity-0":
+          className={cn("flex h-full items-center gap-2", {
+            "origin-right cursor-not-allowed opacity-75 grayscale  transition-all duration-200 group-hover:opacity-0":
               !isAdmin,
           })}
         >
@@ -50,11 +46,9 @@ export default function AddNewServerCard({ name, id, isAdmin, icon }: Props) {
             </Avatar>
           </div>
 
-          <div>
-            <div className="text-xl">{name}</div>
-          </div>
+          <span className="text-lg">{name}</span>
           <div className="my-auto ml-auto mr-2 ">
-            {isAdmin ? "" : <AlertCircle className="" />}
+            {isAdmin ? "" : <AlertCircle />}
           </div>
         </Link>
       </Card>

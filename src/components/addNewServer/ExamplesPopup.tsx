@@ -37,7 +37,7 @@ export default function ExampleDialog({ className, title, children }: props) {
           <AlertCircle />
         </button>
       </DialogTrigger>
-      <DialogContent className="h-screen rounded-lg  p-4 md:h-[90%]">
+      <DialogContent className="h-screen rounded-lg bg-card  p-4 md:h-[90%]">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
@@ -48,7 +48,7 @@ export default function ExampleDialog({ className, title, children }: props) {
         <div className="overflow-auto">{children}</div>
         <DialogFooter>
           <DialogClose>
-            <Button type="button" variant="secondary" className="w-full">
+            <Button type="button" variant="outline" className="w-full">
               Close
             </Button>
           </DialogClose>
