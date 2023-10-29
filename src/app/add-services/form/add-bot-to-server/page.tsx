@@ -7,9 +7,8 @@ import { Card } from "@/components/ui/card";
 import { Steeper } from "@/components";
 import { useToast } from "@/components/ui/use-toast";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
-import { addNewServerAtom } from "@/store/addNewServer";
+import { useNewServerStore } from "@/store";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useAtom } from "jotai";
 import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -21,13 +20,13 @@ export default function FormAddService() {
   const params = useSearchParams();
   const guildId = params.get("id");
 
-  const [serviceData] = useAtom(addNewServerAtom);
+  const serverId = useNewServerStore((state) => state.server.id);
 
   const { data } = useQuery({
     queryKey: ["get-bot-link"],
     queryFn: async () => {
       const res = await api.get(
-        `/generate-bot-invite-link?guildId=${serviceData.server.id}`,
+        `/generate-bot-invite-link?guildId=${serverId}`,
       );
       return res.data;
     },
@@ -63,7 +62,6 @@ export default function FormAddService() {
               Authenticate with discord, <br />
               <span className="text-lg text-muted-foreground">
                 This is required to add bot to your server
-                {JSON.stringify(serviceData)}
               </span>
             </h1>
             <Link
@@ -78,7 +76,7 @@ export default function FormAddService() {
             </Link>
 
             <Button
-              onClick={() => verifyBot(serviceData.server.id)}
+              onClick={() => verifyBot(serverId)}
               className="w-full gap-4"
             >
               <svg

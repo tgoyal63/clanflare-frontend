@@ -1,8 +1,8 @@
 "use client";
+import { useUserStore } from "@/store";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { useLocalStorage } from "usehooks-ts";
 
 /* TODO
   can change params while saveing ,
@@ -13,8 +13,9 @@ import { useLocalStorage } from "usehooks-ts";
 
 export default function Profile() {
   const params = useSearchParams();
-  const [, setAuth] = useLocalStorage("auth", "");
   const route = useRouter();
+
+  const setlocalToken = useUserStore((state) => state.setToken);
 
   useEffect(() => {
     const token = params.get("token");
@@ -22,7 +23,7 @@ export default function Profile() {
       route.replace(process.env.NEXT_PUBLIC_BASE_API_URL + `/login`);
       return;
     }
-    setAuth(token);
+    setlocalToken(token);
     route.replace("/auth/phone-verification/");
   }, []);
 

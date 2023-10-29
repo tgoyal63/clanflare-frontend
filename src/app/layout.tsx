@@ -7,7 +7,6 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 import { Toaster } from "@/components/ui/toaster";
-import JotaiProvider from "@/components/wrappers/JotaiStoreWraper";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,7 +28,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <JotaiProvider>{children}</JotaiProvider>
+            {children}
           </ThemeProvider>
         </QueryProvider>
         <Toaster />

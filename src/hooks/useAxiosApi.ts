@@ -1,14 +1,14 @@
+import { useUserStore } from "@/store";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useAuthenticator } from "./useAuthenticator";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
 });
 
 export const useAxiosApi = () => {
-  const { token } = useAuthenticator();
+  const token = useUserStore((s) => s.token);
   const route = useRouter();
 
   useEffect(() => {
@@ -16,6 +16,8 @@ export const useAxiosApi = () => {
       (config) => {
         if (token) {
           config.headers["Authorization"] = `Bearer ${token}`;
+        } else {
+          route.replace("/auth");
         }
 
         return config;
