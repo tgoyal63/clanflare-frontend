@@ -16,12 +16,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { extractIdFromSheetUrl } from "@/utils/googlesheet";
+import { useAxiosApi } from "@/hooks/useAxiosApi";
+import { useNewServerStore } from "@/store";
+import { sheetData } from "@/store/addServerStore";
 import { useMutation } from "@tanstack/react-query";
 import { Link, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-// import imageCopylink  from "@/assets/tutorial/copy-link.webp"
 
 const SheetFormSchema = z.object({
   url: z
@@ -42,30 +42,61 @@ export default function FormComponent() {
     resolver: zodResolver(SheetFormSchema),
     reValidateMode: "onChange",
   });
-  const router = useRouter();
 
-  //   const { toast } = useToast();
-  const { mutate, isPending: isLoading } = useMutation({
+  const router = useRouter();
+  const { api } = useAxiosApi();
+
+  // store
+  const updateSheetsData = useNewServerStore(
+    (state) => state.updateGoogleSheetData,
+  );
+  const updateSelectedSheet = useNewServerStore(
+    (state) => state.updateSelectedSheet,
+  );
+  const updateSheetUrl = useNewServerStore(
+    (state) => state.updateGoogleSheetUrl,
+  );
+
+  const { mutate: submitForm, isPending: isLoading } = useMutation({
     mutationKey: ["google-sheet-setup"],
-    mutationFn: async (data: any) => {
-      //   const res = await axios("/", data);
-      //   return res.data;
-      return [];
+    mutationFn: async (data: z.infer<typeof SheetFormSchema>) => {
+      const res = await api.get(`/internal-sheet?spreadSheetUrl=${data.url}`);
+
+      return res.data as {
+        data: sheetData[];
+        success: boolean;
+        message: string;
+      };
     },
-    onSuccess: () => {
-      //
-      router.push(`/add-services/form/`);
+    onSuccess: (res, reqData) => {
+      updateSheetsData(res.data);
+      updateSheetUrl(reqData.url);
+
+      if (res.success) {
+        if (res.data.length > 1) {
+          router.push("select-sheet");
+          return;
+        }
+
+        // else only one sheet in spreedsheet
+        updateSelectedSheet(res.data[0]);
+        router.push("add-data-cells");
+        return;
+      }
+
+      // else handle error i.e succeess is false
+      alert("Error occure, but sheet conected bro");
     },
 
     onError: () => {
-      //
+      alert("error occured");
     },
   });
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof SheetFormSchema>) {
-    const sheetId = extractIdFromSheetUrl(values.url);
-    // mutate(sheetId);
+    // const sheetId = extractIdFromSheetUrl(values.url);
+    submitForm(values);
   }
   return (
     <div>
