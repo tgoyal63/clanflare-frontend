@@ -2,11 +2,13 @@
 import { AddNewServerCard } from "@/components";
 import CardSkeleton from "@/components/shared/skeletons/SkeletonCard";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
+import { useNewServerStore } from "@/store";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 export default function Page() {
   const { api } = useAxiosApi();
-
+  const clean = useNewServerStore((state) => state.clean);
   const { data: servers, isLoading } = useQuery({
     queryKey: ["all-servers-"],
     queryFn: async () => {
@@ -14,6 +16,11 @@ export default function Page() {
       return res.data.data;
     },
   });
+
+  useEffect(() => {
+    // cleans all the data from addNewServerStore
+    clean();
+  }, []);
 
   return (
     <div>

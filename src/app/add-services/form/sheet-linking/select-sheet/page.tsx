@@ -46,7 +46,7 @@ export default function Page() {
       <>
         <div className="flex h-full flex-col items-center justify-between text-sm">
           <div className="my-auto self-center">
-            <Link href={"/add-services/form/add-bot-to-server"}>
+            <Link href={"./add-sheet"}>
               <Button variant={"outline"} className="mb-4">
                 {" "}
                 <ArrowLeft className="mr-4" /> Back

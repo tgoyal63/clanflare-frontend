@@ -31,6 +31,7 @@ type Actions = {
   /** update url*/
   updateGoogleSheetUrl: (url: string) => void;
   updateSelectedSheet: (data: sheetData) => void;
+  clean: () => void;
 };
 
 const defaultData = {
@@ -90,6 +91,11 @@ export const useNewServerStore = create<AddNewServerData & Actions>()(
           },
         }));
       },
+      clean: () =>
+        set((state) => {
+          if (state.server.id) return defaultData;
+          return state;
+        }),
     }),
     {
       name: "new-server-data",
