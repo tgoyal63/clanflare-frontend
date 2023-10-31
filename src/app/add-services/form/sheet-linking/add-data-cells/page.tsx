@@ -25,6 +25,7 @@ import * as z from "zod";
 import explaneLayout from "@/assets/col&rowExplan.webp";
 import explaneNumber from "@/assets/col&rowNum.webp";
 import Link from "next/link";
+import { useAxiosApi } from "@/hooks/useAxiosApi";
 
 const formSchema = z.object({
   phoneNumberCell: z.string().regex(/^[a-zA-Z]+[0-9]+$/, "invalid input"),
@@ -39,12 +40,14 @@ export default function Test() {
     reValidateMode: "onChange",
   });
 
+  const { api } = useAxiosApi();
+
   const { mutate, isPending: isLoading } = useMutation({
     mutationKey: ["google-sheet-setup"],
-    mutationFn: async (data: any) => {
-      // const res = await axios("/", data);
+    mutationFn: async (data: z.infer<typeof formSchema>) => {
+      const res = await api.post("/", data);
       // return res.data;
-      return [];
+      return res.data;
     },
     onSuccess: (data) => {
       //
@@ -58,7 +61,16 @@ export default function Test() {
 
   // handler
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    if (values.emailCell === values.phoneNumberCell) {
+      form.setError("phoneNumberCell", {
+        message: "both the field's cant have same value",
+      });
+      form.setError("emailCell", {
+        message: "both the field's cant have same value",
+      });
+      return;
+    }
+    mutate(values);
   }
 
   return (
