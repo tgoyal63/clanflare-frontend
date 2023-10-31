@@ -1,10 +1,5 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-type User = {
-  token: string;
-  phoneverified: boolean;
-  setToken: (token: string) => void;
-};
 
 type AddNewServerData = {
   server: {
@@ -15,6 +10,9 @@ type AddNewServerData = {
     url: string;
     allSheets: sheetData[];
     selectedSheet: sheetData;
+  };
+  bot: {
+    roles: string[];
   };
 };
 
@@ -28,13 +26,15 @@ type Actions = {
   updateServer: (id: string, isVerified: boolean) => void;
   /** replace all sheet array  */
   updateGoogleSheetData: (data: sheetData[]) => void;
-  /** update url*/
+  /** update url (Replace)*/
   updateGoogleSheetUrl: (url: string) => void;
   updateSelectedSheet: (data: sheetData) => void;
+  /** Replace Roles*/
+  replaceRole: (roles: string[]) => void;
   clean: () => void;
 };
 
-const defaultData = {
+const defaultData: AddNewServerData = {
   googleSheet: {
     url: "",
     allSheets: [],
@@ -49,6 +49,9 @@ const defaultData = {
     id: "",
     isVerified: false,
   },
+  bot: {
+    roles: [],
+  },
 };
 
 export const useNewServerStore = create<AddNewServerData & Actions>()(
@@ -56,6 +59,7 @@ export const useNewServerStore = create<AddNewServerData & Actions>()(
     (set, get) => ({
       googleSheet: defaultData.googleSheet,
       server: defaultData.server,
+      bot: defaultData.bot,
 
       updateServer: (id, isVerified) => {
         const newServer = {
@@ -95,6 +99,12 @@ export const useNewServerStore = create<AddNewServerData & Actions>()(
         set((state) => {
           if (state.server.id) return defaultData;
           return state;
+        }),
+      replaceRole: (role) =>
+        set((state) => {
+          let temp = state;
+          temp.bot.roles = role;
+          return temp;
         }),
     }),
     {
