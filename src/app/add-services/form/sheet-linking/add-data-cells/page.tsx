@@ -24,11 +24,11 @@ import * as z from "zod";
 // images
 import explaneLayout from "@/assets/col&rowExplan.webp";
 import explaneNumber from "@/assets/col&rowNum.webp";
-import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useNewServerStore } from "@/store";
-import { useToast } from "@/components/ui/use-toast";
 import { AxiosError } from "axios";
+import Link from "next/link";
 
 const formSchema = z.object({
   phoneNumberCell: z
@@ -86,6 +86,7 @@ export default function Test() {
     onError: (error: AxiosError) => {
       console.log(error);
       toast({
+        // @ts-ignore
         title: error.response?.data.message || error.message,
         variant: "destructive",
       });
@@ -190,10 +191,10 @@ export default function Test() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Discord Id cell{" "}
+                        Discord Id cell
                         <span className="italic">
-                          (here user's discord id will be stored)
-                        </span>{" "}
+                          {"here user's discord id will be stored"}
+                        </span>
                       </FormLabel>
                       <FormControl>
                         <Input className="w-full" placeholder="c2" {...field} />

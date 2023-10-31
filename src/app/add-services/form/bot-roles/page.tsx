@@ -11,13 +11,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Steeper } from "@/components";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { useAxiosApi } from "@/hooks/useAxiosApi";
+import { useNewServerStore } from "@/store";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ArrowLeft, Loader2, X } from "lucide-react";
 import Link from "next/link";
-import { useAxiosApi } from "@/hooks/useAxiosApi";
-import { useNewServerStore } from "@/store";
-import { type } from "os";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 type Role = {
   id: string;
@@ -55,7 +54,8 @@ export default function FormAddService() {
           guildId,
         },
       });
-      setRoles(res.data.data?.map((item) => ({ ...item, isChecked: false })));
+      const data = res.data?.data as Role[]
+      setRoles(data?.map((item) => ({ ...item, isChecked: false })));
       return res.data?.data as Role;
     },
   });
