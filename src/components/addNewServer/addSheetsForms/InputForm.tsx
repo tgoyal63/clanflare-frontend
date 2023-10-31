@@ -60,7 +60,11 @@ export default function FormComponent() {
   const { mutate: submitForm, isPending: isLoading } = useMutation({
     mutationKey: ["google-sheet-setup"],
     mutationFn: async (data: z.infer<typeof SheetFormSchema>) => {
-      const res = await api.get(`/internal-sheet?spreadSheetUrl=${data.url}`);
+      const res = await api.get(`/internal-sheets`, {
+        params: {
+          spreadSheetUrl: data.url,
+        },
+      });
 
       return res.data as {
         data: sheetData[];

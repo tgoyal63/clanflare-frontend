@@ -26,36 +26,69 @@ import explaneLayout from "@/assets/col&rowExplan.webp";
 import explaneNumber from "@/assets/col&rowNum.webp";
 import Link from "next/link";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
+import { useNewServerStore } from "@/store";
+import { useToast } from "@/components/ui/use-toast";
+import { AxiosError } from "axios";
 
 const formSchema = z.object({
-  phoneNumberCell: z.string().regex(/^[a-zA-Z]+[0-9]+$/, "invalid input"),
-  emailCell: z.string().regex(/^[a-zA-Z]+[0-9]+$/, "invalid input"),
+  phoneNumberCell: z
+    .string()
+    .regex(/^[a-zA-Z]+[0-9]+$/, "invalid input")
+    .toUpperCase(),
+  emailCell: z
+    .string()
+    .regex(/^[a-zA-Z]+[0-9]+$/, "invalid input")
+    .toUpperCase(),
+  discordCell: z
+    .string()
+    .regex(/^[a-zA-Z]+[0-9]+$/, "invalid input")
+    .toUpperCase(),
 });
 
 export default function Test() {
   const router = useRouter();
-
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     reValidateMode: "onChange",
   });
 
   const { api } = useAxiosApi();
+  const currentSheet = useNewServerStore((s) => s.googleSheet);
+  const updateCells = useNewServerStore((s) => s.replaceCells);
 
   const { mutate, isPending: isLoading } = useMutation({
     mutationKey: ["google-sheet-setup"],
     mutationFn: async (data: z.infer<typeof formSchema>) => {
-      const res = await api.post("/", data);
+      const res = await api.get("/validate-sheet-headers", {
+        params: {
+          spreadSheetUrl: currentSheet.url,
+          sheetId: currentSheet.selectedSheet.sheetId,
+          phoneCell: data.phoneNumberCell,
+          emailCell: data.emailCell,
+          discordIdCell: data.discordCell,
+        },
+      });
       // return res.data;
-      return res.data;
+      return data;
     },
     onSuccess: (data) => {
-      //
-      router.push(`/add-services/form/addingbotRoles`);
+      console.log(data);
+      // save data to store
+      updateCells({
+        userDiscordId: data.discordCell,
+        userEmail: data.emailCell,
+        userPhone: data.phoneNumberCell,
+      });
+      router.push(`/add-services/form/bot-roles`);
     },
 
-    onError: (error) => {
-      //
+    onError: (error: AxiosError) => {
+      console.log(error);
+      toast({
+        title: error.response?.data.message || error.message,
+        variant: "destructive",
+      });
     },
   });
 
@@ -63,10 +96,13 @@ export default function Test() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.emailCell === values.phoneNumberCell) {
       form.setError("phoneNumberCell", {
-        message: "both the field's cant have same value",
+        message: "multiple field's cant have same value",
       });
       form.setError("emailCell", {
-        message: "both the field's cant have same value",
+        message: "multiple field's cant have same value",
+      });
+      form.setError("discordCell", {
+        message: "multiple field's cant have same value",
       });
       return;
     }
@@ -115,7 +151,7 @@ export default function Test() {
                 <div className="grid grid-rows-2 gap-2">
                   <FormField
                     control={form.control}
-                    name="emailCell"
+                    name="phoneNumberCell"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Phone Number Cel</FormLabel>
@@ -134,20 +170,39 @@ export default function Test() {
 
                   <FormField
                     control={form.control}
-                    name="phoneNumberCell"
+                    name="emailCell"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Email Cell</FormLabel>
                         <FormControl>
                           <Input type="text" placeholder="a3" {...field} />
                         </FormControl>
-                        <FormDescription>example. a3</FormDescription>
+                        <FormDescription>ex. C1</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
 
+                <FormField
+                  control={form.control}
+                  name="discordCell"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Discord Id cell{" "}
+                        <span className="italic">
+                          (here user's discord id will be stored)
+                        </span>{" "}
+                      </FormLabel>
+                      <FormControl>
+                        <Input className="w-full" placeholder="c2" {...field} />
+                      </FormControl>
+                      <FormDescription>example. c3</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <div className="flex">
                   <Button
                     type="submit"

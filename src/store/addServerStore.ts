@@ -10,6 +10,11 @@ type AddNewServerData = {
     url: string;
     allSheets: sheetData[];
     selectedSheet: sheetData;
+    cells: {
+      userPhone: string;
+      userEmail: string;
+      userDiscordId: string;
+    };
   };
   bot: {
     roles: string[];
@@ -24,13 +29,12 @@ export type sheetData = {
 
 type Actions = {
   updateServer: (id: string, isVerified: boolean) => void;
-  /** replace all sheet array  */
+  /** Replace */
   updateGoogleSheetData: (data: sheetData[]) => void;
-  /** update url (Replace)*/
   updateGoogleSheetUrl: (url: string) => void;
   updateSelectedSheet: (data: sheetData) => void;
-  /** Replace Roles*/
-  replaceRole: (roles: string[]) => void;
+  replaceRole: (roles: AddNewServerData["bot"]["roles"]) => void;
+  replaceCells: (data: AddNewServerData["googleSheet"]["cells"]) => void;
   clean: () => void;
 };
 
@@ -42,6 +46,11 @@ const defaultData: AddNewServerData = {
       index: 0,
       sheetId: 0,
       title: "",
+    },
+    cells: {
+      userDiscordId: "",
+      userEmail: "",
+      userPhone: "",
     },
   },
 
@@ -105,6 +114,12 @@ export const useNewServerStore = create<AddNewServerData & Actions>()(
           let temp = state;
           temp.bot.roles = role;
           return temp;
+        }),
+      replaceCells: (data) =>
+        set((state) => {
+          const newState = state;
+          newState.googleSheet.cells = data;
+          return newState;
         }),
     }),
     {

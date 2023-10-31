@@ -1,4 +1,3 @@
-/* Authanticate with discord */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -12,63 +11,55 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Steeper } from "@/components";
-// import { axios } from "@/utils/";
-import { useMutation } from "@tanstack/react-query";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { ArrowLeft, Loader2, X } from "lucide-react";
 import Link from "next/link";
+import { useAxiosApi } from "@/hooks/useAxiosApi";
+import { useNewServerStore } from "@/store";
+import { type } from "os";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
-// const BotsFormSchema = z.object({
-//   roles: z.string().min(10, {
-//     message: "Phone Number Must be atlaeast 10 numbers long",
-//   }),
-// });
-
-const demodData = [
-  "Surveyor",
-  "Construction Manager",
-  "Electrician",
-  "Subcontractor",
-  "Engineer",
-  "Estimator",
-  "Construction Manager",
-  "Construction Foreman",
-  "Supervisor",
-  "Construction Foreman",
-  "Construction Manager",
-  "Project Manager",
-  "Supervisor",
-  "Supervisor",
-  "Architect",
-  "Estimator",
-  "Project Manager",
-  "Estimator",
-  "Construction Worker",
-  "Architect",
-];
+type Role = {
+  id: string;
+  name: string;
+  color: string;
+  icon: string;
+  isChecked: boolean;
+};
 
 export default function FormAddService() {
   const router = useRouter();
   const { toast } = useToast();
-  const [roles, setRoles] = useState<string[]>([]);
+  const { api } = useAxiosApi();
+  const guildId = useNewServerStore((s) => s.server.id);
+
+  const [roles, setRoles] = useState<Role[]>([]);
 
   const { mutate, isPending: isLoading } = useMutation({
     mutationKey: ["google-sheet-setup"],
     mutationFn: async (data: any) => {
-      // const res = await axios("/", data);
-      // return res.data;
       return [];
     },
     onSuccess: (data) => {
-      //
       router.push(`/add-services/form/addingbotRoles`);
     },
 
-    onError: (error) => {
-      //
+    onError: (error) => {},
+  });
+
+  const {} = useQuery({
+    queryKey: ["get-roles"],
+    queryFn: async () => {
+      const res = await api.get("/discord-roles", {
+        params: {
+          guildId,
+        },
+      });
+      setRoles(res.data.data?.map((item) => ({ ...item, isChecked: false })));
+      return res.data?.data as Role;
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit() {
     console.log("lol");
     toast({
@@ -78,16 +69,10 @@ export default function FormAddService() {
     router.push(`./phoneverification/verifyotp?roles=`);
   }
 
-  function handleToggle(id: string, isChecked: boolean) {
-    if (isChecked) {
-      setRoles([...roles, id]);
-      return;
-    }
-
-    const newRoles = roles.filter((roleId) => {
-      if (roleId !== id) return roleId;
-    });
-    setRoles(newRoles);
+  function handleToggle(index: number, isChecked: boolean) {
+    const newRole = roles.slice();
+    newRole[index].isChecked = isChecked;
+    setRoles(newRole);
   }
 
   return (
@@ -119,24 +104,56 @@ export default function FormAddService() {
 
             <Separator className="mt-4" />
             <Card className="my-4 shadow-sm">
-              <ul className="grid list-disc grid-cols-2 p-4 pl-6">
-                {roles?.map((item, i) => <li key={i}>{item}</li>)}
+              <ul className="flex flex-wrap justify-between gap-2 p-4 pl-6">
+                {roles?.map(
+                  (role, i) =>
+                    role.isChecked && (
+                      <li
+                        style={{ borderColor: role.color }}
+                        className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-xl border px-4 py-2"
+                        key={i}
+                        onClick={() => handleToggle(i, false)}
+                      >
+                        {role.name}
+                        <X />
+                      </li>
+                    ),
+                )}
               </ul>
             </Card>
             <div className="grid gap-4 lg:grid-cols-2">
-              {demodData.map((item) => {
+              {roles?.map((item, index) => {
                 return (
                   <Label
-                    key={item}
-                    htmlFor={item}
-                    className="flex items-center rounded-lg border p-4"
+                    key={item.id}
+                    htmlFor={item.id}
+                    className="flex items-center rounded-lg border px-2 py-1"
                   >
-                    <span className="flex-1">{item}</span>
+                    {item.icon ? (
+                      <Avatar>
+                        <AvatarImage
+                          className="bottom-2 mr-2 "
+                          height={12}
+                          width={12}
+                          src={item.icon}
+                          style={{ borderColor: item.color }}
+                        ></AvatarImage>
+                      </Avatar>
+                    ) : (
+                      <span
+                        style={{ borderColor: item.color }}
+                        className="mr-2 flex h-12 w-12 items-center justify-center rounded-full border-2  bg-muted text-center  text-muted-foreground"
+                      >
+                        {item.name[0] + item.name[1]}
+                      </span>
+                    )}
+                    <span className="flex-1">{item.name}</span>
                     <Switch
-                      id={item}
+                      id={item.id}
                       onCheckedChange={(isChecked) =>
-                        handleToggle(item, isChecked)
+                        handleToggle(index, isChecked)
                       }
+                      checked={item.isChecked}
                     />
                   </Label>
                 );
