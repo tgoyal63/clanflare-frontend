@@ -113,7 +113,7 @@ export default function Test() {
   return (
     <>
       <div className="flex h-full flex-col items-center justify-between text-sm">
-        <Steeper setpNumber={3} />
+        <Steeper stepNum={3} />
 
         <div>
           <Link
@@ -125,7 +125,7 @@ export default function Test() {
             </Button>
           </Link>
           <Card className="h-fit w-fit self-center p-4">
-            <h1 className="mb-4 text-3xl"> Enetr the Cell Details of sheet</h1>
+            <h1 className="mb-4 text-3xl"> Enter the cell Details of sheet</h1>
             <ExampleDialog
               title="For more details click here"
               className="w-full"
@@ -133,7 +133,7 @@ export default function Test() {
               <p className="mb-2 mt-6">
                 Here emails start from <span className="font-bold">Row 3</span>{" "}
                 of <span>column B</span>
-                therer fore
+                there fore
               </p>
               <ul className="list-disc  pl-6">
                 <p className="font-semibold">In User email cells input</p>
@@ -155,7 +155,7 @@ export default function Test() {
                     name="phoneNumberCell"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone Number Cel</FormLabel>
+                        <FormLabel>Phone Number cell</FormLabel>
                         <FormControl>
                           <Input
                             className="w-full"

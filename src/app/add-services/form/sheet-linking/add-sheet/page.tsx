@@ -1,4 +1,3 @@
-/* Authanticate with discord */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -21,7 +20,7 @@ export default function FormAddService() {
   return (
     <>
       <div className="flex h-full flex-col items-center justify-between text-sm">
-        <Steeper setpNumber={2} />
+        <Steeper stepNum={2} />
         <div className="my-auto self-center">
           <NavLink href={"/add-services/form/add-bot-to-server"}>
             <Button variant={"outline"} className="mb-4">

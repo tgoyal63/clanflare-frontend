@@ -40,7 +40,7 @@ export default function FormAddService() {
       return [];
     },
     onSuccess: (data) => {
-      router.push(`/add-services/form/addingbotRoles`);
+      router.push(`/dashboard`);
     },
 
     onError: (error) => {},
@@ -63,10 +63,9 @@ export default function FormAddService() {
   function onSubmit() {
     console.log("lol");
     toast({
-      title: `Sheet linked Succefully`,
+      title: `Sheet linked Successfully`,
       duration: 2000,
     });
-    router.push(`./phoneverification/verifyotp?roles=`);
   }
 
   function handleToggle(index: number, isChecked: boolean) {
@@ -78,7 +77,7 @@ export default function FormAddService() {
   return (
     <>
       <div className="flex h-full flex-col items-center justify-between text-sm">
-        <Steeper setpNumber={4} />
+        <Steeper stepNum={4} />
         <div className="my-auto self-center">
           <Link href={"./sheet-linking/add-data-cells"}>
             <Button variant={"outline"} className="mb-4">

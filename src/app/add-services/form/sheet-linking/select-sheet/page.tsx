@@ -64,12 +64,10 @@ export default function Page() {
                     className="pl-1"
                     onClick={() => setAddNewLink(false)}
                   >
-                    Click here to selet
+                    Click here to select
                   </Button>
                 )}
               </h1>
-              {/* SELECTER */}
-
               {/* STEP -2 */}
 
               <Select

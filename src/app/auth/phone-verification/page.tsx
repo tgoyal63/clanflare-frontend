@@ -41,10 +41,10 @@ const PhoneNumberFormSchema = z.object({
     .number()
     .int()
     .min(1000000000, {
-      message: "Phone Number Must be atlaeast 10 numbers long",
+      message: "Phone Number Must contain 10 digits",
     })
     .max(9999999999, {
-      message: "Phone Number Must be atlaeast 10 numbers long",
+      message: "Phone Number Must contain 10 digits",
     }),
   countryCode: z.string().min(1, { message: "country code is required" }),
 });
@@ -109,7 +109,7 @@ export default function PhoneVerification() {
     },
     onError: (error) => {
       toast({
-        title: `Opps an error occured `,
+        title: `Ops an error occurred `,
         description: `${JSON.stringify(error?.message)}`,
         duration: 3000,
         variant: "destructive",
@@ -130,7 +130,7 @@ export default function PhoneVerification() {
     },
     onError: (error) => {
       toast({
-        title: `Opps an error occured `,
+        title: `Ops an error occurred`,
         description: `${JSON.stringify(error?.message)}`,
         duration: 3000,
         variant: "destructive",

@@ -1,4 +1,3 @@
-/* Authanticate with discord */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -55,7 +54,7 @@ export default function FormAddService() {
   return (
     <>
       <div className="flex h-full flex-col items-center justify-between text-sm">
-        <Steeper setpNumber={1} />
+        <Steeper stepNum={1} />
         <div className="my-auto mt-14 self-center">
           <Card className="w-full max-w-md p-6 shadow-md">
             <h1 className="mb-4 text-2xl">
