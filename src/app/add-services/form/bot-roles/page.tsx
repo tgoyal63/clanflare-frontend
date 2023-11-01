@@ -54,7 +54,7 @@ export default function FormAddService() {
           guildId,
         },
       });
-      const data = res.data?.data as Role[]
+      const data = res.data?.data as Role[];
       setRoles(data?.map((item) => ({ ...item, isChecked: false })));
       return res.data?.data as Role;
     },
@@ -80,7 +80,7 @@ export default function FormAddService() {
       <div className="flex h-full flex-col items-center justify-between text-sm">
         <Steeper setpNumber={4} />
         <div className="my-auto self-center">
-          <Link href={"/add-services/form/googleSheetLinking"}>
+          <Link href={"./sheet-linking/add-data-cells"}>
             <Button variant={"outline"} className="mb-4">
               <ArrowLeft className="mr-4" /> Back
             </Button>
