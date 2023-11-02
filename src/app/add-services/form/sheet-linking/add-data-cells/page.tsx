@@ -22,8 +22,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 // images
-import explaneLayout from "@/assets/col&rowExplan.webp";
-import explaneNumber from "@/assets/col&rowNum.webp";
+import explaneLayout from "@/assets/ss/cell-name.webp";
 import { useToast } from "@/components/ui/use-toast";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useNewServerStore } from "@/store";
@@ -97,8 +96,8 @@ export default function Test() {
   // handler
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (
-      values.discordCell.slice(1) !== values.emailCell.slice(0) ||
-      values.discordCell.slice(1) !== values.phoneNumberCell.slice(0)
+      values.discordCell.slice(1) !== values.emailCell.slice(1) ||
+      values.discordCell.slice(1) !== values.phoneNumberCell.slice(1)
     ) {
       form.setError("phoneNumberCell", {
         message:
@@ -149,21 +148,17 @@ export default function Test() {
               title="For more details click here"
               className="w-full"
             >
-              <p className="mb-2 mt-6">
-                Here emails start from <span className="font-bold">Row 3</span>{" "}
-                of <span>column B</span>
-                there fore
-              </p>
-              <ul className="list-disc  pl-6">
-                <p className="font-semibold">In User email cells input</p>
-                <li>Column Letter = b</li>
-                <li>Row Number = 3</li>
+              You can identify the Cell with{" "}
+              <span className="underline">first entry</span> of each type as
+              shown in image below
+              <ul className="list-inside">
+                <span className="mb-2 mt-4 block text-lg underline decoration-primary">
+                  In this Example,
+                </span>
+                <li>- Email Cell = B3</li>
+                <li>- Phone Cell = C3</li>
+                <li>- Discord Cell = B3</li>
               </ul>
-              <Image
-                src={explaneNumber}
-                className="my-4"
-                alt="column and row understand"
-              />
               <Image src={explaneLayout} alt="column and row understand" />
             </ExampleDialog>
             <Form {...form}>
