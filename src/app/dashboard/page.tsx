@@ -1,8 +1,22 @@
+"use client";
 import { CardDashboard, NavbarAvatar, ThemeToggle } from "@/components";
+
+import { useAxiosApi } from "@/hooks/useAxiosApi";
+import { useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
 export default function DashBoard() {
+  const { api } = useAxiosApi();
+
+  const query = useQuery({
+    queryKey: ["get-serv"],
+    queryFn: async () => {
+      const res = await api.get("/services");
+      console.log(res.data);
+      return res;
+    },
+  });
   return (
     <main className="flex min-h-full flex-col items-center">
       {/* NAV section */}

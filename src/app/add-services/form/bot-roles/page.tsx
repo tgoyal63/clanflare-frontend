@@ -14,9 +14,25 @@ import { Steeper } from "@/components";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useNewServerStore } from "@/store";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Loader2, X } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ArrowLeft, Loader2, RefreshCw, X } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { serialize } from "v8";
 
 type Role = {
   id: string;
@@ -24,29 +40,57 @@ type Role = {
   color: string;
   icon: string;
   isChecked: boolean;
+  enabled: boolean;
 };
+type NewService = {
+  name: string;
+  spreadSheetUrl: string;
+  sheetId: number;
+  sheetName: string;
+  phoneCell: string;
+  discordIdCell: string;
+  emailCell: string;
+  roleIds: string[];
+  guildId: string;
+};
+
+const FormSchema = z.object({
+  serviceName: z.string().min(1, { message: "Service name is required" }),
+});
 
 export default function FormAddService() {
   const router = useRouter();
   const { toast } = useToast();
   const { api } = useAxiosApi();
   const guildId = useNewServerStore((s) => s.server.id);
+  const queryClient = useQueryClient();
+  const NewServieStoredData = useNewServerStore((state) => state);
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    reValidateMode: "onChange",
+  });
 
   const [roles, setRoles] = useState<Role[]>([]);
 
   const { mutate, isPending: isLoading } = useMutation({
     mutationKey: ["google-sheet-setup"],
-    mutationFn: async (data: any) => {
-      return [];
+    mutationFn: async (data: { serviceName: string }) => {
+      const newSrvice = CreateServiceData(data.serviceName);
+      const res = await api.post("/create-service", newSrvice);
+      return res.data;
     },
     onSuccess: (data) => {
+      toast({
+        title: "Service created succefully",
+      });
+      NewServieStoredData.clean();
       router.push(`/dashboard`);
     },
 
     onError: (error) => {},
   });
 
-  const {} = useQuery({
+  const getRoles = useQuery({
     queryKey: ["get-roles"],
     queryFn: async () => {
       const res = await api.get("/discord-roles", {
@@ -60,18 +104,50 @@ export default function FormAddService() {
     },
   });
 
-  function onSubmit() {
-    console.log("lol");
-    toast({
-      title: `Sheet linked Successfully`,
-      duration: 2000,
-    });
+  function CreateServiceData(serviceName: string) {
+    const selectRolIds: string[] = [];
+
+    for (let role in roles) {
+      if (roles[role].isChecked) {
+        selectRolIds.push(roles[role].id);
+      }
+    }
+
+    if (!selectRolIds) {
+      throw Error("no selected roles");
+    }
+
+    const newData: NewService = {
+      name: serviceName,
+      guildId: NewServieStoredData.server.id,
+      spreadSheetUrl: NewServieStoredData.googleSheet.url,
+      sheetId: NewServieStoredData.googleSheet.selectedSheet.sheetId,
+      sheetName: NewServieStoredData.googleSheet.selectedSheet.title,
+      phoneCell: NewServieStoredData.googleSheet.cells.userPhone,
+      emailCell: NewServieStoredData.googleSheet.cells.userEmail,
+      discordIdCell: NewServieStoredData.googleSheet.cells.userDiscordId,
+      roleIds: selectRolIds as string[],
+    };
+    return newData;
   }
 
   function handleToggle(index: number, isChecked: boolean) {
+    if (!roles[index].enabled) return;
     const newRole = roles.slice();
     newRole[index].isChecked = isChecked;
     setRoles(newRole);
+  }
+
+  function handleSubmit(value: z.infer<typeof FormSchema>) {
+    const checked = roles.filter((item) => item.isChecked);
+    if (checked.length === 0) {
+      console.log(checked);
+      form.setError("serviceName", {
+        message: "please select a role from below",
+      });
+      return;
+    }
+    mutate({ serviceName: value.serviceName });
   }
 
   return (
@@ -91,19 +167,51 @@ export default function FormAddService() {
                 Turn on switches for which roles you want to select{" "}
               </span>
             </h1>
-            <div className="flex justify-end">
-              <Button disabled={roles?.length === 0 && !isLoading}>
-                {isLoading ? (
-                  <Loader2 className="animate-spin" />
-                ) : (
-                  "Continue with select roles"
-                )}
-              </Button>
-            </div>
+            <Button
+              className={cn("gap-2", {
+                // "bg-red-700": getRoles.isLoading,
+                // "bg-red-300": getRoles.isFetching,
+              })}
+              variant={"outline"}
+              onClick={() => getRoles.refetch()}
+            >
+              Refresh <RefreshCw className="text-muted-foreground" />{" "}
+            </Button>
 
-            <Separator className="mt-4" />
-            <Card className="my-4 shadow-sm">
-              <ul className="flex flex-wrap justify-between gap-2 p-4 pl-6">
+            <Card className="my-4 p-4 shadow-sm">
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleSubmit)}>
+                  <FormField
+                    control={form.control}
+                    name="serviceName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name for the service</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="w-full"
+                            placeholder="ex. My Auth Service"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="my-2 flex justify-end">
+                    <Button disabled={roles?.length === 0 && !isLoading}>
+                      {isLoading ? (
+                        <Loader2 className="animate-spin" />
+                      ) : (
+                        "Create Service"
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+
+              <h2>Selected Roles ( required )</h2>
+              <ul className="mt-4 flex flex-wrap justify-between gap-2">
                 {roles?.map(
                   (role, i) =>
                     role.isChecked && (
@@ -126,7 +234,12 @@ export default function FormAddService() {
                   <Label
                     key={item.id}
                     htmlFor={item.id}
-                    className="flex items-center rounded-lg border px-2 py-1"
+                    className={cn(
+                      "flex cursor-pointer items-center rounded-lg border px-2 py-1",
+                      {
+                        "cursor-not-allowed opacity-50": !item.enabled,
+                      },
+                    )}
                   >
                     {item.icon ? (
                       <Avatar>

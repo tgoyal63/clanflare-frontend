@@ -95,10 +95,10 @@ export default function PhoneVerification() {
       const res = await api.post(`/send-otp`, {
         phone: values.phoneNumber,
       });
-      return res.data;
+      return res.data.data;
     },
     onSuccess: (data) => {
-      setTemp(data.data);
+      setTemp(data);
       toast({
         title: `otp set to ${data.phone}`,
         duration: 3000,
