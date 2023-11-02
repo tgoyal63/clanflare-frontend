@@ -6,7 +6,6 @@ import { Card } from "@/components/ui/card";
 import { ArrowLeft, CopyIcon } from "lucide-react";
 import NavLink from "next/link";
 
-// import imageCopylink  from "@/assets/tutorial/copy-link.webp"
 import { ExampleDialog, SheetInputForm, Steeper } from "@/components";
 
 import imageConfirmpermmission from "@/assets/tutorial/confirm-permission.webp";
@@ -35,16 +34,12 @@ export default function FormAddService() {
                 This Sheet will be used to manage users
               </span>
             </h1>
-            {/* SELECTER */}
-
-            {/* STEP -2 */}
 
             <>
               {/* STEP - 1 */}
               <h2 className="text-xl underline decoration-primary underline-offset-2">
                 Step 1
               </h2>
-              {/* <h3 className="text-lg">Give access to the given link how ?</h3> */}
               <ExampleDialog title="Give your google sheet access to this email, Click here to learn how ?">
                 <div>
                   <ul className="space-y-8">

@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 
 import { useToast } from "@/components/ui/use-toast";
@@ -33,6 +32,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { serialize } from "v8";
+import RolesSkeleton from "@/components/shared/skeletons/RolesSkeleton";
 
 type Role = {
   id: string;
@@ -87,7 +87,12 @@ export default function FormAddService() {
       router.push(`/dashboard`);
     },
 
-    onError: (error) => {},
+    onError: (error: any) => {
+      toast({
+        title: error.response?.data.message || error.message,
+        variant: "destructive",
+      });
+    },
   });
 
   const getRoles = useQuery({
@@ -160,7 +165,7 @@ export default function FormAddService() {
               <ArrowLeft className="mr-4" /> Back
             </Button>
           </Link>
-          <Card className="mb-6 w-full max-w-xl p-6 shadow-md">
+          <Card className="mb-6 w-full max-w-xl p-6 shadow-md transition-all">
             <h1 className="mb-4 text-2xl">
               Select Roles, <br />
               <span className="text-lg">
@@ -211,7 +216,7 @@ export default function FormAddService() {
               </Form>
 
               <h2>Selected Roles ( required )</h2>
-              <ul className="mt-4 flex flex-wrap justify-between gap-2">
+              <ul className="mt-4 flex flex-wrap gap-2">
                 {roles?.map(
                   (role, i) =>
                     role.isChecked && (
@@ -229,6 +234,14 @@ export default function FormAddService() {
               </ul>
             </Card>
             <div className="grid gap-4 lg:grid-cols-2">
+              {getRoles.isLoading ? (
+                <>
+                  <RolesSkeleton />
+                  <RolesSkeleton />
+                </>
+              ) : (
+                <></>
+              )}
               {roles?.map((item, index) => {
                 return (
                   <Label

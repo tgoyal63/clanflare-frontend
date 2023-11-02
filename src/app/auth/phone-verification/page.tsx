@@ -107,10 +107,9 @@ export default function PhoneVerification() {
       restart();
       // router.push("./phone-verification/verify-otp");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast({
-        title: `Ops an error occurred `,
-        description: `${JSON.stringify(error?.message)}`,
+        title: error.response?.data.message || error.message,
         duration: 3000,
         variant: "destructive",
       });
@@ -128,10 +127,9 @@ export default function PhoneVerification() {
       });
       router.push("/dashboard");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast({
-        title: `Ops an error occurred`,
-        description: `${JSON.stringify(error?.message)}`,
+        title: error.response?.data.message || error.message,
         duration: 3000,
         variant: "destructive",
       });

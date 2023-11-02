@@ -30,6 +30,10 @@ import { useNewServerStore } from "@/store";
 import { AxiosError } from "axios";
 import Link from "next/link";
 
+/**Todo
+ * form validation me check if row's are same
+ */
+
 const formSchema = z.object({
   phoneNumberCell: z
     .string()
@@ -73,7 +77,6 @@ export default function Test() {
       return data;
     },
     onSuccess: (data) => {
-      console.log(data);
       // save data to store
       updateCells({
         userDiscordId: data.discordCell,
@@ -83,10 +86,8 @@ export default function Test() {
       router.push(`/add-services/form/bot-roles`);
     },
 
-    onError: (error: AxiosError) => {
-      console.log(error);
+    onError: (error: any) => {
       toast({
-        // @ts-ignore
         title: error.response?.data.message || error.message,
         variant: "destructive",
       });
@@ -95,6 +96,24 @@ export default function Test() {
 
   // handler
   function onSubmit(values: z.infer<typeof formSchema>) {
+    if (
+      values.discordCell.slice(1) !== values.emailCell.slice(0) ||
+      values.discordCell.slice(1) !== values.phoneNumberCell.slice(0)
+    ) {
+      form.setError("phoneNumberCell", {
+        message:
+          "All Row's shoudl be Same examle: A3,B3,D3 ,here 3 is Row number",
+      });
+      form.setError("emailCell", {
+        message:
+          "All Row's shoudl be Same examle: A3,B3,D3 ,here 3 is Row number",
+      });
+      form.setError("discordCell", {
+        message:
+          "All Row's shoudl be Same examle: A3,B3,D3 ,here 3 is Row number",
+      });
+      return;
+    }
     if (values.emailCell === values.phoneNumberCell) {
       form.setError("phoneNumberCell", {
         message: "multiple field's cant have same value",

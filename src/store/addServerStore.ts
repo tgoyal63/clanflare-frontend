@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type AddNewServerData = {
+  // TODO: change server to guild
   server: {
     id: string;
     isVerified: boolean;
