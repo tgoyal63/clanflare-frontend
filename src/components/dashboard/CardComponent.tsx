@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ReactNode } from "react";
+import { ExternalLink, Link2 } from "lucide-react";
 
 /* TODO
   make card reusable
@@ -20,21 +21,38 @@ import { ReactNode } from "react";
 interface DashBoardCardProps extends BadgeProps {
   serverName: string;
   serviceName: string;
+  data: data;
 }
 
-export default function CardComponent(props: BadgeProps) {
+type data = {
+  guild: {
+    name: string;
+    icon: string;
+  };
+  createdAt: string;
+  spreadsheet: {
+    spreadsheetUrl: string;
+  };
+  creator: {
+    username: string;
+    email: string;
+  };
+};
+
+export default function CardComponent(props: { data: data }) {
+  const { createdAt, guild, spreadsheet } = props.data;
   return (
     <>
-      <DetailsPopup>
+      <DetailsPopup data={props.data}>
         <button className="flex-cols flex cursor-pointer items-center gap-2 rounded-lg border bg-card px-6 py-4 text-card-foreground shadow-sm transition-all hover:border-primary active:scale-[98%] ">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src={guild.icon} alt="@shadcn" />
+            <AvatarFallback>{guild.name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-1 flex-col gap-2 p-1 text-left">
             <span>Auth Service</span>
-            <span>@gangstar Philosphy</span>
-            <Badge variant="red" />
+            <span>{guild.name}</span>
+            <Badge variant="default" />
           </div>
         </button>
       </DetailsPopup>
@@ -53,7 +71,7 @@ const Badge = (props: BadgeProps) => {
     <>
       <span
         className={cn(
-          "w-fit rounded-full border border-green-600 bg-success px-4 py-1 text-success-foreground",
+          "w-fit rounded-full border  bg-success px-4 py-1 text-success-foreground",
           {
             "border-red-700 bg-destructive text-destructive-foreground":
               variant === "red",
@@ -67,8 +85,13 @@ const Badge = (props: BadgeProps) => {
   );
 };
 
+type DialogProps = {
+  children: ReactNode;
+  data: data;
+};
+
 /* TODO add props from parent */
-export function DetailsPopup({ children }: { children: ReactNode }) {
+export function DetailsPopup({ children, data }: DialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -76,24 +99,37 @@ export function DetailsPopup({ children }: { children: ReactNode }) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-4">
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage src={data.guild.icon} />
+              <AvatarFallback>{data.guild.name[0]}</AvatarFallback>
             </Avatar>
-            <span className="text-2xl">Lol</span>
+            <span className="text-2xl">{data.guild.name}</span>
           </DialogTitle>
         </DialogHeader>
         <div>
           <div className="mb-4">
-            Service Name: <span>Simple Authentication with sheet</span>
+            Service Name: <span>{"Auth Service"}</span>
+            <br />
+            <a
+              className=" flex gap-2 text-primary underline decoration-primary"
+              href={data.spreadsheet.spreadsheetUrl}
+              target="_blank"
+            >
+              Sheet link <ExternalLink />
+            </a>
           </div>
           {/* dates */}
-          <div className="text-md text-">created at: 23/4/22</div>
-          <div className="text-md text-">expires on: 23/4/22</div>
+          <div className="text-md text-">
+            created on: {data.createdAt.slice(0, 10)}
+            <br />
+            created by: {data.creator.username}
+            <br />
+            status: <span className="text-success-foreground"> Active </span>
+          </div>
 
-          <div className="mt-4">
+          {/*          <div className="mt-4">
             <span>Plan Type: </span>
             <span> Free</span>
-          </div>
+          </div>*/}
         </div>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>

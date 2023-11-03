@@ -14,7 +14,16 @@ export default function DashBoard() {
     queryFn: async () => {
       const res = await api.get("/services");
       console.log(res.data);
-      return res;
+      return res.data?.data as {
+        guild: {
+          name: string;
+          icon: string;
+        };
+        createdAt: string;
+        spreadsheet: {
+          spreadsheetUrl: string;
+        };
+      };
     },
   });
   return (
@@ -36,8 +45,10 @@ export default function DashBoard() {
           <h1 className="mb-2 mr-auto text-2xl sm:mb-0">All servers</h1>
 
           <section className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 ">
-            {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((item: any, index) => {
-              return <CardDashboard key={index} variant="default" />;
+            {/*@ts-ignore*/}
+            {query.data?.map((item: any, index) => {
+              console.log("DATA::", item);
+              return <CardDashboard key={index} data={item} />;
             })}
             <Link
               className="cols-span-1 flex h-full w-full flex-col items-center justify-center gap-2 rounded-md border bg-gradient-to-r from-purple-600 to-purple-800 py-6 text-white hover:scale-105 active:scale-100"
