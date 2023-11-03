@@ -12,7 +12,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ReactNode } from "react";
-import { ExternalLink, Link2 } from "lucide-react";
+import {
+  CalendarDaysIcon,
+  CheckCircle,
+  ExternalLink,
+  Link2,
+  Router,
+  Table,
+  User,
+} from "lucide-react";
 
 /* TODO
   make card reusable
@@ -32,6 +40,10 @@ type data = {
   createdAt: string;
   spreadsheet: {
     spreadsheetUrl: string;
+    phoneNumberColumn: string;
+    emailColumn: string;
+    discordIdColumn: string;
+    headerRow: string;
   };
   creator: {
     username: string;
@@ -44,10 +56,12 @@ export default function CardComponent(props: { data: data }) {
   return (
     <>
       <DetailsPopup data={props.data}>
-        <button className="flex-cols flex cursor-pointer items-center gap-2 rounded-lg border bg-card px-6 py-4 text-card-foreground shadow-sm transition-all hover:border-primary active:scale-[98%] ">
-          <Avatar>
+        <button className="flex-cols flex cursor-pointer items-center  gap-2 rounded-lg border bg-card px-2 py-2 text-card-foreground shadow-sm transition-all hover:border-primary active:scale-[98%] ">
+          <Avatar className="border">
             <AvatarImage src={guild.icon} alt="@shadcn" />
-            <AvatarFallback>{guild.name[0]}</AvatarFallback>
+            <AvatarFallback className="grid place-items-center">
+              {guild.name[0].toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div className="flex flex-1 flex-col gap-2 p-1 text-left">
             <span>Auth Service</span>
@@ -97,7 +111,7 @@ export function DetailsPopup({ children, data }: DialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-4">
+          <DialogTitle className="flex items-center gap-6">
             <Avatar>
               <AvatarImage src={data.guild.icon} />
               <AvatarFallback>{data.guild.name[0]}</AvatarFallback>
@@ -106,24 +120,53 @@ export function DetailsPopup({ children, data }: DialogProps) {
           </DialogTitle>
         </DialogHeader>
         <div>
-          <div className="mb-4">
-            Service Name: <span>{"Auth Service"}</span>
+          <div>
+            Service Name : <span>{"Auth Service"}</span>
             <br />
             <a
-              className=" flex gap-2 text-primary underline decoration-primary"
+              className=" flex w-fit gap-1 text-primary decoration-primary  underline-offset-2 hover:underline"
               href={data.spreadsheet.spreadsheetUrl}
               target="_blank"
             >
-              Sheet link <ExternalLink />
+              Sheet link <ExternalLink className="h-5 w-5" />
             </a>
           </div>
+          <div>
+            <ul className="my-4 grid grid-cols-3 grid-rows-2">
+              <li className="col-span-3 mb-1 flex items-center">
+                <Table className="mr-2 h-5 w-5" /> Spread Sheet Cells
+              </li>
+              <li className="col-span-1 border text-center ">Phone</li>
+              <li className="col-span-1 border text-center ">Email</li>
+              <li className="col-span-1 border text-center ">Discord ID</li>
+              <li className="col-span-1 border text-center">
+                {data.spreadsheet.phoneNumberColumn +
+                  data.spreadsheet.headerRow}
+              </li>
+              <li className="col-span-1 border text-center">
+                {data.spreadsheet.emailColumn + data.spreadsheet.headerRow}
+              </li>
+              <li className="col-span-1 border text-center">
+                {data.spreadsheet.discordIdColumn + data.spreadsheet.headerRow}
+              </li>
+            </ul>
+          </div>
           {/* dates */}
-          <div className="text-md text-">
-            created on: {data.createdAt.slice(0, 10)}
-            <br />
-            created by: {data.creator.username}
-            <br />
-            status: <span className="text-success-foreground"> Active </span>
+          <div className="text-md ">
+            <span className="text-md flex items-center text-muted-foreground ">
+              <CalendarDaysIcon className="mr-2 h-5 w-5" /> created on{" "}
+              {data.createdAt.slice(0, 10)}
+            </span>
+            <span className="text-md flex items-center text-muted-foreground ">
+              <User className="mr-2 h-5 w-5" /> by
+              {" " + data.creator.username}
+            </span>
+            <span className="text-md flex items-center text-muted-foreground ">
+              <span className="mx-1 flex items-center gap-2 text-success-foreground">
+                Active
+                <CheckCircle className="h-5 w-5" />
+              </span>
+            </span>
           </div>
 
           {/*          <div className="mt-4">
@@ -133,7 +176,7 @@ export function DetailsPopup({ children, data }: DialogProps) {
         </div>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
+            <Button type="button" className="w-full" variant="outline">
               Close
             </Button>
           </DialogClose>
