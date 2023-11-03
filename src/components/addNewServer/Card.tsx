@@ -42,7 +42,7 @@ export default function AddNewServerCard({ name, id, isAdmin, icon }: Props) {
           <div>
             <Avatar>
               <AvatarImage src={icon} alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback>{name?.slice(0, 1).toUpperCase()}</AvatarFallback>
             </Avatar>
           </div>
 
