@@ -9,7 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { Steeper } from "@/components";
+import { ExampleDialog, Steeper } from "@/components";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useNewServerStore } from "@/store";
@@ -20,6 +20,11 @@ import { cn } from "@/lib/utils";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 import {
   Form,
@@ -33,6 +38,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { serialize } from "v8";
 import RolesSkeleton from "@/components/shared/skeletons/RolesSkeleton";
+
+import image1 from "@/assets/roles-tut/1.webp";
+import image2 from "@/assets/roles-tut/2.jpg";
+import Image from "next/image";
 
 type Role = {
   id: string;
@@ -242,47 +251,28 @@ export default function FormAddService() {
               ) : (
                 <></>
               )}
-              {roles?.map((item, index) => {
-                return (
-                  <Label
-                    key={item.id}
-                    htmlFor={item.id}
-                    className={cn(
-                      "flex cursor-pointer items-center rounded-lg border px-2 py-1",
-                      {
-                        "cursor-not-allowed opacity-50": !item.enabled,
-                      },
-                    )}
-                  >
-                    {item.icon ? (
-                      <Avatar>
-                        <AvatarImage
-                          className="bottom-2 mr-2 "
-                          height={12}
-                          width={12}
-                          src={item.icon}
-                          style={{ borderColor: item.color }}
-                        ></AvatarImage>
-                      </Avatar>
-                    ) : (
-                      <span
-                        style={{ borderColor: item.color }}
-                        className="mr-2 flex h-12 w-12 items-center justify-center rounded-full border-2  bg-muted text-center  text-muted-foreground"
-                      >
-                        {item.name[0] + item.name[1]}
-                      </span>
-                    )}
-                    <span className="flex-1">{item.name}</span>
-                    <Switch
-                      id={item.id}
-                      onCheckedChange={(isChecked) =>
-                        handleToggle(index, isChecked)
-                      }
-                      checked={item.isChecked}
+              {roles?.map(
+                (item, index) =>
+                  item.enabled && (
+                    <RoleCard
+                      role={item}
+                      index={index}
+                      key={index}
+                      handlerFn={handleToggle}
                     />
-                  </Label>
-                );
-              })}
+                  ),
+              )}
+              {roles?.map(
+                (item, index) =>
+                  !item.enabled && (
+                    <RoleCard
+                      role={item}
+                      index={index}
+                      key={index}
+                      handlerFn={handleToggle}
+                    />
+                  ),
+              )}
             </div>
           </Card>
         </div>
@@ -290,3 +280,84 @@ export default function FormAddService() {
     </>
   );
 }
+
+const RoleCard = ({
+  role,
+  index,
+  handlerFn,
+}: {
+  role: Role;
+  index: number;
+  handlerFn: (index: number, isChecked: boolean) => void;
+}) => {
+  return (
+    <>
+      <HoverCard openDelay={100} closeDelay={100}>
+        <HoverCardTrigger>
+          <Label
+            htmlFor={role.id}
+            className={cn(
+              "flex cursor-pointer items-center rounded-lg border px-2 py-1",
+              {
+                "cursor-not-allowed opacity-50": !role.enabled,
+              },
+            )}
+          >
+            {role.icon ? (
+              <Avatar>
+                <AvatarImage
+                  className="bottom-2 mr-2 "
+                  height={12}
+                  width={12}
+                  src={role.icon}
+                  style={{ borderColor: role.color }}
+                ></AvatarImage>
+              </Avatar>
+            ) : (
+              <span
+                style={{ borderColor: role.color }}
+                className="mr-2 flex h-12 w-12 items-center justify-center rounded-full border-2  bg-muted text-center  text-muted-foreground"
+              >
+                {role.name[0] + role.name[1]}
+              </span>
+            )}
+            <span className="flex-1">{role.name}</span>
+            <Switch
+              id={role.id}
+              onCheckedChange={(isChecked) => handlerFn(index, isChecked)}
+              checked={role.isChecked}
+            />
+          </Label>
+        </HoverCardTrigger>
+        <HoverCardContent hidden={role.enabled}>
+          Only roles below the Authify roles in your discord Channel are
+          available to select, please move Authify above the roles which you
+          want to select
+          <ExampleDialog
+            className="gap-4 border-yellow-800"
+            title="Click Here to learn more about this"
+          >
+            <span className="flex border-l-2 border-yellow-500  pl-2 italic">
+              Only roles below the Authify roles in your discord Channel are
+              available to select, please move Authify above the roles which you
+              want to select,
+              <br />
+              <br />
+              Follwoing is an example that explan how to do this ,
+            </span>
+            <br />
+            <span className="my-2 font-bold">
+              First open Roles Section in your discord channel settings
+            </span>
+            <br />
+            then follow the instructions as shown in image
+            <span className="my-2" />
+            <Image src={image1} alt="roles adding tutorial" />
+            {/*TODO spelling mistake in image2*/}
+            <Image src={image2} alt="roles adding tutorial" />
+          </ExampleDialog>
+        </HoverCardContent>
+      </HoverCard>
+    </>
+  );
+};
