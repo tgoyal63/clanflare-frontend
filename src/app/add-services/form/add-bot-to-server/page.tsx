@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useNewServerStore } from "@/store";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ExternalLinkIcon, Loader2 } from "lucide-react";
+import { ArrowLeft, ExternalLinkIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -56,6 +56,13 @@ export default function FormAddService() {
       <div className="flex h-full flex-col items-center justify-between text-sm">
         <Steeper stepNum={1} />
         <div className="my-auto mt-14 self-center">
+          <div className="my-auto self-center">
+            <Link href={"../"}>
+              <Button variant={"outline"} className="mb-4">
+                <ArrowLeft className="mr-4" /> Back
+              </Button>
+            </Link>
+          </div>
           <Card className="w-full max-w-md p-6 shadow-md">
             <h1 className="mb-4 text-2xl">
               Authenticate with discord, <br />

@@ -36,7 +36,7 @@ export default function ExampleDialog({ className, title, children }: props) {
           <AlertCircle />
         </button>
       </DialogTrigger>
-      <DialogContent className="h-screen w-screen max-w-3xl rounded-lg bg-card  p-4 md:h-[90%]">
+      <DialogContent className="h-screen w-screen max-w-3xl overflow-y-auto rounded-lg bg-card  p-4 md:max-h-[90%]">
         <DialogHeader>
           <DialogTitle>Example</DialogTitle>
         </DialogHeader>

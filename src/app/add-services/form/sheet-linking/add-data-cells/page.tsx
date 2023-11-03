@@ -163,7 +163,24 @@ export default function Test() {
             </ExampleDialog>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="grid grid-rows-2 gap-2">
+                <div className="grid grid-rows-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="emailCell"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email Cell</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            placeholder="for example. D2"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
                     name="phoneNumberCell"
@@ -173,11 +190,10 @@ export default function Test() {
                         <FormControl>
                           <Input
                             className="w-full"
-                            placeholder="c2"
+                            placeholder="for example. A2"
                             {...field}
                           />
                         </FormControl>
-                        <FormDescription>example. c3</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -185,39 +201,27 @@ export default function Test() {
 
                   <FormField
                     control={form.control}
-                    name="emailCell"
+                    name="discordCell"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email Cell</FormLabel>
+                        <FormLabel>
+                          Discord Id cell
+                          <span className="italic">
+                            {"here user's discord id will be stored"}
+                          </span>
+                        </FormLabel>
                         <FormControl>
-                          <Input type="text" placeholder="a3" {...field} />
+                          <Input
+                            className="w-full"
+                            placeholder="for example. C2"
+                            {...field}
+                          />
                         </FormControl>
-                        <FormDescription>ex. C1</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-
-                <FormField
-                  control={form.control}
-                  name="discordCell"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Discord Id cell
-                        <span className="italic">
-                          {"here user's discord id will be stored"}
-                        </span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input className="w-full" placeholder="c2" {...field} />
-                      </FormControl>
-                      <FormDescription>example. c3</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
                 <div className="flex">
                   <Button
                     type="submit"
