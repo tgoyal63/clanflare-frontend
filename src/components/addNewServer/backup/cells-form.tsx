@@ -115,7 +115,7 @@
 //   return (
 //     <>
 //       <div className="flex h-full flex-col items-center justify-between text-sm">
-//         <Steeper setpNumber={3} />
+//         <Steeper stepNum={3} />
 
 //         <div>
 //           <Link href={"./add-sheet"} className="self-start justify-self-start">

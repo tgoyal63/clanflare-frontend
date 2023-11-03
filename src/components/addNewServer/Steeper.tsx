@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 
 interface SteperProps {
-  setpNumber: 1 | 2 | 3 | 4;
+  stepNum: 1 | 2 | 3 | 4;
 }
-export default function Stepper({ setpNumber }: SteperProps) {
+export default function Stepper({ stepNum }: SteperProps) {
   return (
     <>
       <div className="mb-4 mt-4 flex w-full items-center">
@@ -12,7 +12,7 @@ export default function Stepper({ setpNumber }: SteperProps) {
             className={cn(
               "h-12 w-12 rounded-full border-2  py-3 text-center ",
               {
-                "bg-primary text-primary-foreground": setpNumber >= 1,
+                "bg-primary text-primary-foreground": stepNum >= 1,
               },
             )}
           >
@@ -21,7 +21,7 @@ export default function Stepper({ setpNumber }: SteperProps) {
         </div>
         <div
           className={cn("flex-auto border-t-2  ", {
-            "border-primary": setpNumber > 1,
+            "border-primary": stepNum > 1,
           })}
         ></div>
         <div className="relative flex items-center text-primary">
@@ -29,7 +29,7 @@ export default function Stepper({ setpNumber }: SteperProps) {
             className={cn(
               "h-12 w-12 rounded-full border-2  py-3 text-center ",
               {
-                "bg-primary text-primary-foreground": setpNumber >= 2,
+                "bg-primary text-primary-foreground": stepNum >= 2,
               },
             )}
           >
@@ -38,7 +38,7 @@ export default function Stepper({ setpNumber }: SteperProps) {
         </div>
         <div
           className={cn("flex-auto border-t-2  ", {
-            "border-primary": setpNumber > 2,
+            "border-primary": stepNum > 2,
           })}
         ></div>
         <div className="relative flex items-center text-primary">
@@ -46,7 +46,7 @@ export default function Stepper({ setpNumber }: SteperProps) {
             className={cn(
               "h-12 w-12 rounded-full border-2  py-3 text-center ",
               {
-                "bg-primary text-primary-foreground": setpNumber >= 3,
+                "bg-primary text-primary-foreground": stepNum >= 3,
               },
             )}
           >
@@ -55,7 +55,7 @@ export default function Stepper({ setpNumber }: SteperProps) {
         </div>
         <div
           className={cn("flex-auto border-t-2  ", {
-            "border-primary": setpNumber > 3,
+            "border-primary": stepNum > 3,
           })}
         ></div>
         <div className="relative flex items-center text-primary">
@@ -63,7 +63,7 @@ export default function Stepper({ setpNumber }: SteperProps) {
             className={cn(
               "h-12 w-12 rounded-full border-2  py-3 text-center ",
               {
-                "bg-primary text-primary-foreground": setpNumber >= 4,
+                "bg-primary text-primary-foreground": stepNum >= 4,
               },
             )}
           >

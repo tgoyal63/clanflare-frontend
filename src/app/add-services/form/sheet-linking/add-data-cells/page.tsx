@@ -22,53 +22,120 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 // images
-import explaneLayout from "@/assets/col&rowExplan.webp";
-import explaneNumber from "@/assets/col&rowNum.webp";
+import explaneLayout from "@/assets/ss/cell-name.webp";
+import { useToast } from "@/components/ui/use-toast";
+import { useAxiosApi } from "@/hooks/useAxiosApi";
+import { useNewServerStore } from "@/store";
+import { AxiosError } from "axios";
 import Link from "next/link";
 
+/**Todo
+ * form validation me check if row's are same
+ */
+
 const formSchema = z.object({
-  phoneNumberCell: z.string().regex(/^[a-zA-Z]+[0-9]+$/, "invalid input"),
-  emailCell: z.string().regex(/^[a-zA-Z]+[0-9]+$/, "invalid input"),
+  phoneNumberCell: z
+    .string()
+    .regex(/^[a-zA-Z]+[0-9]+$/, "invalid input")
+    .toUpperCase(),
+  emailCell: z
+    .string()
+    .regex(/^[a-zA-Z]+[0-9]+$/, "invalid input")
+    .toUpperCase(),
+  discordCell: z
+    .string()
+    .regex(/^[a-zA-Z]+[0-9]+$/, "invalid input")
+    .toUpperCase(),
 });
 
 export default function Test() {
   const router = useRouter();
-
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     reValidateMode: "onChange",
   });
 
+  const { api } = useAxiosApi();
+  const currentSheet = useNewServerStore((s) => s.googleSheet);
+  const updateCells = useNewServerStore((s) => s.replaceCells);
+
   const { mutate, isPending: isLoading } = useMutation({
     mutationKey: ["google-sheet-setup"],
-    mutationFn: async (data: any) => {
-      // const res = await axios("/", data);
+    mutationFn: async (data: z.infer<typeof formSchema>) => {
+      const res = await api.get("/validate-sheet-headers", {
+        params: {
+          spreadSheetUrl: currentSheet.url,
+          sheetId: currentSheet.selectedSheet.sheetId,
+          phoneCell: data.phoneNumberCell,
+          emailCell: data.emailCell,
+          discordIdCell: data.discordCell,
+        },
+      });
       // return res.data;
-      return [];
+      return data;
     },
     onSuccess: (data) => {
-      //
-      router.push(`/add-services/form/addingbotRoles`);
+      // save data to store
+      updateCells({
+        userDiscordId: data.discordCell,
+        userEmail: data.emailCell,
+        userPhone: data.phoneNumberCell,
+      });
+      router.push(`/add-services/form/bot-roles`);
     },
 
-    onError: (error) => {
-      //
+    onError: (error: any) => {
+      toast({
+        title: error.response?.data.message || error.message,
+        variant: "destructive",
+      });
     },
   });
 
   // handler
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    if (
+      values.discordCell.slice(1) !== values.emailCell.slice(1) ||
+      values.discordCell.slice(1) !== values.phoneNumberCell.slice(1)
+    ) {
+      form.setError("phoneNumberCell", {
+        message:
+          "All Row's shoudl be Same examle: A3,B3,D3 ,here 3 is Row number",
+      });
+      form.setError("emailCell", {
+        message:
+          "All Row's shoudl be Same examle: A3,B3,D3 ,here 3 is Row number",
+      });
+      form.setError("discordCell", {
+        message:
+          "All Row's shoudl be Same examle: A3,B3,D3 ,here 3 is Row number",
+      });
+      return;
+    }
+    if (values.emailCell === values.phoneNumberCell) {
+      form.setError("phoneNumberCell", {
+        message: "multiple field's cant have same value",
+      });
+      form.setError("emailCell", {
+        message: "multiple field's cant have same value",
+      });
+      form.setError("discordCell", {
+        message: "multiple field's cant have same value",
+      });
+      return;
+    }
+    mutate(values);
   }
 
   return (
     <>
       <div className="flex h-full flex-col items-center justify-between text-sm">
-        <Steeper setpNumber={3} />
+        <Steeper stepNum={3} />
 
         <div>
           <Link
-            href={"/add-services/form"}
+            href={"./select-sheet"}
             className="self-start justify-self-start"
           >
             <Button variant={"outline"} className="mb-4">
@@ -76,26 +143,22 @@ export default function Test() {
             </Button>
           </Link>
           <Card className="h-fit w-fit self-center p-4">
-            <h1 className="mb-4 text-3xl"> Enetr the Cell Details of sheet</h1>
+            <h1 className="mb-4 text-3xl"> Enter the cell Details of sheet</h1>
             <ExampleDialog
               title="For more details click here"
               className="w-full"
             >
-              <p className="mb-2 mt-6">
-                Here emails start from <span className="font-bold">Row 3</span>{" "}
-                of <span>column B</span>
-                therer fore
-              </p>
-              <ul className="list-disc  pl-6">
-                <p className="font-semibold">In User email cells input</p>
-                <li>Column Letter = b</li>
-                <li>Row Number = 3</li>
+              You can identify the Cell with{" "}
+              <span className="underline">first entry</span> of each type as
+              shown in image below
+              <ul className="list-inside">
+                <span className="mb-2 mt-4 block text-lg underline decoration-primary">
+                  In this Example,
+                </span>
+                <li>- Email Cell = B3</li>
+                <li>- Phone Cell = C3</li>
+                <li>- Discord Cell = B3</li>
               </ul>
-              <Image
-                src={explaneNumber}
-                className="my-4"
-                alt="column and row understand"
-              />
               <Image src={explaneLayout} alt="column and row understand" />
             </ExampleDialog>
             <Form {...form}>
@@ -103,10 +166,10 @@ export default function Test() {
                 <div className="grid grid-rows-2 gap-2">
                   <FormField
                     control={form.control}
-                    name="emailCell"
+                    name="phoneNumberCell"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone Number Cel</FormLabel>
+                        <FormLabel>Phone Number cell</FormLabel>
                         <FormControl>
                           <Input
                             className="w-full"
@@ -122,20 +185,39 @@ export default function Test() {
 
                   <FormField
                     control={form.control}
-                    name="phoneNumberCell"
+                    name="emailCell"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Email Cell</FormLabel>
                         <FormControl>
                           <Input type="text" placeholder="a3" {...field} />
                         </FormControl>
-                        <FormDescription>example. a3</FormDescription>
+                        <FormDescription>ex. C1</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
 
+                <FormField
+                  control={form.control}
+                  name="discordCell"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Discord Id cell
+                        <span className="italic">
+                          {"here user's discord id will be stored"}
+                        </span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input className="w-full" placeholder="c2" {...field} />
+                      </FormControl>
+                      <FormDescription>example. c3</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <div className="flex">
                   <Button
                     type="submit"

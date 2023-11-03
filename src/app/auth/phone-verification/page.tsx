@@ -41,10 +41,10 @@ const PhoneNumberFormSchema = z.object({
     .number()
     .int()
     .min(1000000000, {
-      message: "Phone Number Must be atlaeast 10 numbers long",
+      message: "Phone Number Must contain 10 digits",
     })
     .max(9999999999, {
-      message: "Phone Number Must be atlaeast 10 numbers long",
+      message: "Phone Number Must contain 10 digits",
     }),
   countryCode: z.string().min(1, { message: "country code is required" }),
 });
@@ -95,10 +95,10 @@ export default function PhoneVerification() {
       const res = await api.post(`/send-otp`, {
         phone: values.phoneNumber,
       });
-      return res.data;
+      return res.data.data;
     },
     onSuccess: (data) => {
-      setTemp(data.data);
+      setTemp(data);
       toast({
         title: `otp set to ${data.phone}`,
         duration: 3000,
@@ -107,10 +107,9 @@ export default function PhoneVerification() {
       restart();
       // router.push("./phone-verification/verify-otp");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast({
-        title: `Opps an error occured `,
-        description: `${JSON.stringify(error?.message)}`,
+        title: error.response?.data.message || error.message,
         duration: 3000,
         variant: "destructive",
       });
@@ -128,10 +127,9 @@ export default function PhoneVerification() {
       });
       router.push("/dashboard");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast({
-        title: `Opps an error occured `,
-        description: `${JSON.stringify(error?.message)}`,
+        title: error.response?.data.message || error.message,
         duration: 3000,
         variant: "destructive",
       });

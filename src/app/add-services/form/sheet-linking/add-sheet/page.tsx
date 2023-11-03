@@ -1,4 +1,3 @@
-/* Authanticate with discord */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -7,12 +6,11 @@ import { Card } from "@/components/ui/card";
 import { ArrowLeft, CopyIcon } from "lucide-react";
 import NavLink from "next/link";
 
-// import imageCopylink  from "@/assets/tutorial/copy-link.webp"
 import { ExampleDialog, SheetInputForm, Steeper } from "@/components";
 
-import imageConfirmpermmission from "@/assets/tutorial/confirm-permission.webp";
-import imagePasteemail from "@/assets/tutorial/poaste-email.webp";
-import imageSharebtn from "@/assets/tutorial/share-btn.webp";
+import image1 from "@/assets/ss/sheet-permission-ss/1.webp";
+import image2 from "@/assets/ss/sheet-permission-ss/2.webp";
+import image3 from "@/assets/ss/sheet-permission-ss/3.webp";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
 
@@ -21,11 +19,10 @@ export default function FormAddService() {
   return (
     <>
       <div className="flex h-full flex-col items-center justify-between text-sm">
-        <Steeper setpNumber={2} />
+        <Steeper stepNum={2} />
         <div className="my-auto self-center">
           <NavLink href={"/add-services/form/add-bot-to-server"}>
             <Button variant={"outline"} className="mb-4">
-              {" "}
               <ArrowLeft className="mr-4" /> Back
             </Button>
           </NavLink>
@@ -36,21 +33,19 @@ export default function FormAddService() {
                 This Sheet will be used to manage users
               </span>
             </h1>
-            {/* SELECTER */}
-
-            {/* STEP -2 */}
 
             <>
               {/* STEP - 1 */}
               <h2 className="text-xl underline decoration-primary underline-offset-2">
                 Step 1
               </h2>
-              {/* <h3 className="text-lg">Give access to the given link how ?</h3> */}
               <ExampleDialog title="Give your google sheet access to this email, Click here to learn how ?">
                 <div>
                   <ul className="space-y-8">
                     <li>
-                      <span>1.Copy this email</span>
+                      <span className="underline decoration-primary">
+                        Copy this email
+                      </span>
                       <div className="mt-2 flex items-center rounded-lg border bg-card font-light text-card-foreground shadow-sm">
                         <span className="flex-1 pl-2">
                           authify@eastern-braid-380722.iam.gserviceaccount.com
@@ -73,28 +68,25 @@ export default function FormAddService() {
                       </div>
                     </li>
                     <li>
-                      2.Open google sheet that contains user data and click on
+                      1.Open google sheet that contains user data and click on
                       share button and a popup will appear.
-                      <Image src={imageSharebtn} alt="share button image" />
+                      <Image src={image1} alt="share button image" />
                     </li>
 
                     <li>
-                      3.Paste the email which you copied in {"step 1"} to{" "}
-                      <span className="rounded-md bg-muted-foreground bg-opacity-60 p-1 px-2 text-background">
+                      2.Paste the email which you copied in {"step 1"} to{" "}
+                      <span className="rounded-md bg-muted bg-opacity-60 p-1 px-2 ">
                         {"Add people input"}
                       </span>{" "}
                       as shown in image below.
                       <br /> After that click on done and move to next step
                       done.
-                      <Image src={imagePasteemail} alt="share button image" />
+                      <Image src={image2} alt="share button image" />
                     </li>
                     <li>
-                      4.At last make sure that editor is selected in the button
+                      3.At last make sure that editor is selected in the button
                       showed in image below. after that click on send.
-                      <Image
-                        src={imageConfirmpermmission}
-                        alt="share button image"
-                      />
+                      <Image src={image3} alt="share button image" />
                     </li>
                   </ul>
                 </div>
