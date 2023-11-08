@@ -77,10 +77,8 @@ export default function FormComponent() {
       updateSheetUrl(reqData.url);
 
       if (res.success) {
-        if (res.data.length > 1) {
+        if (res.data.length > 1)
           router.push("select-sheet");
-          return;
-        }
 
         // else only one sheet in spreedsheet
         updateSelectedSheet(res.data[0]);

@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
+import { PrimitiveDivProps } from "@radix-ui/react-dialog";
 
-interface SteperProps {
-  stepNum: 1 | 2 | 3 | 4;
+interface SteperProps extends PrimitiveDivProps {
+  stepNum: number;
 }
 export default function Stepper({ stepNum }: SteperProps) {
   return (

@@ -6,11 +6,10 @@ import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +25,6 @@ import explaneLayout from "@/assets/ss/cell-name.webp";
 import { useToast } from "@/components/ui/use-toast";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useNewServerStore } from "@/store";
-import { AxiosError } from "axios";
 import Link from "next/link";
 
 /**Todo
@@ -48,7 +46,7 @@ const formSchema = z.object({
     .toUpperCase(),
 });
 
-export default function Test() {
+export default function AddDataCell() {
   const router = useRouter();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({

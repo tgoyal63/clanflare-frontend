@@ -11,33 +11,31 @@ import { useState } from "react";
 
 import { ExampleDialog, Steeper } from "@/components";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { useAxiosApi } from "@/hooks/useAxiosApi";
-import { useNewServerStore } from "@/store";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Loader2, RefreshCw, X } from "lucide-react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { useAxiosApi } from "@/hooks/useAxiosApi";
+import { cn } from "@/lib/utils";
+import { useNewServerStore } from "@/store";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ArrowLeft, Loader2, RefreshCw, X } from "lucide-react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
+import RolesSkeleton from "@/components/shared/skeletons/RolesSkeleton";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { serialize } from "v8";
-import RolesSkeleton from "@/components/shared/skeletons/RolesSkeleton";
 
 import image1 from "@/assets/roles-tut/1.webp";
 import image2 from "@/assets/roles-tut/2.jpg";
@@ -67,7 +65,7 @@ const FormSchema = z.object({
   serviceName: z.string().min(1, { message: "Service name is required" }),
 });
 
-export default function FormAddService() {
+export default function SelectBotRoles() {
   const router = useRouter();
   const { toast } = useToast();
   const { api } = useAxiosApi();

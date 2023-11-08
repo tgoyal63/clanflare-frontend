@@ -29,9 +29,9 @@ export default function AddNewServerCard({ name, id, isAdmin, icon }: Props) {
           href={
             isAdmin
               ? {
-                  pathname: "add-services/form",
-                  query: { id: id },
-                }
+                pathname: "add-services",
+                query: { step: 2, id: id },
+              }
               : "#"
           }
           className={cn("flex h-full items-center gap-2", {

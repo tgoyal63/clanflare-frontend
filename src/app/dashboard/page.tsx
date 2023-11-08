@@ -4,7 +4,7 @@ import CardSkeleton from "@/components/shared/skeletons/SkeletonCard";
 
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useQuery } from "@tanstack/react-query";
-import { Heading1, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 
 export default function DashBoard() {
@@ -55,13 +55,13 @@ export default function DashBoard() {
             ) : (
               <>
                 {// @ts-ignore
-                query.data?.map((item: any, index) => {
-                  console.log("DATA::", item);
-                  return <CardDashboard key={index} data={item} />;
-                })}
+                  query.data?.map((item: any, index) => {
+                    console.log("DATA::", item);
+                    return <CardDashboard key={index} data={item} />;
+                  })}
                 <Link
                   className="cols-span-1 flex h-full w-full flex-col items-center justify-center gap-2 rounded-md border bg-gradient-to-r from-purple-600 to-purple-800 py-6 text-white hover:scale-105 active:scale-100"
-                  href={"/add-services"}
+                  href={"/add-services?step=1"}
                 >
                   <Plus className="mr-2 text-white" />
                   <span className="block text-white">Add new Service</span>

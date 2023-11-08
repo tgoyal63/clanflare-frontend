@@ -18,9 +18,8 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-// import imageCopylink  from "@/assets/tutorial/copy-link.webp"
 
-export default function Page() {
+export default function SelectSheet() {
   const sheetData = useNewServerStore((state) => state.googleSheet.allSheets);
   const updateSelectedSheet = useNewServerStore(
     (state) => state.updateSelectedSheet,
@@ -46,7 +45,7 @@ export default function Page() {
       <>
         <div className="flex h-full flex-col items-center justify-between text-sm">
           <div className="my-auto self-center">
-            <Link href={"./add-sheet"}>
+            <Link href={"/add-service?step=2"}>
               <Button variant={"outline"} className="mb-4">
                 {" "}
                 <ArrowLeft className="mr-4" /> Back
@@ -74,7 +73,7 @@ export default function Page() {
                 onValueChange={handleSelectChange}
                 open={isOpen}
                 onOpenChange={setIsOpen}
-                // value={selectedValue}
+              // value={selectedValue}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Sheet link" />

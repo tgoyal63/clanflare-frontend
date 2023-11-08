@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { ArrowLeft, CopyIcon } from "lucide-react";
 import NavLink from "next/link";
 
-import { ExampleDialog, SheetInputForm, Steeper } from "@/components";
+import { ExampleDialog, SheetInputForm } from "@/components";
 
 import image1 from "@/assets/ss/sheet-permission-ss/1.webp";
 import image2 from "@/assets/ss/sheet-permission-ss/2.webp";
@@ -14,14 +14,13 @@ import image3 from "@/assets/ss/sheet-permission-ss/3.webp";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
 
-export default function FormAddService() {
+export default function LinkSheet() {
   const { toast } = useToast();
   return (
     <>
       <div className="flex h-full flex-col items-center justify-between text-sm">
-        <Steeper stepNum={2} />
         <div className="my-auto self-center">
-          <NavLink href={"/add-services/form/add-bot-to-server"}>
+          <NavLink href={"/add-services?step=2"}>
             <Button variant={"outline"} className="mb-4">
               <ArrowLeft className="mr-4" /> Back
             </Button>

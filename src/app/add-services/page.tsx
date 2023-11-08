@@ -1,67 +1,51 @@
 "use client";
-import { AddNewServerCard } from "@/components";
-import CardSkeleton from "@/components/shared/skeletons/SkeletonCard";
-import { useAxiosApi } from "@/hooks/useAxiosApi";
+
+import SelectServer from "@/components/addNewServer/forms/SelectServers";
 import { useNewServerStore } from "@/store";
-import { useQuery } from "@tanstack/react-query";
+import dynamic from 'next/dynamic';
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
+/* sheet */
+const LinkSheet = dynamic(() => import('@/components/addNewServer/forms/sheet-linking/LinkSheet'), {
+  loading: () => <p>Loading...</p>,
+})
+const SelectSheet = dynamic(() => import('@/components/addNewServer/forms/sheet-linking/SelectSheet'), {
+  loading: () => <p>Loading...</p>,
+})
+const AddDataCells = dynamic(() => import('@/components/addNewServer/forms/sheet-linking/AddDataCells'), {
+  loading: () => <p>Loading...</p>,
+})
+
+const AddBot = dynamic(() => import('@/components/addNewServer/forms/AddBot'), {
+  loading: () => <p>Loading...</p>,
+})
+const SelectRoles = dynamic(() => import('@/components/addNewServer/forms/selectBotRoles'), {
+  loading: () => <p>Loading...</p>,
+})
+
 export default function Page() {
-  const { api } = useAxiosApi();
-  const clean = useNewServerStore((state) => state.clean);
-  const { data: servers, isLoading } = useQuery({
-    queryKey: ["all-servers-"],
-    queryFn: async () => {
-      const res = await api.get("/guilds");
-      return res.data.data;
-    },
-  });
+  const params = useSearchParams()
+  const updateServerId = useNewServerStore(state => state.updateServer)
 
   useEffect(() => {
-    // cleans all the data from addNewServerStore
-    clean();
-  }, []);
+    const serverId = params.get('id')
+    if (serverId)
+      updateServerId(serverId, false)
+  }, [params])
 
-  return (
-    <div>
-      <section className="mt-5">
-        <h1 className="text-2xl ">All servers</h1>
-      </section>
-      <section className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 ">
-        {isLoading ? (
-          <CardSkeleton />
-        ) : (
-          <>
-            {servers?.map((item: any, i: number) => {
-              return (
-                item.isAdmin && (
-                  <AddNewServerCard
-                    key={i}
-                    name={item.name}
-                    icon={item.icon}
-                    isAdmin={item.isAdmin}
-                    id={item.id}
-                  />
-                )
-              );
-            })}
-
-            {servers?.map((item: any, i: number) => {
-              return (
-                !item.isAdmin && (
-                  <AddNewServerCard
-                    key={i}
-                    name={item.name}
-                    icon={item.icon}
-                    isAdmin={item.isAdmin}
-                    id={item.id}
-                  />
-                )
-              );
-            })}
-          </>
-        )}
-      </section>
-    </div>
-  );
+  switch (Number(params.get('step'))) {
+    case 1:
+      return <SelectServer />;
+    case 2:
+      return <AddBot />;
+    case 3:
+      return <LinkSheet />;
+    case 4:
+      return <SelectSheet />;
+    case 5:
+      return <AddDataCells />;
+    default:
+      return <SelectServer />;
+  }
 }

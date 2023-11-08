@@ -3,21 +3,19 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-import { Steeper } from "@/components";
 import { useToast } from "@/components/ui/use-toast";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useNewServerStore } from "@/store";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ArrowLeft, ExternalLinkIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-export default function FormAddService() {
+
+export default function AddBot() {
   const router = useRouter();
   const { toast } = useToast();
   const { api } = useAxiosApi();
-  const params = useSearchParams();
-  const guildId = params.get("id");
 
   const serverId = useNewServerStore((state) => state.server.id);
 
@@ -41,7 +39,7 @@ export default function FormAddService() {
       toast({
         title: "Bot Added Succefully 😊",
       });
-      router.push("./sheet-linking/add-sheet");
+      router.push("/add-services?step=3")
     },
     onError: (error: any) => {
       toast({
@@ -54,10 +52,12 @@ export default function FormAddService() {
   return (
     <>
       <div className="flex h-full flex-col items-center justify-between text-sm">
-        <Steeper stepNum={1} />
         <div className="my-auto mt-14 self-center">
           <div className="my-auto self-center">
-            <Link href={"../"}>
+            <Link href={{
+              pathname: "/add-services",
+              query: { step: 1 }
+            }}>
               <Button variant={"outline"} className="mb-4">
                 <ArrowLeft className="mr-4" /> Back
               </Button>
