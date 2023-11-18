@@ -10,6 +10,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { ArrowLeft, ExternalLinkIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 
 export default function AddBot() {
@@ -48,6 +49,10 @@ export default function AddBot() {
       });
     },
   });
+
+  useEffect(() => {
+    verifyBot(serverId)
+  }, [])
 
   return (
     <>
