@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { useToast } from "@/components/ui/use-toast";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useNewServerStore } from "@/store";
 import { sheetData } from "@/store/addServerStore";
@@ -45,6 +46,7 @@ export default function FormComponent() {
 
   const router = useRouter();
   const { api } = useAxiosApi();
+  const { toast } = useToast()
 
   // store
   const updateSheetsData = useNewServerStore(
@@ -77,27 +79,23 @@ export default function FormComponent() {
       updateSheetUrl(reqData.url);
 
       if (res.success) {
-        if (res.data.length > 1)
-          router.push("select-sheet");
-
-        // else only one sheet in spreedsheet
-        updateSelectedSheet(res.data[0]);
-        router.push("add-data-cells");
-        return;
+        if (res.data.length < 1)
+          updateSelectedSheet(res.data[0]);
       }
 
-      // else handle error i.e succeess is false
-      alert("Error occure, but sheet conected bro");
+      router.push("/add-services?step=4");
     },
 
-    onError: () => {
-      alert("error occured");
+    onError: (error: any) => {
+      toast({
+        title: error.response?.data.message || error.message,
+        variant: 'destructive'
+      })
     },
   });
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof SheetFormSchema>) {
-    // const sheetId = extractIdFromSheetUrl(values.url);
     submitForm(values);
   }
   return (

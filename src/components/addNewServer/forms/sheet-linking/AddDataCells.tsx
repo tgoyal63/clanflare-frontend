@@ -1,11 +1,12 @@
 "use client";
 
-import { ExampleDialog, Steeper } from "@/components";
+import { ExampleDialog } from "@/components";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,61 +27,205 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useNewServerStore } from "@/store";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+
+
 
 /**Todo
  * form validation me check if row's are same
  */
 
 const formSchema = z.object({
-  phoneNumberCell: z
-    .string()
-    .regex(/^[a-zA-Z]+[0-9]+$/, "invalid input")
-    .toUpperCase(),
-  emailCell: z
-    .string()
-    .regex(/^[a-zA-Z]+[0-9]+$/, "invalid input")
-    .toUpperCase(),
-  discordCell: z
-    .string()
-    .regex(/^[a-zA-Z]+[0-9]+$/, "invalid input")
-    .toUpperCase(),
+  heagersRow: z.string().regex(/^\d+$/, { message: "must be a valid number" })
 });
+
+// TODO: improve this zod obj
+const HeadersformSchema = z.object({
+  phoneHeader: z.string(),
+  nameHeader: z.string(),
+  discordId: z.string(),
+
+}).refine((values) => {
+  const condition = values.phoneHeader !== values.discordId && values.phoneHeader !== values.nameHeader && values.nameHeader !== values.discordId
+  return condition
+}, {
+  message: "Values should not be same",
+  path: ["phoneHeader"]
+}).refine((values) => {
+  const condition = values.phoneHeader !== values.discordId && values.phoneHeader !== values.nameHeader && values.nameHeader !== values.discordId
+  return condition
+}, {
+  message: "Values should not be same",
+  path: ["nameHeader"]
+}).refine((values) => {
+  const condition = values.phoneHeader !== values.discordId && values.phoneHeader !== values.nameHeader && values.nameHeader !== values.discordId
+  return condition
+}, {
+  message: "Values should not be same",
+  path: ["discordId"]
+});
+
+function SelectHeadersForm({ sheetHeaders }: { sheetHeaders: string[] }) {
+  const [headers, setHeaders] = useState<string[]>([])
+
+  useEffect(() => {
+    setHeaders(sheetHeaders)
+  }, [sheetHeaders])
+  const form = useForm<z.infer<typeof HeadersformSchema>>({
+    resolver: zodResolver(HeadersformSchema),
+    reValidateMode: "onChange",
+  });
+
+  function handleSubmit(data: z.infer<typeof HeadersformSchema>) {
+    console.log(data)
+  }
+
+  return <>
+
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <h1>Select Headers from following </h1>
+        <FormField
+          control={form.control}
+          name="nameHeader"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>User Name</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a verified email to display" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {headers.map((header) => {
+                    return header && <SelectItem value={header} key={header}>{header}</SelectItem>
+                  })}
+                </SelectContent>
+              </Select>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <span className="my-4 block" ></span>
+        <FormField
+          control={form.control}
+          name="phoneHeader"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number Header</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a verified email to display" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {headers.map((header) => {
+
+                    return header && <SelectItem value={header} key={header}>{header}</SelectItem>
+
+                  })}
+
+                </SelectContent>
+              </Select>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <span className="my-4 block" ></span>
+
+        <FormField
+          control={form.control}
+          name="discordId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Discord Id Header</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a verified email to display" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {headers.map((header) => {
+
+                    return header && <SelectItem value={header} key={header}>{header}</SelectItem>
+
+                  })}
+
+                </SelectContent>
+              </Select>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+
+
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            className="ml-auto mt-2 "
+          // disabled={isLoading}
+          >
+            {/* {isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              "Get Headers"
+            )} */}
+            sibmit
+          </Button>
+        </div>
+      </form>
+    </Form>
+  </>
+}
+
 
 export default function AddDataCell() {
   const router = useRouter();
   const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     reValidateMode: "onChange",
   });
 
+
+
   const { api } = useAxiosApi();
   const currentSheet = useNewServerStore((s) => s.googleSheet);
   const updateCells = useNewServerStore((s) => s.replaceCells);
+  const [headersList, setHeadersList] = useState<string[]>([])
 
   const { mutate, isPending: isLoading } = useMutation({
     mutationKey: ["google-sheet-setup"],
     mutationFn: async (data: z.infer<typeof formSchema>) => {
-      const res = await api.get("/validate-sheet-headers", {
+      const res = await api.get("/sheetHeaders", {
         params: {
           spreadSheetUrl: currentSheet.url,
-          sheetId: currentSheet.selectedSheet.sheetId,
-          phoneCell: data.phoneNumberCell,
-          emailCell: data.emailCell,
-          discordIdCell: data.discordCell,
+          sheetName: currentSheet.selectedSheet.title,
+          headerRow: data.heagersRow,
         },
       });
       // return res.data;
-      return data;
+      return res.data as { data: string[] };
     },
     onSuccess: (data) => {
-      // save data to store
-      updateCells({
-        userDiscordId: data.discordCell,
-        userEmail: data.emailCell,
-        userPhone: data.phoneNumberCell,
-      });
-      router.push(`/add-services/form/bot-roles`);
+      setHeadersList(data.data)
     },
 
     onError: (error: any) => {
@@ -93,44 +238,13 @@ export default function AddDataCell() {
 
   // handler
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (
-      values.discordCell.slice(1) !== values.emailCell.slice(1) ||
-      values.discordCell.slice(1) !== values.phoneNumberCell.slice(1)
-    ) {
-      form.setError("phoneNumberCell", {
-        message:
-          "All Row's shoudl be Same examle: A3,B3,D3 ,here 3 is Row number",
-      });
-      form.setError("emailCell", {
-        message:
-          "All Row's shoudl be Same examle: A3,B3,D3 ,here 3 is Row number",
-      });
-      form.setError("discordCell", {
-        message:
-          "All Row's shoudl be Same examle: A3,B3,D3 ,here 3 is Row number",
-      });
-      return;
-    }
-    if (values.emailCell === values.phoneNumberCell) {
-      form.setError("phoneNumberCell", {
-        message: "multiple field's cant have same value",
-      });
-      form.setError("emailCell", {
-        message: "multiple field's cant have same value",
-      });
-      form.setError("discordCell", {
-        message: "multiple field's cant have same value",
-      });
-      return;
-    }
+
     mutate(values);
   }
 
   return (
     <>
       <div className="flex h-full flex-col items-center justify-between text-sm">
-        <Steeper stepNum={3} />
-
         <div>
           <Link
             href={"./select-sheet"}
@@ -141,7 +255,7 @@ export default function AddDataCell() {
             </Button>
           </Link>
           <Card className="h-fit w-fit self-center p-4">
-            <h1 className="mb-4 text-3xl"> Enter the cell Details of sheet</h1>
+            <h1 className="mb-4 text-3xl">Headers Selections</h1>
             <ExampleDialog
               title="For more details click here"
               className="w-full"
@@ -161,80 +275,46 @@ export default function AddDataCell() {
             </ExampleDialog>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="grid grid-rows-2 gap-6">
-                  <FormField
-                    control={form.control}
-                    name="emailCell"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email Cell</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="text"
-                            placeholder="for example. D2"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="phoneNumberCell"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone Number cell</FormLabel>
-                        <FormControl>
-                          <Input
-                            className="w-full"
-                            placeholder="for example. A2"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
 
-                  <FormField
-                    control={form.control}
-                    name="discordCell"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          Discord Id cell
-                          <span className="italic">
-                            {"here user's discord id will be stored"}
-                          </span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            className="w-full"
-                            placeholder="for example. C2"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="flex">
+                <FormField
+                  control={form.control}
+                  name="heagersRow"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Row number</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="for example. 2"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Enter the row number where all the headers are located
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+
+                <div className="flex justify-end">
                   <Button
                     type="submit"
-                    className="ml-auto mt-6 w-full md:w-fit"
+                    className="ml-auto mt-4 "
                     disabled={isLoading}
                   >
                     {isLoading ? (
                       <Loader2 className="animate-spin" />
                     ) : (
-                      "Submit"
+                      "Get Headers"
                     )}
                   </Button>
                 </div>
               </form>
             </Form>
+            {headersList.length ? <SelectHeadersForm sheetHeaders={headersList} /> : <></>}
+
           </Card>
         </div>
       </div>

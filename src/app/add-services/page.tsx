@@ -20,6 +20,7 @@ const AddDataCells = dynamic(() => import('@/components/addNewServer/forms/sheet
 const AddBot = dynamic(() => import('@/components/addNewServer/forms/AddBot'), {
   loading: () => <p>Loading...</p>,
 })
+
 const SelectRoles = dynamic(() => import('@/components/addNewServer/forms/selectBotRoles'), {
   loading: () => <p>Loading...</p>,
 })
@@ -42,10 +43,21 @@ export default function Page() {
     case 3:
       return <LinkSheet />;
     case 4:
-      return <SelectSheet />;
+      return <HandleMultipleSheet />;
     case 5:
       return <AddDataCells />;
     default:
       return <SelectServer />;
   }
+}
+
+function HandleMultipleSheet() {
+
+  const sheets = useNewServerStore(s => s.googleSheet.allSheets)
+  const selectedSheet = useNewServerStore(s => s.googleSheet.selectedSheet)
+
+  return <>
+    {sheets.length > 1 ? <SelectSheet /> : <AddDataCells />}
+  </>
+
 }

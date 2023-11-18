@@ -37,7 +37,7 @@ export default function SelectSheet() {
     const temp = sheetData[Number(index)];
 
     updateSelectedSheet(temp);
-    router.push("./add-data-cells");
+    router.push("./add-services?step=5");
   }
 
   return (
