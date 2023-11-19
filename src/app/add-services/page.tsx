@@ -1,28 +1,30 @@
 "use client";
 
 import SelectServer from "@/components/addNewServer/forms/SelectServers";
+import { Card } from "@/components/ui/card";
 import { useNewServerStore } from "@/store";
+import { Loader2 } from "lucide-react";
 import dynamic from 'next/dynamic';
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 /* sheet */
 const LinkSheet = dynamic(() => import('@/components/addNewServer/forms/sheet-linking/LinkSheet'), {
-  loading: () => <p>Loading...</p>,
+  loading: () => <FormLoadingSkeleton />
 })
 const SelectSheet = dynamic(() => import('@/components/addNewServer/forms/sheet-linking/SelectSheet'), {
-  loading: () => <p>Loading...</p>,
+  loading: () => <FormLoadingSkeleton />
 })
 const AddDataCells = dynamic(() => import('@/components/addNewServer/forms/sheet-linking/AddDataCells'), {
-  loading: () => <p>Loading...</p>,
+  loading: () => <FormLoadingSkeleton />
 })
 
 const AddBot = dynamic(() => import('@/components/addNewServer/forms/AddBot'), {
-  loading: () => <p>Loading...</p>,
+  loading: () => <FormLoadingSkeleton />
 })
 
 const SelectRoles = dynamic(() => import('@/components/addNewServer/forms/selectBotRoles'), {
-  loading: () => <p>Loading...</p>,
+  loading: () => <FormLoadingSkeleton />
 })
 
 export default function Page() {
@@ -51,13 +53,23 @@ export default function Page() {
   }
 }
 
-function HandleMultipleSheet() {
+function FormLoadingSkeleton() {
+  return <>
+    <div className="flex h-lg w-lg flex-col items-center justify-between text-sm">
+      <div className="my-auto self-center">
+        <Card className="my-auto w-full w-lg h-lg justify-center items-start p-6 shadow-md">
+          <Loader2 className="animate-spin" />
+        </Card>
+      </div>
+    </div>
+  </>
+}
 
-  const sheets = useNewServerStore(s => s.googleSheet.allSheets)
-  const selectedSheet = useNewServerStore(s => s.googleSheet.selectedSheet)
+function HandleMultipleSheet() {
+  // will use title for selected sheets as condition to check if a sheet has been selected
+  const titleAsCondition = useNewServerStore(s => s.googleSheet.selectedSheet.title)
 
   return <>
-    {sheets.length > 1 ? <SelectSheet /> : <AddDataCells />}
+    {titleAsCondition ? <AddDataCells /> : <SelectSheet />}
   </>
-
 }

@@ -35,9 +35,7 @@ export default function SelectSheet() {
 
   function handleSubmit(index: string) {
     const temp = sheetData[Number(index)];
-
     updateSelectedSheet(temp);
-    router.push("./add-services?step=5");
   }
 
   return (
