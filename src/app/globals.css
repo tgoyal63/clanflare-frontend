@@ -6,6 +6,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -115,7 +116,8 @@
 }
 
 @property --var-angle {
-  syntax: "<angle>"; /* <- defined as type number for the transition to work */
+  syntax: "<angle>";
+  /* <- defined as type number for the transition to work */
   initial-value: 0deg;
   inherits: false;
 }
@@ -128,25 +130,26 @@
   @apply bg-slate-950;
   transition: background ease-out 0.3s;
 }
+
 .btn-hero::after,
 .btn-hero::before {
   content: "";
   @apply rounded-lg;
   --var-angle: 90deg;
-  background: linear-gradient(
-    var(--var-angle),
-    rgba(131, 58, 180, 1) 0%,
-    rgba(253, 29, 29, 1) 50%,
-    rgba(252, 176, 69, 1) 100%
-  );
+  background: linear-gradient(var(--var-angle),
+      rgba(131, 58, 180, 1) 0%,
+      rgba(253, 29, 29, 1) 50%,
+      rgba(252, 176, 69, 1) 100%);
   inset: -0.2rem;
   z-index: -5;
   position: absolute;
   transition: all;
 }
+
 .btn-hero:hover {
   @apply bg-slate-900;
 }
+
 .btn-hero:hover::after {
   animation: rotate 2s linear infinite;
 }
@@ -194,14 +197,17 @@
   @apply bg-orange-500;
   /* animation-delay: 1s; */
 }
+
 .hlight-1::before {
   @apply bg-orange-900;
   /* animation-delay: 1s; */
 }
+
 .hlight-2::after {
   @apply bg-cyan-500;
   animation-delay: 0.8s;
 }
+
 .hlight-2::before {
   @apply bg-cyan-900;
   animation-delay: 0.8s;
@@ -211,6 +217,7 @@
   @apply bg-fuchsia-500;
   animation-delay: 1.8s;
 }
+
 .hlight-3::before {
   @apply bg-fuchsia-900;
   animation-delay: 1.8s;
@@ -228,4 +235,29 @@
   100% {
     transform: scaleX(1);
   }
+}
+
+
+
+.main-image-window-controls>li {
+  @apply rounded-full my-1 ml-1;
+
+  height: .6rem;
+  width: .6rem;
+  /* background-color: azure; */
+}
+
+.main-image {
+  position: relative;
+}
+
+
+.main-image::before {
+  content: "";
+  @apply bg-indigo-950;
+  inset: -.5rem;
+  filter: blur(100px);
+  position: absolute;
+  transition: all;
+  z-index: -5;
 }

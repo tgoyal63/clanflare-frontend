@@ -10,11 +10,7 @@ export default function Testimonials(props: TestimonilProps) {
   return (
     <>
       <div className="relative col-span-1 rounded-xl border border-slate-500 border-opacity-30 bg-slate-900 bg-opacity-50 p-4">
-        <span className="absolute z-[-5] h-24 w-24 bg-gradient-to-t from-cyan-700 to-pink-700 blur-2xl"></span>
-        <p>
-          <span className="block pt-4  leading-3">{'"'}</span>
-          {props.details}
-        </p>
+        <p>{props.details}</p>
         <div className="flex items-center pt-4">
           <img
             className="mr-4 inline-block h-6 w-6 rounded-full ring-2 ring-red-400 ring-white"

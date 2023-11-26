@@ -1,7 +1,9 @@
 import { TestiMonialCards } from "@/components";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "@/assets/circleicon.png";
+
+import mainImage from "@/assets/landingpage/dashboard.png";
+import { Check } from "lucide-react";
 
 const MockData = [
   {
@@ -25,34 +27,44 @@ const MockData = [
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen  flex-col items-center justify-between bg-gradient-to-b from-sky-950 to-slate-950 p-4 text-white">
-      <div className="z-10 w-full max-w-5xl  text-sm">
-        <nav className="sticky top-0 z-10 flex items-center backdrop-blur-md">
-          <Link className="flex items-center gap-3" href="#">
-            <Image src={logo} className="h-14 w-14" alt="authify" />
-            Authify
+    <main className="flex min-h-screen  flex-col items-center justify-between bg-slate-950 text-white">
+      <div className="sticky top-0 z-40 grid w-full place-items-center  shadow-lg backdrop-blur-xl">
+        <nav className="flex w-full max-w-7xl items-center px-4 py-3">
+          <Link className="flex items-center gap-3 font-bold" href="#">
+            {/* <Image src={logo} className="h-14 w-14" alt="authify" /> */}
+            Authopi
           </Link>
+          <ul className="ml-4 flex items-center space-x-2 opacity-80 ">
+            <li>
+              <Link href={"#featchers"}>Features</Link>
+            </li>
+            <li className="">
+              <Link href={"#price"}>Pricing</Link>
+            </li>
+          </ul>
 
           <ul className="ml-auto flex items-center space-x-2 ">
             <li>
               <Link
-                className="rounded-md px-2 py-2 transition-colors hover:bg-slate-700"
-                href={"/auth"}
-              >
-                CreateAccount
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="rounded-md px-2 py-2 transition-colors hover:bg-slate-700"
+                className="rounded-full border border-zinc-900  px-4 py-2 transition-colors hover:border-zinc-700"
                 href={"/auth"}
               >
                 Login
               </Link>
             </li>
+            <li className="">
+              <Link
+                className="rounded-full bg-indigo-700 px-4 py-2 font-semibold transition-colors hover:bg-indigo-800"
+                href={"/auth"}
+              >
+                Signup
+              </Link>
+            </li>
           </ul>
         </nav>
-        {/* Hero section */}
+      </div>
+      {/* Hero section */}
+      <div className="z-10 max-w-5xl  px-4  text-sm">
         <section
           id="hero"
           className="mt-20  grid place-content-center text-center"
@@ -96,9 +108,26 @@ export default function Home() {
             </Link>
           </div>
         </section>
-
+        <div className="mt-28">
+          <div className="flex w-full rounded-t-lg bg-zinc-900">
+            <ul className="main-image-window-controls flex gap-1">
+              <li className="bg-gray-600"></li>
+              <li className="bg-gray-600"></li>
+              <li className="bg-gray-600"></li>
+            </ul>
+          </div>
+          <div className="main-image ">
+            <Image
+              src={mainImage}
+              alt="dashboard image display"
+              className="rounded-b-lg"
+            />
+          </div>
+        </div>
         {/* Testimonial Section */}
-        <h2 className="mb-4 text-2xl">Testimonial</h2>
+        <h2 className="mb-16 mt-20 text-center text-5xl font-semibold ">
+          Testimonials
+        </h2>{" "}
         <section
           id="testimonial"
           className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-6"
@@ -115,8 +144,148 @@ export default function Home() {
             );
           })}
         </section>
-        <div className="absolute left-[10%] top-[50%] z-[-5] h-60 w-60 bg-gradient-to-t  from-sky-900 to-pink-700 blur-3xl"></div>
+        <h2 className="relative mb-16 mt-20 text-center text-5xl font-semibold ">
+          Features you get
+          <div className=" absolute left-[50%]  top-0 z-[-10] h-32 w-32 translate-x-[-50%] rounded-full bg-gradient-to-t from-indigo-900 to-red-900 blur-2xl"></div>
+        </h2>{" "}
+        <section>
+          <h2 className="mb-4 text-3xl font-semibold">Lorem, ipsum.</h2>
+          <h2 className="text-lg">
+            Get Otp othentication inside you discord server, even better link
+            google sheet and only people there can access it
+            <ul>
+              <li>one</li>
+              <li>one</li>
+              <li>one</li>
+            </ul>
+          </h2>
+
+          <h2 className="mt-8 text-xl font-semibold">Lorem, ipsum.</h2>
+
+          <span>
+            Get Otp othentication inside you discord server, even better link
+            google sheet and only people there can access it
+          </span>
+          <h2>Track User activities in a way not possible before this </h2>
+          <h2>CRM Dashboard</h2>
+        </section>
+        <section>Special Featcherd Mods</section>
+        <h2 className="mb-16 mt-20 text-center text-5xl font-semibold ">
+          Pricng
+        </h2>
+        <section className="relative grid  place-items-center gap-4  sm:grid-cols-2">
+          <div className="absolute left-[50%] top-0 z-[-5] h-60 w-60 translate-x-[-50%] bg-gradient-to-t from-sky-900  to-emerald-950 blur-3xl"></div>
+
+          <SamplePricingComponent />
+          <SamplePricingComponent />
+        </section>
+        {/* blog */}
+        <div className="absolute left-[50%] top-0 z-[-10] h-32 w-1/3 translate-x-[-50%] rounded-full bg-gradient-to-t  from-indigo-800 to-emerald-950 blur-[10rem] "></div>
       </div>
+
+      {/* footer */}
+      <footer className="mt-10 flex w-full  justify-between gap-10 border-t bg-black px-10 py-10">
+        <div className="h-full place-self-center text-xl font-bold">
+          Authopi
+        </div>
+        <ul>
+          <h4 className="mb-4 block font-semibold opacity-90">
+            Social Handles
+          </h4>
+          <li className="text-zinc-400"> linkdin</li>
+          <li className="text-zinc-400">Twitter</li>
+        </ul>
+        <ul>
+          <span className="mb-4 block font-semibold opacity-90">Resources</span>
+          <li className="text-zinc-400"> linkdin</li>
+          <li className="text-zinc-400">Twitter</li>
+        </ul>
+        <ul>
+          <span className="mb-4 block font-semibold opacity-90">
+            Contact Us
+          </span>
+          <li className="text-zinc-400"> linkdin</li>
+          <li className="text-zinc-400">Twitter</li>
+        </ul>
+      </footer>
     </main>
+  );
+}
+
+function SamplePricingComponent() {
+  return (
+    <>
+      <div className="relative max-w-sm rounded-xl border border-slate-800 bg-slate-950 bg-opacity-40 px-10 py-8">
+        <h3 className="text-xl font-bold">Custom Solution</h3>
+        <span className="mb-3 mt-1 block text-3xl font-bold">Custom</span>
+        <span className="block font-semibold text-gray-300">
+          For teams with more security, support, and performance needs.
+        </span>
+
+        <ul className="mt-4 space-y-4 ">
+          <li className="flex gap-2">
+            {" "}
+            <Check
+              height={"1.5rem"}
+              width={"1.5rem"}
+              className="rounded-full bg-gray-50 p-1 text-black"
+            />{" "}
+            feacture 1
+          </li>
+          <li className="flex gap-2">
+            {" "}
+            <Check
+              height={"1.5rem"}
+              width={"1.5rem"}
+              className="rounded-full bg-gray-50 p-1 text-black"
+            />{" "}
+            feacture 1
+          </li>
+          <li className="flex gap-2">
+            {" "}
+            <Check
+              height={"1.5rem"}
+              width={"1.5rem"}
+              className="rounded-full bg-gray-50 p-1 text-black"
+            />{" "}
+            feacture 1
+          </li>
+          <li className="flex gap-2">
+            {" "}
+            <Check
+              height={"1.5rem"}
+              width={"1.5rem"}
+              className="rounded-full bg-gray-50 p-1 text-black"
+            />{" "}
+            feacture 1
+          </li>
+          <li className="flex gap-2">
+            {" "}
+            <Check
+              height={"1.5rem"}
+              width={"1.5rem"}
+              className="rounded-full bg-gray-50 p-1 text-black"
+            />{" "}
+            feacture 1
+          </li>
+          <li className="flex gap-2">
+            {" "}
+            <Check
+              height={"1.5rem"}
+              width={"1.5rem"}
+              className="rounded-full bg-gray-50 p-1 text-black"
+            />{" "}
+            feacture 1
+          </li>
+        </ul>
+
+        {/* footer */}
+        <div>
+          <button className="mt-4 w-full rounded-xl bg-indigo-800 px-4 py-2 text-center hover:bg-indigo-700 active:bg-indigo-600">
+            Get it know
+          </button>
+        </div>
+      </div>
+    </>
   );
 }

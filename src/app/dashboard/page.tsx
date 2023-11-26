@@ -4,7 +4,7 @@ import CardSkeleton from "@/components/shared/skeletons/SkeletonCard";
 
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useQuery } from "@tanstack/react-query";
-import { Heading1, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 
 export default function DashBoard() {
@@ -31,6 +31,7 @@ export default function DashBoard() {
       };
     },
   });
+
   return (
     <main className="flex min-h-full flex-col items-center">
       {/* NAV section */}

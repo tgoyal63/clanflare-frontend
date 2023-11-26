@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type AddNewServerData = {
+export interface AddNewServerData  {
   // TODO: change server to guild
   server: {
     id: string;
@@ -22,7 +22,7 @@ type AddNewServerData = {
   };
 };
 
-export type sheetData = {
+export interface sheetData {
   index: number;
   title: string;
   sheetId: number;
@@ -71,6 +71,7 @@ export const useNewServerStore = create<AddNewServerData & Actions>()(
       server: defaultData.server,
       bot: defaultData.bot,
 
+      // actions
       updateServer: (id, isVerified) => {
         const newServer = {
           id,
