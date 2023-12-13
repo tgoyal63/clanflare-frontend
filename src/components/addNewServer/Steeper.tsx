@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 interface SteperProps {
-  stepNum: 1 | 2 | 3 | 4;
+  stepNum: number;
 }
 export default function Stepper({ stepNum }: SteperProps) {
   return (

@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -32,7 +34,7 @@ export default function RootLayout({
     <html
       lang="en"
       style={{ colorScheme: theme }}
-      className={`${inter.variable} ${theme}`}
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <body>
         <QueryProvider>

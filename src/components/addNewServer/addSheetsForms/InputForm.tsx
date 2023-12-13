@@ -78,13 +78,13 @@ export default function FormComponent() {
 
       if (res.success) {
         if (res.data.length > 1) {
-          router.push("select-sheet");
+          router.push("select-sheet?step=2");
           return;
         }
 
         // else only one sheet in spreedsheet
         updateSelectedSheet(res.data[0]);
-        router.push("add-data-cells");
+        router.push("add-data-cells?step=3");
         return;
       }
 
