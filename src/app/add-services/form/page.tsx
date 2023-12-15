@@ -12,6 +12,6 @@ export default function Profile() {
     const id = params.get("id");
     if (!id) return route.push("./");
     setServer(id, false);
-    redirect("./form/add-bot-to-server");
+    redirect("add-bot-to-server");
   }, []);
 }

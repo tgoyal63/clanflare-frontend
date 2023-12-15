@@ -118,7 +118,6 @@
 
 @property --var-angle {
   syntax: "<angle>";
-  /* <- defined as type number for the transition to work */
   initial-value: 0deg;
   inherits: false;
 }
@@ -135,7 +134,7 @@
 .btn-hero::after,
 .btn-hero::before {
   content: "";
-  @apply rounded-lg;
+  @apply rounded-full;
   --var-angle: 90deg;
   background: linear-gradient(var(--var-angle),
       rgba(131, 58, 180, 1) 0%,
@@ -262,3 +261,37 @@
   transition: all;
   z-index: -5;
 }
+
+
+/* para-underline {
+
+} */
+
+.para-underline {
+  position: relative;
+}
+
+.para-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 0.2rem;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: underLine 1s forwards;
+}
+/* 
+para-underline::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  height: 2rem;
+  transform: scaleX(0);
+  width: 100%;
+  transform-origin: left;
+  animation: underLine 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+} */

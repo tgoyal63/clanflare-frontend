@@ -38,7 +38,7 @@ export default function Page() {
     const temp = sheetData[Number(index)];
 
     updateSelectedSheet(temp);
-    router.push("./add-data-cells");
+    router.push("./add-data-cells?step=3");
   }
 
   return (
@@ -46,7 +46,7 @@ export default function Page() {
       <>
         <div className="flex h-full flex-col items-center justify-between text-sm">
           <div className="my-auto self-center">
-            <Link href={"./add-sheet"}>
+            <Link href={"./add-sheet?step=1"}>
               <Button variant={"outline"} className="mb-4">
                 {" "}
                 <ArrowLeft className="mr-4" /> Back

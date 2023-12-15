@@ -3,7 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import mainImage from "@/assets/landingpage/dashboard.png";
-import { Check } from "lucide-react";
+import tagmangoIcon from "@/assets/featchers-section/tagmango.svg";
+import discordIcon from "@/assets/featchers-section/discord.svg";
+import googleSheetIcon from "@/assets/featchers-section/google-sheet.svg";
+import PlanetDbIcon from "@/assets/featchers-section/planetDb.svg";
+import chartImage from "@/assets/featchers-section/chart-bento-assit.svg";
+import { Check, Fingerprint, Maximize, Maximize2, Mic } from "lucide-react";
 
 const MockData = [
   {
@@ -34,14 +39,6 @@ export default function Home() {
             {/* <Image src={logo} className="h-14 w-14" alt="authify" /> */}
             Authopi
           </Link>
-          <ul className="ml-4 flex items-center space-x-2 opacity-80 ">
-            <li>
-              <Link href={"#featchers"}>Features</Link>
-            </li>
-            <li className="">
-              <Link href={"#price"}>Pricing</Link>
-            </li>
-          </ul>
 
           <ul className="ml-auto flex items-center space-x-2 ">
             <li>
@@ -63,51 +60,36 @@ export default function Home() {
           </ul>
         </nav>
       </div>
-      {/* Hero section */}
       <div className="z-10 max-w-5xl  px-4  text-sm">
+        {/* Hero section */}
         <section
           id="hero"
           className="mt-20  grid place-content-center text-center"
         >
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-5xl font-bold leading-tight  tracking-tight">
+            <h1 className="w-full text-6xl font-bold leading-tight tracking-tight md:text-6xl">
               <span className="fancy-text-hilight hlight-1">Streamline</span>,
               {"  "}
               <span className="fancy-text-hilight hlight-2">Secure</span>, and
               {"  "}
-              <span className="fancy-text-hilight hlight-3">Scale</span>
-              Your Discord Community
+              <span className="fancy-text-hilight hlight-3">Scale</span> Your
+              Discord Community
             </h1>
-            <p className="text-md mt-4 max-w-lg text-center font-bold leading-snug tracking-wider">
+            <p className="my-14 max-w-lg text-center text-xl font-bold text-slate-400">
               Authify, our Ultimate Solution for User Management and
               Authentication on Discord
             </p>
           </div>
           <div className="my-4 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              className="btn-hero w-fit rounded-md px-6 py-4 font-bold active:bg-slate-700 "
+              className="btn-hero w-fit rounded-full px-6 py-4 font-bold active:bg-slate-700 "
               href={"/auth"}
             >
               Create Account for free
             </Link>
-            <Link
-              href={"/auth"}
-              className="w-fit rounded-md border border-slate-300 px-6 py-4 font-bold text-slate-300 transition-colors duration-300 hover:border-primary hover:text-primary "
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-                className="mr-4 inline-block"
-              >
-                <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z" />
-              </svg>
-              Login with Discord
-            </Link>
           </div>
         </section>
+        {/* Hero Image */}
         <div className="mt-28">
           <div className="flex w-full rounded-t-lg bg-zinc-900">
             <ul className="main-image-window-controls flex gap-1">
@@ -145,31 +127,10 @@ export default function Home() {
           })}
         </section>
         <h2 className="relative mb-16 mt-20 text-center text-5xl font-semibold ">
-          Features you get
+          Features
           <div className=" absolute left-[50%]  top-0 z-[-10] h-32 w-32 translate-x-[-50%] rounded-full bg-gradient-to-t from-indigo-900 to-red-900 blur-2xl"></div>
         </h2>{" "}
-        <section>
-          <h2 className="mb-4 text-3xl font-semibold">Lorem, ipsum.</h2>
-          <h2 className="text-lg">
-            Get Otp othentication inside you discord server, even better link
-            google sheet and only people there can access it
-            <ul>
-              <li>one</li>
-              <li>one</li>
-              <li>one</li>
-            </ul>
-          </h2>
-
-          <h2 className="mt-8 text-xl font-semibold">Lorem, ipsum.</h2>
-
-          <span>
-            Get Otp othentication inside you discord server, even better link
-            google sheet and only people there can access it
-          </span>
-          <h2>Track User activities in a way not possible before this </h2>
-          <h2>CRM Dashboard</h2>
-        </section>
-        <section>Special Featcherd Mods</section>
+        <FeaturesSection />
         <h2 className="mb-16 mt-20 text-center text-5xl font-semibold ">
           Pricng
         </h2>
@@ -184,7 +145,7 @@ export default function Home() {
       </div>
 
       {/* footer */}
-      <footer className="mt-10 flex w-full  justify-between gap-10 border-t bg-black px-10 py-10">
+      <footer className="mt-10 flex w-full flex-wrap  justify-between gap-10 border-t bg-black px-10 py-10">
         <div className="h-full place-self-center text-xl font-bold">
           Authopi
         </div>
@@ -286,6 +247,81 @@ function SamplePricingComponent() {
           </button>
         </div>
       </div>
+    </>
+  );
+}
+
+function FeaturesSection() {
+  return (
+    <>
+      <section className="grid  grid-cols-4 gap-4 sm:p-4">
+        <div className="flex flex-col rounded-2xl border-2 border-slate-900 p-4 sm:col-span-1">
+          <div className="mb-4 flex-1">
+            <Image src={chartImage} alt="growth chart" />
+          </div>
+          <div>
+            <h2 className="text-md text-right text-slate-300">
+              Track Community Growth
+            </h2>
+            <h2 className="text-right text-xl font-bold text-indigo-400">
+              Custom CRM
+            </h2>
+          </div>
+        </div>
+        <div className="col-span-3 flex rounded-xl border-2 border-slate-900 bg-slate-950 p-4 ">
+          <span className="block text-6xl font-bold">
+            <span className="text-green-400">Grow</span>
+            <br />
+            <span className="text-slate-200"> Your Server </span>
+          </span>
+        </div>
+        <div className="col-span-3 break-words rounded-xl border-2 border-slate-900 bg-slate-950 p-4 ">
+          <div className="text-5xl font-bold md:text-6xl">
+            <span className="text-primary">Authentication</span> <br /> Service
+          </div>
+        </div>
+        <div className="col-span-1 flex justify-center rounded-lg border-2 border-slate-900 p-4">
+          <Fingerprint className="h-auto w-auto" />
+        </div>
+        <div className="col-span-4 grid rounded-xl border-2 border-slate-900 bg-gradient-to-b from-indigo-950  via-slate-950 p-4  sm:grid-cols-2">
+          <div>
+            <h2 className="mb-2 text-3xl font-semibold">
+              Connect to any source
+            </h2>
+            <h3 className="text-xl text-slate-300">
+              Use data from varity of source and allow only them to access your
+              community using our authentication service
+            </h3>
+          </div>
+          <div className="sm: mt-4 flex place-items-center justify-center gap-4">
+            <Image className="h-10 w-10" alt="icon" src={googleSheetIcon} />
+            <Image className="h-10 w-10" alt="icon" src={PlanetDbIcon} />
+            <Image className="h-10 w-10" alt="icon" src={tagmangoIcon} />
+            <Image className="h-10 w-10" alt="icon" src={discordIcon} />
+          </div>
+        </div>
+        <div className="col-span-4 rounded-xl border-2 border-slate-900 p-4 text-4xl font-bold sm:text-6xl">
+          Elevate Your Discord Community with variety of
+          <span className="text-indigo-500"> Discord Bot</span>
+        </div>
+        <div className="via-salte-950 col-span-1 grid place-items-center rounded-xl  border-2 border-orange-900 bg-gradient-to-t from-slate-950 via-slate-950 to-orange-950 py-4">
+          <h2>Auto Record</h2>
+          <Mic className="my-4 h-12 w-12" />
+          <h1 className="mt-2 px-2 text-center text-xs font-bold">
+            Record Your Sesseions Export to any formate
+          </h1>
+        </div>
+        <div className="via-salte-950 col-span-1 grid place-items-center rounded-xl  border-2 border-amber-900 bg-gradient-to-tr from-slate-950 via-slate-950 to-amber-950 py-4">
+          <h2>Auto Scaling VC</h2>
+          <Maximize2 className="h-7 w-7" />
+          <h1 className="mt-2 px-2 text-center text-xs font-bold">
+            VC channel automaticaly added and removed as per need
+          </h1>
+        </div>
+        <div className="via-salte-950 col-span-2 grid place-items-center rounded-xl  border-2 border-indigo-900 bg-gradient-to-t from-slate-950 via-slate-950 to-indigo-950 py-4">
+          <h2>And Much More</h2>
+        </div>
+      </section>
     </>
   );
 }
