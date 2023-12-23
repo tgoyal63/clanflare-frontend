@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 import { Button } from "@/components/ui/button";
@@ -11,16 +11,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ReactNode } from "react";
 import {
   CalendarDaysIcon,
   CheckCircle,
   ExternalLink,
-  Link2,
-  Router,
   Table,
-  User,
+  User
 } from "lucide-react";
+import { ReactNode } from "react";
 
 /* TODO
   make card reusable
@@ -56,18 +54,34 @@ export default function CardComponent(props: { data: data }) {
   return (
     <>
       <DetailsPopup data={props.data}>
-        <button className="flex-cols flex cursor-pointer items-center  gap-2 rounded-lg border bg-card px-2 py-2 text-card-foreground shadow-sm transition-all hover:border-primary active:scale-[98%] ">
-          <Avatar className="border">
-            <AvatarImage src={guild.icon} alt="@shadcn" />
-            <AvatarFallback className="grid place-items-center">
-              {guild.name[0].toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex flex-1 flex-col gap-2 p-1 text-left">
-            <span>Auth Service</span>
-            <span>{guild.name}</span>
+        <button className=" cursor-pointer gap-2 rounded-xl border bg-card p-4 text-card-foreground shadow-sm relative transition-all hover:border-primary active:scale-[98%] ">
+          <div className="text-left">
+            <h2 className="opacity-80 text-sm">
+              {props.data.createdAt.slice(0, 10)}
+            </h2>
+            <h1 className="text-lg font-mono font-bold ">Auth Service
+            </h1>
+          </div>
+          <div className="flex flex-cols gap-6 my-4 items-center">
+            <Avatar className="border">
+              <AvatarImage src={guild.icon} alt="@shadcn" />
+              <AvatarFallback className="grid place-items-center">
+                {guild.name[0].toUpperCase()}
+              </AvatarFallback>
+
+            </Avatar>
+            <div className="flex flex-col" >
+              <span className="block text-left text-sm opacity-80">Discord Server</span>
+              <span className="block text-left " >{guild.name}</span>
+            </div>
+
+          </div>
+
+          <div className="flex my-2" >
             <Badge variant="default" />
           </div>
+
+          <div className="absolute rounded-l-full bg-emerald-600 bottom-0 right-0 blur-3xl w-20 h-20 z-10" ></div>
         </button>
       </DetailsPopup>
     </>
@@ -85,7 +99,7 @@ const Badge = (props: BadgeProps) => {
     <>
       <span
         className={cn(
-          "w-fit rounded-full border  bg-success px-4 py-1 text-success-foreground",
+          "w-fit rounded-full border border-success border-dashed  px-4 py-1 text-success-foreground",
           {
             "border-red-700 bg-destructive text-destructive-foreground":
               variant === "red",

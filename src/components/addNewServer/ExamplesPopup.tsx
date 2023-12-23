@@ -1,18 +1,18 @@
 "use client";
 import { Button, ButtonProps } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
 
 import { AlertCircle } from "lucide-react";
 
 // import imageCopylink  from "@/assits/tutorial/copy-link.webp"
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useToast } from "../ui/use-toast";
 
