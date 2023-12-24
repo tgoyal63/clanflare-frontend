@@ -3,6 +3,7 @@ import { CardDashboard, NavbarAvatar, ThemeToggle } from "@/components";
 import CardSkeleton from "@/components/shared/skeletons/SkeletonCard";
 
 import { useAxiosApi } from "@/hooks/useAxiosApi";
+import { getServices } from "@/utils/backend/user/user";
 import { useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import Link from "next/link";
@@ -13,22 +14,8 @@ export default function DashBoard() {
   const query = useQuery({
     queryKey: ["get-serv"],
     queryFn: async () => {
-      const res = await api.get("/services");
-      console.log(res.data);
-      return res.data?.data as {
-        guild: {
-          name: string;
-          icon: string;
-        };
-        createdAt: string;
-        spreadsheet: {
-          spreadsheetUrl: string;
-          phoneNumberColumn: string;
-          emailColumn: string;
-          discordIdColumn: string;
-          headerRow: string;
-        };
-      };
+      const res = await getServices(api);
+      return res.data.data;
     },
   });
 
@@ -56,7 +43,7 @@ export default function DashBoard() {
             ) : (
               <>
                 {// @ts-ignore
-                query.data?.map((item: any, index) => {
+                query.data?.map((item, index) => {
                   console.log("DATA::", item);
                   return <CardDashboard key={index} data={item} />;
                 })}

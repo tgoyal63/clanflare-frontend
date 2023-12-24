@@ -1,87 +1,47 @@
+"use client";
 import { cn } from "@/utils/cn";
+
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  CalendarDaysIcon,
-  CheckCircle,
-  ExternalLink,
-  Table,
-  User
-} from "lucide-react";
+import { useAxiosApi } from "@/hooks/useAxiosApi";
+import { IGetService_Data } from "@/utils/backend/user/user";
+import { useQuery } from "@tanstack/react-query";
 import { ReactNode } from "react";
 
 /* TODO
   make card reusable
 */
 
-interface DashBoardCardProps extends BadgeProps {
-  serverName: string;
-  serviceName: string;
-  data: data;
-}
-
-type data = {
-  guild: {
-    name: string;
-    icon: string;
-  };
-  createdAt: string;
-  spreadsheet: {
-    spreadsheetUrl: string;
-    phoneNumberColumn: string;
-    emailColumn: string;
-    discordIdColumn: string;
-    headerRow: string;
-  };
-  creator: {
-    username: string;
-    email: string;
-  };
-};
-
-export default function CardComponent(props: { data: data }) {
-  const { createdAt, guild, spreadsheet } = props.data;
+export default function CardComponent(props: { data: IGetService_Data }) {
+  const { createdAt, guild } = props.data;
   return (
     <>
-      <DetailsPopup data={props.data}>
-        <button className=" cursor-pointer gap-2 rounded-xl border bg-card p-4 text-card-foreground shadow-sm relative transition-all hover:border-primary active:scale-[98%] ">
+      <DetailsPopup sheetId={props.data._id}>
+        <button className=" relative cursor-pointer gap-2 rounded-xl border bg-card p-4 text-card-foreground shadow-sm transition-all hover:border-primary active:scale-[98%] ">
           <div className="text-left">
-            <h2 className="opacity-80 text-sm">
-              {props.data.createdAt.slice(0, 10)}
-            </h2>
-            <h1 className="text-lg font-mono font-bold ">Auth Service
-            </h1>
+            <h2 className="text-sm opacity-80">{createdAt.slice(0, 10)}</h2>
+            <h1 className="font-mono text-lg font-bold ">{props.data?.name}</h1>
           </div>
-          <div className="flex flex-cols gap-6 my-4 items-center">
+          <div className="flex-cols my-4 flex items-center gap-6">
             <Avatar className="border">
-              <AvatarImage src={guild.icon} alt="@shadcn" />
+              <AvatarImage src={guild.icon || ""} alt="@shadcn" />
               <AvatarFallback className="grid place-items-center">
                 {guild.name[0].toUpperCase()}
               </AvatarFallback>
-
             </Avatar>
-            <div className="flex flex-col" >
-              <span className="block text-left text-sm opacity-80">Discord Server</span>
-              <span className="block text-left " >{guild.name}</span>
+            <div className="flex flex-col">
+              <span className="block text-left text-sm opacity-80">
+                Discord Server
+              </span>
+              <span className="block text-left ">{guild.name}</span>
             </div>
-
           </div>
 
-          <div className="flex my-2" >
+          <div className="my-2 flex">
             <Badge variant="default" />
           </div>
 
-          <div className="absolute rounded-l-full bg-emerald-600 bottom-0 right-0 blur-3xl w-20 h-20 z-10" ></div>
+          <div className="absolute bottom-0 right-0 z-10 h-20 w-20 rounded-l-full bg-amber-600 blur-3xl"></div>
         </button>
       </DetailsPopup>
     </>
@@ -99,7 +59,7 @@ const Badge = (props: BadgeProps) => {
     <>
       <span
         className={cn(
-          "w-fit rounded-full border border-success border-dashed  px-4 py-1 text-success-foreground",
+          "w-fit rounded-full border border-dashed border-success  px-4 py-1 text-success-foreground",
           {
             "border-red-700 bg-destructive text-destructive-foreground":
               variant === "red",
@@ -115,19 +75,31 @@ const Badge = (props: BadgeProps) => {
 
 type DialogProps = {
   children: ReactNode;
-  data: data;
+  sheetId: string;
 };
 
 /* TODO add props from parent */
-export function DetailsPopup({ children, data }: DialogProps) {
-  return (
-    <Dialog>
+export function DetailsPopup({ children, sheetId }: DialogProps) {
+  const { api } = useAxiosApi();
+
+  const { data } = useQuery({
+    queryKey: ["service-data"],
+    queryFn: async () => {
+      const res = await api.get(`/service/${sheetId}`);
+      console.log(res?.data);
+    },
+  });
+  return <>{children}</>;
+}
+
+/* 
+  <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-6">
             <Avatar>
-              <AvatarImage src={data.guild.icon} />
+              <AvatarImage src={data.guild.icon || ""} />
               <AvatarFallback>{data.guild.name[0]}</AvatarFallback>
             </Avatar>
             <span className="text-2xl">{data.guild.name}</span>
@@ -165,7 +137,7 @@ export function DetailsPopup({ children, data }: DialogProps) {
               </li>
             </ul>
           </div>
-          {/* dates */}
+
           <div className="text-md ">
             <span className="text-md flex items-center text-muted-foreground ">
               <CalendarDaysIcon className="mr-2 h-5 w-5" /> created on{" "}
@@ -183,10 +155,6 @@ export function DetailsPopup({ children, data }: DialogProps) {
             </span>
           </div>
 
-          {/*          <div className="mt-4">
-            <span>Plan Type: </span>
-            <span> Free</span>
-          </div>*/}
         </div>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
@@ -197,5 +165,4 @@ export function DetailsPopup({ children, data }: DialogProps) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
-}
+*/
