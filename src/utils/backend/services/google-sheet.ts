@@ -3,15 +3,27 @@ import { IBackendResponse } from "../type";
 
 
 export interface ISheetDetails {
-  service: Service
   sheet: Sheet
+  guild: Guild
+}
+
+
+export interface Guild {
+  id: string
+  name: string
+  icon: any
+  owner: boolean
+  permissions: string
+  features: any[]
 }
 
 export interface Service {
   _id: string
   name: string
   guildId: string
-  creator: any
+  creator: {
+    username: string
+  }
   roles: string[]
   isCustom: boolean
   customIntegrationId: any
@@ -24,7 +36,7 @@ export interface Service {
 
 export interface Sheet {
   _id: string
-  service: Service2
+  service: Service
   phoneNumberColumn: string
   emailColumn: string
   discordIdColumn: string
@@ -39,22 +51,6 @@ export interface Sheet {
   __v: number
 }
 
-//TODO : service Detail is setn twice , its waste of bandwith
-// contact backend to fix it
-export interface Service2 {
-  _id: string
-  name: string
-  guildId: string
-  creator: string
-  roles: string[]
-  isCustom: boolean
-  customIntegrationId: any
-  integrationType: string
-  status: string
-  createdAt: string
-  updatedAt: string
-  __v: number
-}
 
 export const getSheetServiceDetailsById = async (
   axios: AxiosInstance,
