@@ -3,15 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-import { Steeper } from "@/components";
 import { useToast } from "@/components/ui/use-toast";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useNewServerStore } from "@/store";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ArrowLeft, ExternalLinkIcon, Loader2 } from "lucide-react";
+import { ExternalLinkIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 type Params = {
   redirectLoaction: string;
@@ -71,7 +69,7 @@ export default function AddBotToServer({ redirectLoaction }: Params) {
           </span>
         </h1>
         <Link
-          href={botToServerUrl ? botToServerUrl.data : ""}
+          href={botToServerUrl ? botToServerUrl.data : " "}
           className="mb-4 block"
           target="_blank"
         >

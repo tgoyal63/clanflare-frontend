@@ -90,9 +90,12 @@ export default function PhoneVerification() {
   const { mutate: createOtp, isPending: isLoading } = useMutation({
     mutationKey: ["otp"],
     mutationFn: async (values: z.infer<typeof PhoneNumberFormSchema>) => {
-      const res = await api.post(`/customSolutions/${'gangstaPhilosophy'}/getOtp`, {
-        phone: values.phoneNumber,
-      });
+      const res = await api.post(
+        `/customSolutions/${"gangstaPhilosophy"}/getOtp`,
+        {
+          phone: values.phoneNumber,
+        },
+      );
       return res.data.data;
     },
     onSuccess: (data) => {
@@ -116,17 +119,14 @@ export default function PhoneVerification() {
 
   const { mutate: verifyOtp, isPending: isVerifying } = useMutation({
     mutationFn: async (values: z.infer<typeof OtpSchema>) => {
-      return await api.post(`/customSolutions/${'gangstaPhilosophy'}/verifyOtp`, { ...temp, otp: values.otp });
+      return await api.post("/verify-otp", { ...temp, otp: values.otp });
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         title: `otp verified`,
         duration: 3000,
       });
-      // TODO: what to do after otp verification
-      // router.push("/dashboard");
-      alert("OTP verified")
-      console.log(data)
+      router.push("/dashboard");
     },
     onError: (error: any) => {
       toast({

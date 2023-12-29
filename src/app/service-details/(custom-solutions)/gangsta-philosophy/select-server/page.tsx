@@ -9,7 +9,7 @@ import { useEffect } from "react";
 
 export default function Page() {
   const { api } = useAxiosApi();
-  const clean = useNewServerStore((state) => state.clean);
+  //  const clean = useNewServerStore((state) => state.clean);
   const { data: servers, isLoading } = useQuery({
     queryKey: ["all-servers-"],
     queryFn: async () => {
@@ -20,7 +20,7 @@ export default function Page() {
 
   useEffect(() => {
     // cleans all the data from addNewServerStore
-    clean();
+    //  clean();
   }, []);
 
   return (
@@ -42,7 +42,7 @@ export default function Page() {
                     icon={item.icon}
                     isAdmin={item.isAdmin}
                     id={item.id}
-                    nextStepUrl="/add-services/form"
+                    nextStepUrl="/service-details/gangsta-philosophy/add-bot-to-server"
                   />
                 )
               );
@@ -57,7 +57,7 @@ export default function Page() {
                     icon={item.icon}
                     isAdmin={item.isAdmin}
                     id={item.id}
-                    nextStepUrl="/add-services/form"
+                    nextStepUrl=""
                   />
                 )
               );

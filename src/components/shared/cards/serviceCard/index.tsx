@@ -1,8 +1,8 @@
-import { Card, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
-import "./styles.css";
 import Link from "next/link";
+import "./styles.css";
 
 type Props = {
   imgSrc: string | StaticImport;
@@ -10,13 +10,6 @@ type Props = {
   title: string;
   discription?: string;
 };
-
-/* TODO 
- create a ncie hover effect that glows, 
- cant do directly as it dioes not respect day/night theme
- will have to use css variables to apply thes colors
-*/
-
 export default function ServiceDispalyCard({
   imgSrc,
   href,

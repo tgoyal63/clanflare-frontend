@@ -9,9 +9,10 @@ export interface Props {
   name: string;
   isAdmin: boolean;
   icon: string;
+  nextStepUrl: string;
 }
 
-export default function AddNewServerCard({ name, id, isAdmin, icon }: Props) {
+export default function AddNewServerCard({ name, id, isAdmin, icon, nextStepUrl }: Props) {
   return (
     <>
       <Card className={cn("group relative  h-full  p-2 hover:border-primary")}>
@@ -29,9 +30,9 @@ export default function AddNewServerCard({ name, id, isAdmin, icon }: Props) {
           href={
             isAdmin
               ? {
-                  pathname: "add-services/form",
-                  query: { id: id },
-                }
+                pathname: nextStepUrl,
+                query: { id: id },
+              }
               : "#"
           }
           className={cn("flex h-full items-center gap-2", {
