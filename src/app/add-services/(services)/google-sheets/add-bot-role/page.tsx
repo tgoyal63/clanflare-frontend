@@ -59,7 +59,6 @@ type NewService = {
   emailCell: string;
   roleIds: string[];
   guildId: string;
-  integrationType: string;
 };
 
 const FormSchema = z.object({
@@ -140,7 +139,6 @@ export default function FormAddService() {
       emailCell: NewServieStoredData.googleSheet.cells.userEmail,
       discordIdCell: NewServieStoredData.googleSheet.cells.userDiscordId,
       roleIds: selectRolIds as string[],
-      integrationType: "sheets",
     };
     return newData;
   }
