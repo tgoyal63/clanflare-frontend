@@ -1,12 +1,12 @@
 "use client";
-import { CardDashboard, NavbarAvatar, ThemeToggle } from "@/components";
+import { NavbarAvatar, ThemeToggle } from "@/components";
 import CardSkeleton from "@/components/shared/skeletons/SkeletonCard";
-
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { getServices } from "@/utils/backend/user/user";
 import { useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { Card } from "./components/Card";
 
 export default function DashBoard() {
   const { api } = useAxiosApi();
@@ -43,10 +43,13 @@ export default function DashBoard() {
             ) : (
               <>
                 {// @ts-ignore
-                query.data?.map((item, index) => {
-                  console.log("DATA::", item);
-                  return <CardDashboard key={index} data={item} />;
-                })}
+                query.data?.map((item, index) => (
+                  <Card
+                    key={item._id}
+                    data={item}
+                    varient={item.isCustom ? "custom" : "default"}
+                  />
+                ))}
                 <Link
                   className="cols-span-1 flex h-full w-full flex-col items-center justify-center gap-2 rounded-md border bg-gradient-to-r from-purple-600 to-purple-800 py-6 text-white hover:scale-105 active:scale-100"
                   href={"/add-services"}
