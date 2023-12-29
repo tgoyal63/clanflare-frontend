@@ -5,9 +5,9 @@ export interface IGetService_Data {
   _id: string;
   name: string;
   roles: string[];
-  isCustome: boolean;
+  isCustom: boolean;
   customIntegrationId: null | string;
-  integrationType: "sheet" | "tagmango";
+  integrationType: "sheets" | "tagmango";
   guild: {
     id: string;
     name: string;
