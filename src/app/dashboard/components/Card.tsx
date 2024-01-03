@@ -25,7 +25,7 @@ export function Card(props: CardProps) {
     if (props.data.isCustom) {
       switch (props.data.customIntegrationId) {
         case "gangstaPhilosophy":
-          router.push("/service-details/gangsta-philosophy");
+          router.push(`/service-details/gangsta-philosophy?id=${props.data._id}`);
           break;
 
         default:
