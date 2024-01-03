@@ -58,7 +58,7 @@ export default function Page() {
     <RadioGroup defaultValue="option-one" className="my-4" onValueChange={setSelectedManog} value={selectedMango}>
       {
         mangoes?.map(cource => {
-          return <Label className="flex items-center gap-4 p-2 hover:bg-red-200 dark:hover:bg-primary/20 rounded" htmlFor={cource._id}>
+          return <Label key={cource._id} className="flex items-center gap-4 p-2 hover:bg-red-200 dark:hover:bg-primary/20 rounded" htmlFor={cource._id}>
             <RadioGroupItem value={cource._id} id={cource._id} />
             {cource.title}
           </Label>
