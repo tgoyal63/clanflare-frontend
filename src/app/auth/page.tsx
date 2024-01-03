@@ -1,6 +1,7 @@
 "use client";
 import { useUserStore } from "@/store";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -32,5 +33,7 @@ export default function Profile() {
       router.push("/dashboard");
     }
   }, [token]);
-  return <>redirecting</>;
+  return <div>
+    <Loader2 className="absolute bottom-1/2 right-1/2 animate-spin translate-x-1/2 translate-y-1/2" />
+  </div>;
 }
