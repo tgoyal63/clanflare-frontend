@@ -1,6 +1,6 @@
 import sheetIcon from "@/assets/service-icons/google-sheets-icon.svg";
 import Card from "@/components/shared/cards/serviceCard";
-
+import tagmangoicon from "@/assets/service-icons/tagmango-icon.svg"
 export default function Page() {
   return (
     <>
@@ -19,15 +19,13 @@ export default function Page() {
             title="Google Sheet"
             discription="Auth with Google Sheet"
           />
-          {/*
           <div className="col-span-full mt-4 ">Premium Service</div>
           <Card
             imgSrc={tagmangoicon}
-            href={"/add-services/tag-mango"}
+            href={"/add-services/add-bot-for-tm"}
             title="Tagmango"
             discription="lorem ipsum do od"
           />
-          */}
         </div>
       </div>
     </>
