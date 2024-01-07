@@ -3,9 +3,10 @@
 import Navbar from "@/components/shared/NavBar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function Page() {
-  // const data = useQuery()
+  const params = useSearchParams()
   return (
     <>
       <Navbar />
@@ -18,9 +19,22 @@ export default function Page() {
             </span>
           </h1>
 
-          <Link href={"/service-details/gangsta-philosophy/select-server"}>
-            <Button>click here to tagmango</Button>
-          </Link>
+          <div className="grid grid-rows-2 gap-4 mt-4">
+            <Link
+              href={{
+                pathname: '/add-services/tag-mango',
+                query: { id: params.get('id') },
+              }} >
+              <Button>Phone Authentication</Button>
+            </Link>
+            <Link
+              href={{
+                pathname: '/add-services/tag-mango/select-manog',
+                query: { id: params.get('id') },
+              }} >
+              <Button>Select Your Cource</Button>
+            </Link>
+          </div>
         </div>
       </div>
     </>

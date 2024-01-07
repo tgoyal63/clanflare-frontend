@@ -14,9 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <main className="fixed  left-1/2 top-1/2 w-full max-w-md translate-x-[-50%] translate-y-[-50%]">
-      {/* <main className="fixed bottom-0 left-1/2 w-full max-w-md translate-x-[-50%] sm:top-1/2 sm:translate-y-[-50%]"> */}
-
-      <Card className="w-full border-0 p-4  sm:p-4 ">{children}</Card>
+      <Card className="w-fit border-0 p-4 mx-4 sm:p-4 ">{children}</Card>
     </main>
   );
 }

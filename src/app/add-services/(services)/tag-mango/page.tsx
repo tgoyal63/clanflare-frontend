@@ -26,7 +26,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2, PenLine } from "lucide-react";
 
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import Image from "next/image";
@@ -64,14 +64,14 @@ const OtpSchema = z.object({
 
 export default function PhoneVerification() {
   const { api } = useAxiosApi();
-  const router = useRouter();
   const { toast } = useToast();
-
+  const params = useSearchParams()
   const [isOtpGenerated, setIsOtpGenerated] = useState(false);
   const [temp, setTemp] = useState<{
     phone?: number;
   }>({});
   const { count, restart } = useCountDown(32, 1000);
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof PhoneNumberFormSchema>>({
     resolver: zodResolver(PhoneNumberFormSchema),
@@ -92,18 +92,18 @@ export default function PhoneVerification() {
     mutationFn: async (values: z.infer<typeof PhoneNumberFormSchema>) => {
       const res = await api.post(`/customSolutions/${'gangstaPhilosophy'}/getOtp`, {
         phone: values.phoneNumber,
+        domain: "app.gangstaphilosophy.com"
       });
+      setTemp({ phone: values.phoneNumber })
       return res.data.data;
     },
     onSuccess: (data) => {
-      setTemp(data);
       toast({
-        title: `otp set to ${data.phone}`,
+        title: `otp set to ${temp}`,
         duration: 3000,
       });
       setIsOtpGenerated(true);
-      restart();
-      // router.push("./phone-verification/verify-otp");
+      restart(); // restart useCountDown
     },
     onError: (error: any) => {
       toast({
@@ -116,17 +116,14 @@ export default function PhoneVerification() {
 
   const { mutate: verifyOtp, isPending: isVerifying } = useMutation({
     mutationFn: async (values: z.infer<typeof OtpSchema>) => {
-      return await api.post(`/customSolutions/${'gangstaPhilosophy'}/verifyOtp`, { ...temp, otp: values.otp });
+      return await api.post(`/customSolutions/${'gangstaPhilosophy'}/verifyOtp`, { phone: temp.phone, otp: values.otp, domain: "app.gangstaphilosophy.com" });
     },
     onSuccess: (data) => {
       toast({
         title: `otp verified`,
         duration: 3000,
       });
-      // TODO: what to do after otp verification
-      // router.push("/dashboard");
-      alert("OTP verified")
-      console.log(data)
+      router.push(`/add-services/tag-mango/select-manog?id=${params.get("id") || ''}`)
     },
     onError: (error: any) => {
       toast({
