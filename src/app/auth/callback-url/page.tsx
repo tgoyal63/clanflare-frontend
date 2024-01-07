@@ -29,7 +29,9 @@ export default function Profile() {
 
   return (
     <>
-      <Loader2 className="fixed left-[50%] top-[50%] animate-spin" />
+      <div className="fixed left-[50%] top-[50%]" >
+        <Loader2 className="animate-spin" />
+      </div>
     </>
   );
 }
