@@ -25,7 +25,6 @@ export default function Page() {
     queryKey: ["mangoes-tag"],
     queryFn: async () => {
       const res = await getMangoes(api)
-      console.log(res.data.data)
       return res.data.data
     }
   })

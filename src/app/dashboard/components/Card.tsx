@@ -127,7 +127,6 @@ export function DetailsPopup({ children, sheetId }: DialogProps) {
     queryKey: ["service-data"],
     queryFn: async () => {
       const res = await api.get(`/service/${sheetId}`);
-      console.log(res?.data);
     },
   });
   return <>{children}</>;

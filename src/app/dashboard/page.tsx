@@ -43,13 +43,13 @@ export default function DashBoard() {
             ) : (
               <>
                 {// @ts-ignore
-                query.data?.map((item, index) => (
-                  <Card
-                    key={item._id}
-                    data={item}
-                    varient={item.isCustom ? "custom" : "default"}
-                  />
-                ))}
+                  query.data?.map((item) => (
+                    <Card
+                      key={item._id}
+                      data={item}
+                      varient={item.isCustom ? "custom" : "default"}
+                    />
+                  ))}
                 <Link
                   className="cols-span-1 flex h-full w-full flex-col items-center justify-center gap-2 rounded-md border bg-gradient-to-r from-purple-600 to-purple-800 py-6 text-white hover:scale-105 active:scale-100"
                   href={"/add-services"}

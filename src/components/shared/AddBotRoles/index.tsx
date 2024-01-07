@@ -12,9 +12,9 @@ import { useState } from "react";
 import { ExampleDialog, Steeper } from "@/components";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger,
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { useAxiosApi } from "@/hooks/useAxiosApi";
 import { useNewServerStore } from "@/store";
@@ -28,12 +28,12 @@ import * as z from "zod";
 
 import RolesSkeleton from "@/components/shared/skeletons/RolesSkeleton";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
@@ -153,7 +153,6 @@ export default function FormAddService() {
   function handleSubmit(value: z.infer<typeof FormSchema>) {
     const checked = roles.filter((item) => item.isChecked);
     if (checked.length === 0) {
-      console.log(checked);
       form.setError("serviceName", {
         message: "please select a role from below",
       });
