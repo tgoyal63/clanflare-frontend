@@ -14,7 +14,6 @@ export default function RootLayout({
 }) {
   return (
     <main className="fixed  left-1/2 top-1/2 w-full max-w-md translate-x-[-50%] translate-y-[-50%]">
-      {/* <main className="fixed bottom-0 left-1/2 w-full max-w-md translate-x-[-50%] sm:top-1/2 sm:translate-y-[-50%]"> */}
       <div className="mb-2 flex w-full  justify-end gap-2">
         <ThemeToggle />
       </div>
