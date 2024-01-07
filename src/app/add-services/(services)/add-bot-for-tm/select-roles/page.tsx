@@ -147,7 +147,6 @@ export default function FormAddService() {
   function handleSubmit(value: z.infer<typeof FormSchema>) {
     const checked = roles.filter((item) => item.isChecked);
     if (checked.length === 0) {
-      console.log(checked);
       form.setError("serviceName", {
         message: "please select a role from below",
       });

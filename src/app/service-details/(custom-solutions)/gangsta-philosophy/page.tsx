@@ -15,7 +15,7 @@ export default function Page() {
           <h1 className="mt-8 text-3xl md:text-5xl ">
             Gangsta Philosphy{" "}
             <span className="flex text-sm opacity-70 md:inline-flex">
-              tagmango intigration service
+              Tagmango Intigration Service
             </span>
           </h1>
 
@@ -41,8 +41,3 @@ export default function Page() {
   );
 }
 
-/* 
- - status 
- - please click here to stablish connection with tagmango
- - other detia 
-*/

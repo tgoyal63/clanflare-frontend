@@ -10,6 +10,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { ExternalLinkIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 type Params = {
   redirectLoaction: string;
@@ -55,9 +56,9 @@ export default function AddBotToServer({ redirectLoaction }: Params) {
   });
 
   // check if bot allready added
-  // useEffect(() => {
-  //   verifyBot(serverId);
-  // }, []);
+  useEffect(() => {
+    verifyBot(serverId);
+  }, []);
 
   return (
     <>

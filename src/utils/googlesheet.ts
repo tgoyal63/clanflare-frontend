@@ -5,7 +5,6 @@ export function extractIdFromSheetUrl(url: string) {
     const extractedString = match[1];
     return extractedString;
   } else {
-    console.log("Match not found");
     return "";
   }
 }

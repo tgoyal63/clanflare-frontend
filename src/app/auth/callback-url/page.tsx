@@ -4,12 +4,6 @@ import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-/* TODO
-  can change params while saveing ,
-  tried using windwo object but buged out , 
-  as of know not that important as it redirects instantaniusly,
-  can be solved using jotai
-*/
 
 export default function Profile() {
   const params = useSearchParams();
@@ -29,7 +23,9 @@ export default function Profile() {
 
   return (
     <>
-      <Loader2 className="fixed left-[50%] top-[50%] animate-spin" />
+      <div className="fixed left-[50%] top-[50%]" >
+        <Loader2 className="animate-spin" />
+      </div>
     </>
   );
 }
