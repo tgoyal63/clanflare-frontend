@@ -99,7 +99,7 @@ export default function PhoneVerification() {
     },
     onSuccess: (data) => {
       toast({
-        title: `otp set to ${temp}`,
+        title: `otp set to you number`,
         duration: 3000,
       });
       setIsOtpGenerated(true);
