@@ -159,11 +159,6 @@ export default function FormAddService() {
     <>
       <div className="flex h-full flex-col items-center justify-between text-sm">
         <div className="my-auto self-center">
-          <Link href={"/add-services/google-sheets/add-data-cells?step=3"}>
-            <Button variant={"outline"} className="mb-4">
-              <ArrowLeft className="mr-4" /> Back
-            </Button>
-          </Link>
           <Card className="mb-6 w-full max-w-xl p-6 shadow-md transition-all">
             <h1 className="mb-4 text-2xl">
               Select Roles, <br />
