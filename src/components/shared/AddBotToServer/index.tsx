@@ -34,19 +34,22 @@ export default function AddBotToServer({ redirectLoaction }: Params) {
     },
   });
 
+  function handleSuccess() {
+    toast({
+      title: "Bot Added Succefully 😊",
+    });
+    router.push(redirectLoaction);
+  }
+  async function handleVerifyBot(id: string) {
+    const res = await api.get(`/verify-bot-in-guild?guildId=${id}`);
+    return res.data;
+  }
+
   // TODO: extract to custom funtion
   const { mutate: verifyBot, isPending } = useMutation({
     mutationKey: ["verify-bot-added"],
-    mutationFn: async (id: string) => {
-      const res = await api.get(`/verify-bot-in-guild?guildId=${id}`);
-      return res.data;
-    },
-    onSuccess: () => {
-      toast({
-        title: "Bot Added Succefully 😊",
-      });
-      router.push(redirectLoaction);
-    },
+    mutationFn: handleVerifyBot,
+    onSuccess: handleSuccess,
     onError: (error: any) => {
       toast({
         title: error.response?.data.message || error.message,
@@ -55,9 +58,21 @@ export default function AddBotToServer({ redirectLoaction }: Params) {
     },
   });
 
+  async function checkOnLoad() {
+    const res = await handleVerifyBot(serverId)
+    if (res?.success == true) {
+      handleSuccess()
+    }
+  }
+
   // check if bot allready added
   useEffect(() => {
-    verifyBot(serverId);
+    try {
+      checkOnLoad()
+    }
+    catch (e: any) {
+
+    }
   }, []);
 
   return (
